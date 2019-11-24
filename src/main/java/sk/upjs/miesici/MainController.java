@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -73,6 +74,8 @@ public class MainController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
+			modalStage.setTitle("Pridanie");
+			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.showAndWait();
 		} catch (IOException e) {
@@ -88,6 +91,8 @@ public class MainController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
+			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.setTitle("Vstupy");
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.showAndWait();
 		} catch (IOException e) {
@@ -103,6 +108,8 @@ public class MainController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
+			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.setTitle("Editácia");
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.showAndWait();
 		} catch (IOException e) {

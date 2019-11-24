@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -15,6 +16,8 @@ public class App extends Application {
 		fxmlLoader.setController(controller);
 		Parent parent = fxmlLoader.load();
 		Scene scene = new Scene(parent);
+		primaryStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+        primaryStage.setTitle("Miesiči");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
