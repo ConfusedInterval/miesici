@@ -22,12 +22,13 @@ public class MainController {
 	@FXML
 	void addCustomerButtonClick(ActionEvent event) {
 		CustomerAddController controller = new CustomerAddController();
-		showCustomerAddWindow(controller, "CustomerAdd.fxml");
+		showAddCustomerAddWindow(controller, "CustomerAdd.fxml");
 	}
 
 	@FXML
 	void editCustomerButtonClick(ActionEvent event) {
-
+		CustomerEditController controller = new CustomerEditController();
+		showEditCustomerWindow(controller, "CustomerEdit.fxml");
 	}
 
 	@FXML
@@ -64,7 +65,7 @@ public class MainController {
 
 	}
 
-	private void showCustomerAddWindow(CustomerAddController controller, String nameOfFxml) {
+	private void showAddCustomerAddWindow(CustomerAddController controller, String nameOfFxml) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(nameOfFxml));
 			fxmlLoader.setController(controller);
@@ -80,6 +81,21 @@ public class MainController {
 	}
 	
 	private void showEntryWindow(EntryController controller, String nameOfFxml) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(nameOfFxml));
+			fxmlLoader.setController(controller);
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage modalStage = new Stage();
+			modalStage.setScene(scene);
+			modalStage.initModality(Modality.APPLICATION_MODAL);
+			modalStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void showEditCustomerWindow(CustomerEditController controller, String nameOfFxml) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(nameOfFxml));
 			fxmlLoader.setController(controller);
