@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class EntryController {
@@ -12,6 +13,9 @@ public class EntryController {
 	@FXML
 	private TableView<Entrance> entryTableView;
 
+	@FXML
+    private TextField filterNameTextField;
+	
 	@FXML
 	void initialize() {
 		
