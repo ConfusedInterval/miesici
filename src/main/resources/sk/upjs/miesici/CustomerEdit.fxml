@@ -66,11 +66,11 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Button layoutX="125.0" layoutY="274.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="+1 mesiac" />
-      <Button layoutX="208.0" layoutY="274.0" mnemonicParsing="false" text="+3 mesiace" />
+      <Button layoutX="125.0" layoutY="274.0" mnemonicParsing="false" onAction="#addOneMonthButtonClick" prefHeight="25.0" prefWidth="77.0" text="+1 mesiac" />
+      <Button layoutX="208.0" layoutY="274.0" mnemonicParsing="false" onAction="#addThreeMonthButtonClick" text="+3 mesiace" />
       <Text layoutX="198.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="+" />
-      <TextField fx:id="creditTextField1" layoutX="215.0" layoutY="201.0" prefHeight="25.0" prefWidth="66.0" />
-      <Button layoutX="298.0" layoutY="201.0" mnemonicParsing="false" text="Uložiť" />
-      <Button layoutX="296.0" layoutY="274.0" mnemonicParsing="false" text="+1 rok" />
+      <TextField fx:id="addCreditTextField" layoutX="215.0" layoutY="201.0" prefHeight="25.0" prefWidth="66.0" />
+      <Button layoutX="298.0" layoutY="201.0" mnemonicParsing="false" onAction="#saveCreditButtonClick" text="Uložiť" />
+      <Button layoutX="296.0" layoutY="274.0" mnemonicParsing="false" onAction="#addYearButtonClick" text="+1 rok" />
    </children>
 </AnchorPane>
