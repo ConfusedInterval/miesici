@@ -4,11 +4,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="420.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView fx:id="customerTableView" layoutX="14.0" layoutY="14.0" prefHeight="354.0" prefWidth="630.0" />
-      <Button layoutX="540.0" layoutY="382.0" mnemonicParsing="false" onAction="#addCustomerButtonClick" text="Pridať zákazníka" />
-      <Button layoutX="416.0" layoutY="382.0" mnemonicParsing="false" onAction="#editCustomerButtonClick" text="Editovať zákazníka" />
-      <Button layoutX="355.0" layoutY="382.0" mnemonicParsing="false" onAction="#showEntrancesButtonClick" text="Vstupy" />
+      <TableView fx:id="customerTableView" layoutX="14.0" layoutY="14.0" prefHeight="354.0" prefWidth="630.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="14.0" />
+      <Button layoutX="540.0" layoutY="382.0" mnemonicParsing="false" onAction="#addCustomerButtonClick" text="Pridať zákazníka" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
+      <Button layoutX="418.0" layoutY="382.0" mnemonicParsing="false" onAction="#editCustomerButtonClick" text="Editovať zákazníka" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="124.0" />
+      <Button layoutX="355.0" layoutY="382.0" mnemonicParsing="false" onAction="#showEntrancesButtonClick" text="Vstupy" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="249.0" />
    </children>
 </AnchorPane>

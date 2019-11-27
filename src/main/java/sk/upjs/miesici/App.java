@@ -17,7 +17,9 @@ public class App extends Application {
 		Parent parent = fxmlLoader.load();
 		Scene scene = new Scene(parent);
 		primaryStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
-        primaryStage.setTitle("Miesiči");
+        primaryStage.setMinHeight(400);
+        primaryStage.setMinWidth(525);
+		primaryStage.setTitle("Miesiči");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

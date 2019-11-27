@@ -74,8 +74,9 @@ public class MainController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
-			modalStage.setTitle("Pridanie");
+			modalStage.setResizable(false);
 			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.setTitle("Pridanie");
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.showAndWait();
 		} catch (IOException e) {
@@ -91,6 +92,8 @@ public class MainController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
+			modalStage.setMinHeight(300);
+			modalStage.setMinWidth(370);
 			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setTitle("Vstupy");
 			modalStage.initModality(Modality.APPLICATION_MODAL);
@@ -108,6 +111,7 @@ public class MainController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
+			modalStage.setResizable(false);
 			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setTitle("Editácia");
 			modalStage.initModality(Modality.APPLICATION_MODAL);
