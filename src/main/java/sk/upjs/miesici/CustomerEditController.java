@@ -3,7 +3,11 @@ package sk.upjs.miesici;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.security.SecureRandom;
 
 public class CustomerEditController {
 
@@ -32,7 +36,7 @@ public class CustomerEditController {
     private TextField loginTextField;
 
     @FXML
-    private TextField passwordTextField;
+    private PasswordField passwordTextField;
 
     @FXML
     private TextField addCreditTextField;
@@ -54,7 +58,10 @@ public class CustomerEditController {
 
     @FXML
     void generatePasswordButtonClick(ActionEvent event) {
-
+        passwordTextField.clear();
+        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
+        String randomStr = RandomStringUtils.random(16, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
+        passwordTextField.appendText(randomStr);
     }
 
     @FXML

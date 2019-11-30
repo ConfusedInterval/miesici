@@ -1,6 +1,8 @@
 package sk.upjs.miesici;
 
-import java.time.LocalDate;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Customer {
 	private Long id;
@@ -9,11 +11,12 @@ public class Customer {
 	private String address;
 	private String email;
 	private double credit;
-	private LocalDate membershipExp;
+	private Date membershipExp;
 	private String login;
 	private String password;
 	private String salt;
 	private boolean admin;
+	private List<String> customers = new ArrayList<String>();
 
 	public Long getId() {
 		return id;
@@ -63,11 +66,11 @@ public class Customer {
 		this.credit = credit;
 	}
 
-	public LocalDate getMembershipExp() {
+	public Date getMembershipExp() {
 		return membershipExp;
 	}
 
-	public void setMembershipExp(LocalDate membershipExp) {
+	public void setMembershipExp(Date membershipExp) {
 		this.membershipExp = membershipExp;
 	}
 
@@ -101,6 +104,18 @@ public class Customer {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	public void addCustomer(String customerName){
+		customers.add(customerName);
+	}
+
+	public void setCustomers(List<String> customers){
+		this.customers = customers;
+	}
+
+	public List<String> getCustomers(){
+		return customers;
 	}
 
 }

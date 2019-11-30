@@ -18,7 +18,7 @@ public class App extends Application {
 		Scene scene = new Scene(parent);
 		primaryStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
         primaryStage.setMinHeight(400);
-        primaryStage.setMinWidth(525);
+        primaryStage.setMinWidth(530);
 		primaryStage.setTitle("Miesiči");
 		primaryStage.setScene(scene);
 		primaryStage.show();
