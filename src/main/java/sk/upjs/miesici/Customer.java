@@ -2,6 +2,7 @@ package sk.upjs.miesici;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Customer {
 	private Long id;
@@ -15,7 +16,7 @@ public class Customer {
 	private String password;
 	private String salt;
 	private boolean admin;
-	private ArrayList<String> customers = new ArrayList<String>();
+	private List<String> customers = new ArrayList<String>();
 
 	public Long getId() {
 		return id;
@@ -109,11 +110,11 @@ public class Customer {
 		customers.add(customerName);
 	}
 
-	public void setCustomers(ArrayList<String> customers){
+	public void setCustomers(List<String> customers){
 		this.customers = customers;
 	}
 
-	public ArrayList<String> getCustomers(){
+	public List<String> getCustomers(){
 		return customers;
 	}
 
