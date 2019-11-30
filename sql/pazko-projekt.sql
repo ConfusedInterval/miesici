@@ -1,1 +1,1 @@
-SELECT * FROM mydb.vstup;
+SELECT * FROM mydb.klient;
