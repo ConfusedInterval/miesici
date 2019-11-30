@@ -36,7 +36,7 @@
       </Label>
       <TextField fx:id="emailTextField" layoutX="150.0" layoutY="166.0" />
       <CheckBox fx:id="isAdminCheckBox" layoutX="25.0" layoutY="423.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
-      <Button layoutX="261.0" layoutY="419.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" text="Pridať" />
+      <Button fx:id="saveButton" layoutX="261.0" layoutY="419.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" text="Pridať" />
       <Label layoutX="25.0" layoutY="201.0" text="Kredit" textFill="WHITE">
          <font>
             <Font size="15.0" />
