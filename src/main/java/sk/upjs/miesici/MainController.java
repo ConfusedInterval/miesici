@@ -60,6 +60,10 @@ public class MainController {
     void addCustomerButtonClick(ActionEvent event) {
         CustomerAddController controller = new CustomerAddController();
         showAddCustomerAddWindow(controller, "CustomerAdd.fxml");
+        if (controller.getSavedCustomer() != null) {
+            customersModel = FXCollections.observableArrayList(customerDao.getAll());
+            customerTableView.setItems(FXCollections.observableArrayList(customersModel));
+        }
     }
 
     @FXML
