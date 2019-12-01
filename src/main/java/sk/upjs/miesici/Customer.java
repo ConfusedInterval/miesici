@@ -16,7 +16,7 @@ public class Customer {
 	private String password;
 	private String salt;
 	private boolean admin;
-	private List<String> customers = new ArrayList<String>();
+	private List<Customer> customers = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -102,19 +102,19 @@ public class Customer {
 		return this.admin;
 	}
 
-	public void setAdmin() {
-		this.admin = admin;
-	}
+	public boolean getAdmin(){ return admin; }
 
-	public void addCustomer(String customerName){
+	public void setAdmin(Boolean admin) { this.admin = admin; }
+
+	public void addCustomer(Customer customerName){
 		customers.add(customerName);
 	}
 
-	public void setCustomers(List<String> customers){
+	public void setCustomers(List<Customer> customers){
 		this.customers = customers;
 	}
 
-	public List<String> getCustomers(){
+	public List<Customer> getCustomers(){
 		return customers;
 	}
 

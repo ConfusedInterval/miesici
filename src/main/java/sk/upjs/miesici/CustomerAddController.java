@@ -3,21 +3,33 @@ package sk.upjs.miesici;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.security.SecureRandom;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+
+import static sk.upjs.miesici.MySQLCustomerDao.errorCheck;
 
 public class CustomerAddController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
+    private CustomerFxModel customerModel;
+    private Customer savedCustomer;
+
+    public CustomerAddController() {
+        customerModel = new CustomerFxModel();
+    }
+
+    public CustomerAddController(Customer customer) {
+        customerModel = new CustomerFxModel();
+        customerModel.load(customer);
+    }
 
     @FXML
     private Button saveButton;
@@ -59,17 +71,53 @@ public class CustomerAddController {
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) {
+        Customer customer = new Customer();
+        customer.setName(nameTextField.getText());
+        customer.setSurname(surnameTextField.getText());
+        customer.setAddress(addressTextField.getText());
+        customer.setEmail(emailTextField.getText());
+        try {
+            customer.setCredit(Double.parseDouble(creditTextField.getText()));
+        } catch (NumberFormatException e) {
+        }
+        String date1 = expireTextField.getText();
+        try {
+            Date date = new SimpleDateFormat("yyyy-mm-dd").parse(date1);
+            customer.setMembershipExp(date);
+        } catch (ParseException e) {
+        }
+        customer.setLogin(loginTextField.getText());
+        customer.setPassword(passwordTextField.getText());
+        customer.setAdmin(isAdminCheckBox.isSelected());
+        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
+        String randomStr = RandomStringUtils.random(16, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
+        customer.setSalt(randomStr);
+        customerModel.getCustomers().add(customer);
+        customerModel.load(customer);
 
+        if (customerModel.getName() == null || customerModel.getSurname() == null || customerModel.getAddress() == null || customerModel.getEmail() == null || customerModel.getMembershipExp() == null ||
+                customerModel.getLogin() == null || customerModel.getPassword() == null || customerModel.getName().trim().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Neplatný formulár");
+            alert.setHeaderText("Údaje nie sú vyplnené správne.");
+            alert.setContentText("Prosím vyplňte všetky údaje!");
+            alert.show();
+        } else {
+            this.savedCustomer = customerDao.save(customerModel.getCustomer());
+            if (errorCheck == 0) {
+                saveButton.getScene().getWindow().hide();
+            } else {
+                errorCheck = 0;
+            }
+        }
     }
 
 
     @FXML
     void initialize() {
-        saveButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-            }
-        });
+    }
 
+    public Customer getSavedCustomer() {
+        return savedCustomer;
     }
 }
