@@ -21,6 +21,9 @@ public class MainController {
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private ObservableList<Customer> customersModel;
 
+    @FXML
+    private TextField textField;
+
 
     @FXML
     private Button addCustomer;
@@ -83,6 +86,9 @@ public class MainController {
         customersModel = FXCollections.observableArrayList(customerDao.getAll());
         customerTableView.setItems(FXCollections.observableArrayList(customersModel));
 
+        TableColumn<Customer, String> idCol = new TableColumn<>("id");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        customerTableView.getColumns().add(idCol);
 
         TableColumn<Customer, String> nameCol = new TableColumn<>("Meno");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -108,8 +114,32 @@ public class MainController {
         permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
         customerTableView.getColumns().add(permanentkaCol);
 
+        customerTableView.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() > 1) {
+                onEdit();
+            }
+        });
 
-        customerTableView.refresh();
+    }
+
+    // NEED FIX
+    public void onEdit() {
+        if (customerTableView.getSelectionModel().getSelectedItem() != null) {
+            Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+            CustomerEditController controller = new CustomerEditController();
+            showEditCustomerWindow(controller, "CustomerEdit.fxml");
+            textField.setText(selectedCustomer.getName());
+            controller.nameTextField.setText(selectedCustomer.getName());
+            controller.surnameTextField.setText(selectedCustomer.getSurname());
+            controller.addressTextField.setText(selectedCustomer.getAddress());
+            controller.emailTextField.setText(selectedCustomer.getEmail());
+            controller.creditTextField.setText(Double.toString(selectedCustomer.getCredit()));
+            controller.expireTextField.setText(String.valueOf(selectedCustomer.getMembershipExp()));
+            controller.loginTextField.setText(selectedCustomer.getLogin());
+            controller.passwordTextField.setText(selectedCustomer.getPassword());
+            if (selectedCustomer.getAdmin() == true)
+                controller.isAdminCheckBox.isSelected();
+        }
     }
 
     private void showAddCustomerAddWindow(CustomerAddController controller, String nameOfFxml) {
@@ -161,7 +191,7 @@ public class MainController {
             modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
             modalStage.setTitle("Editácia");
             modalStage.initModality(Modality.APPLICATION_MODAL);
-            modalStage.showAndWait();
+            modalStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

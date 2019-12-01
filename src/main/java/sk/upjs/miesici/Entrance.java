@@ -1,12 +1,24 @@
 package sk.upjs.miesici;
 
+import javafx.beans.property.StringProperty;
+
 import java.time.LocalDateTime;
 
 public class Entrance {
+	private long id;
+
 	private String name;
 	private String surname;
-	private LocalDateTime arrival;
-	private LocalDateTime exit;
+	private String arrival;
+	private String exit;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -24,19 +36,19 @@ public class Entrance {
 		this.surname = surname;
 	}
 
-	public LocalDateTime getArrival() {
+	public String getArrival() {
 		return arrival;
 	}
 
-	public void setArrival(LocalDateTime arrival) {
+	public void setArrival(String arrival) {
 		this.arrival = arrival;
 	}
 
-	public LocalDateTime getExit() {
+	public String getExit() {
 		return exit;
 	}
 
-	public void setExit(LocalDateTime exit) {
+	public void setExit(String exit) {
 		this.exit = exit;
 	}
 

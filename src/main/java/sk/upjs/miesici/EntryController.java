@@ -2,6 +2,8 @@ package sk.upjs.miesici;
 
 import java.time.LocalDateTime;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -11,6 +13,9 @@ import sk.upjs.miesici.Entrance;
 
 public class EntryController {
 
+	private EntryDao entryDao = DaoFactory.INSTANCE.getEntryDao();
+	private ObservableList<Entrance> entrancesModel;
+
 	@FXML
 	private TableView<Entrance> entryTableView;
 
@@ -19,6 +24,9 @@ public class EntryController {
 	
 	@FXML
 	void initialize() {
+
+		entrancesModel = FXCollections.observableArrayList(entryDao.getAll());
+		entryTableView.setItems(FXCollections.observableArrayList(entrancesModel));
 		
 		TableColumn<Entrance, String> nameCol = new TableColumn<>("Meno");
 		nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));

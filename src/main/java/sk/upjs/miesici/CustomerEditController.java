@@ -12,31 +12,31 @@ import java.security.SecureRandom;
 public class CustomerEditController {
 
     @FXML
-    private TextField nameTextField;
+    public TextField nameTextField;
 
     @FXML
-    private TextField surnameTextField;
+    public TextField surnameTextField;
 
     @FXML
-    private TextField addressTextField;
+    public TextField addressTextField;
 
     @FXML
-    private TextField emailTextField;
+    public TextField emailTextField;
 
     @FXML
-    private CheckBox isAdminCheckBox;
+    public CheckBox isAdminCheckBox;
 
     @FXML
-    private TextField creditTextField;
+    public TextField creditTextField;
 
     @FXML
-    private TextField expireTextField;
+    public TextField expireTextField;
 
     @FXML
-    private TextField loginTextField;
+    public TextField loginTextField;
 
     @FXML
-    private PasswordField passwordTextField;
+    public PasswordField passwordTextField;
 
     @FXML
     private TextField addCreditTextField;
@@ -76,7 +76,7 @@ public class CustomerEditController {
 
     @FXML
     void initialize() {
-       
+
     }
 }
 
