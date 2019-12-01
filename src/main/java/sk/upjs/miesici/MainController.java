@@ -104,6 +104,8 @@ public class MainController {
         permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
         customerTableView.getColumns().add(permanentkaCol);
 
+
+        customerTableView.refresh();
     }
 
     private void showAddCustomerAddWindow(CustomerAddController controller, String nameOfFxml) {

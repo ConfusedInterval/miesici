@@ -64,9 +64,7 @@ public class CustomerAddController {
     @FXML
     void generatePasswordButtonClick(ActionEvent event) {
         passwordTextField.clear();
-        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
-        String randomStr = RandomStringUtils.random(16, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
-        passwordTextField.appendText(randomStr);
+        passwordTextField.appendText(generateText());
     }
 
     @FXML
@@ -89,12 +87,9 @@ public class CustomerAddController {
         customer.setLogin(loginTextField.getText());
         customer.setPassword(passwordTextField.getText());
         customer.setAdmin(isAdminCheckBox.isSelected());
-        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
-        String randomStr = RandomStringUtils.random(16, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
-        customer.setSalt(randomStr);
+        customer.setSalt(generateText());
         customerModel.getCustomers().add(customer);
         customerModel.load(customer);
-
         if (customerModel.getName() == null || customerModel.getSurname() == null || customerModel.getAddress() == null || customerModel.getEmail() == null || customerModel.getMembershipExp() == null ||
                 customerModel.getLogin() == null || customerModel.getPassword() == null || customerModel.getName().trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -119,5 +114,12 @@ public class CustomerAddController {
 
     public Customer getSavedCustomer() {
         return savedCustomer;
+    }
+
+
+    private String generateText() {
+        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
+        String randomStr = RandomStringUtils.random(32, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
+        return randomStr;
     }
 }
