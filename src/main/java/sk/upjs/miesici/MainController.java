@@ -114,6 +114,10 @@ public class MainController {
         permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
         customerTableView.getColumns().add(permanentkaCol);
 
+        TableColumn<Customer, Date> adminCol = new TableColumn<>("Admin");
+        adminCol.setCellValueFactory(new PropertyValueFactory<>("admin"));
+        customerTableView.getColumns().add(adminCol);
+
         customerTableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() > 1) {
                 onEdit();
@@ -137,8 +141,8 @@ public class MainController {
             controller.expireTextField.setText(String.valueOf(selectedCustomer.getMembershipExp()));
             controller.loginTextField.setText(selectedCustomer.getLogin());
             controller.passwordTextField.setText(selectedCustomer.getPassword());
-            if (selectedCustomer.getAdmin() == true)
-                controller.isAdminCheckBox.isSelected();
+            if (selectedCustomer.isAdmin())
+                controller.isAdminCheckBox.setSelected(true);
         }
     }
 

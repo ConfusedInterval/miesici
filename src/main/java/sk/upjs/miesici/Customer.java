@@ -16,6 +16,7 @@ public class Customer {
 	private String password;
 	private String salt;
 	private boolean admin;
+
 	private List<Customer> customers = new ArrayList<>();
 
 	public Long getId() {
@@ -98,13 +99,13 @@ public class Customer {
 		this.salt = salt;
 	}
 
-	public boolean isAdmin(boolean admin) {
-		return this.admin;
+	public boolean isAdmin() {
+		return admin;
 	}
 
-	public boolean getAdmin(){ return admin; }
-
-	public void setAdmin(Boolean admin) { this.admin = admin; }
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
 
 	public void addCustomer(Customer customerName){
 		customers.add(customerName);
