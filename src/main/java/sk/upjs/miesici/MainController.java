@@ -24,7 +24,6 @@ public class MainController {
     @FXML
     private TextField textField;
 
-
     @FXML
     private Button addCustomer;
 
@@ -139,7 +138,6 @@ public class MainController {
             controller.emailTextField.setText(selectedCustomer.getEmail());
             controller.creditTextField.setText(Double.toString(selectedCustomer.getCredit()));
             controller.expireTextField.setText(String.valueOf(selectedCustomer.getMembershipExp()));
-            controller.passwordTextField.setText(selectedCustomer.getPassword());
             if (selectedCustomer.isAdmin())
                 controller.isAdminCheckBox.setSelected(true);
         }

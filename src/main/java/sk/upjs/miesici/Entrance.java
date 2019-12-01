@@ -1,12 +1,7 @@
 package sk.upjs.miesici;
 
-import javafx.beans.property.StringProperty;
-
-import java.time.LocalDateTime;
-
 public class Entrance {
 	private long id;
-
 	private String name;
 	private String surname;
 	private String arrival;

@@ -1,7 +1,6 @@
 package sk.upjs.miesici;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import java.util.List;
 
 public class MySQLEntryDao implements EntryDao {

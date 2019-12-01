@@ -5,8 +5,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-
-import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,17 +1,12 @@
 package sk.upjs.miesici;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.apache.commons.lang3.RandomStringUtils;
-
 import java.security.SecureRandom;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 
 import static sk.upjs.miesici.MySQLCustomerDao.errorCheck;
@@ -107,7 +102,6 @@ public class CustomerAddController {
         }
     }
 
-
     @FXML
     void initialize() {
     }
@@ -115,7 +109,6 @@ public class CustomerAddController {
     public Customer getSavedCustomer() {
         return savedCustomer;
     }
-
 
     private String generateText() {
         char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
