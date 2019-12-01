@@ -32,8 +32,6 @@ public class CustomerEditController {
     @FXML
     public TextField expireTextField;
 
-    @FXML
-    public TextField loginTextField;
 
     @FXML
     public PasswordField passwordTextField;

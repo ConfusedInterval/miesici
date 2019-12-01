@@ -139,7 +139,6 @@ public class MainController {
             controller.emailTextField.setText(selectedCustomer.getEmail());
             controller.creditTextField.setText(Double.toString(selectedCustomer.getCredit()));
             controller.expireTextField.setText(String.valueOf(selectedCustomer.getMembershipExp()));
-            controller.loginTextField.setText(selectedCustomer.getLogin());
             controller.passwordTextField.setText(selectedCustomer.getPassword());
             if (selectedCustomer.isAdmin())
                 controller.isAdminCheckBox.setSelected(true);

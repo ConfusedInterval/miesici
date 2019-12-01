@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="367.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="481.0" prefWidth="367.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="23.0" layoutY="59.0" text="Meno" textFill="WHITE">
          <font>
@@ -35,8 +35,8 @@
          </font>
       </Label>
       <TextField fx:id="emailTextField" layoutX="125.0" layoutY="166.0" prefHeight="25.0" prefWidth="223.0" />
-      <CheckBox fx:id="isAdminCheckBox" layoutX="24.0" layoutY="478.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
-      <Button layoutX="298.0" layoutY="474.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" text="Uložiť" />
+      <CheckBox fx:id="isAdminCheckBox" layoutX="18.0" layoutY="442.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
+      <Button layoutX="298.0" layoutY="438.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" prefHeight="25.0" prefWidth="52.0" text="Uložiť" />
       <Label layoutX="23.0" layoutY="199.0" text="Kredit" textFill="WHITE">
          <font>
             <Font size="15.0" />
@@ -49,18 +49,12 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="24.0" layoutY="314.0" text="Login" textFill="WHITE">
+      <Label layoutX="21.0" layoutY="314.0" text="Heslo" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="loginTextField" layoutX="126.0" layoutY="314.0" prefHeight="25.0" prefWidth="223.0" />
-      <Label layoutX="24.0" layoutY="349.0" text="Heslo" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Button layoutX="126.0" layoutY="384.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj nové heslo" />
+      <Button layoutX="123.0" layoutY="349.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj nové heslo" />
       <Text fill="WHITE" layoutX="96.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Editácia používateľa">
          <font>
             <Font size="20.0" />
@@ -72,6 +66,6 @@
       <TextField fx:id="addCreditTextField" layoutX="215.0" layoutY="201.0" prefHeight="25.0" prefWidth="66.0" />
       <Button layoutX="298.0" layoutY="201.0" mnemonicParsing="false" onAction="#saveCreditButtonClick" text="Uložiť" />
       <Button layoutX="296.0" layoutY="274.0" mnemonicParsing="false" onAction="#addYearButtonClick" text="+1 rok" />
-      <PasswordField fx:id="passwordTextField" layoutX="126.0" layoutY="349.0" prefHeight="25.0" prefWidth="223.0" />
+      <PasswordField fx:id="passwordTextField" layoutX="123.0" layoutY="314.0" prefHeight="25.0" prefWidth="223.0" />
    </children>
 </AnchorPane>
