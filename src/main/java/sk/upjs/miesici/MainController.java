@@ -126,7 +126,7 @@ public class MainController {
 
     }
 
-    // NEED FIX
+    // NEED TO FIX THIS
     public void onEdit() {
         if (customerTableView.getSelectionModel().getSelectedItem() != null) {
             Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
