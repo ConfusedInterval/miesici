@@ -71,9 +71,12 @@ public class CustomerAddController {
         customer.setEmail(emailTextField.getText());
         try {
             customer.setCredit(Double.parseDouble(creditTextField.getText()));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ignored) {
         }
-        customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+        try {
+            customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+        } catch (IllegalArgumentException ignored){
+        }
         customer.setLogin(loginTextField.getText());
         customer.setPassword(passwordTextField.getText());
         customer.setAdmin(isAdminCheckBox.isSelected());
@@ -82,11 +85,7 @@ public class CustomerAddController {
         customerModel.load(customer);
         if (customerModel.getName() == null || customerModel.getSurname() == null || customerModel.getAddress() == null || customerModel.getEmail() == null || customerModel.getMembershipExp() == null ||
                 customerModel.getLogin() == null || customerModel.getPassword() == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Neplatný formulár");
-            alert.setHeaderText("Údaje nie sú vyplnené správne.");
-            alert.setContentText("Prosím vyplňte všetky údaje!");
-            alert.show();
+            alertPopUp();
         } else {
             this.savedCustomer = customerDao.save(customerModel.getCustomer());
             if (errorCheck == 0) {
@@ -109,5 +108,13 @@ public class CustomerAddController {
         char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
         String randomStr = RandomStringUtils.random(32, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
         return randomStr;
+    }
+
+    private void alertPopUp(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Neplatný formulár");
+        alert.setHeaderText("Údaje nie sú vyplnené správne.");
+        alert.setContentText("Prosím vyplňte všetky údaje!");
+        alert.show();
     }
 }

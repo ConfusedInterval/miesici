@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static sk.upjs.miesici.admin.MainController.idOfCustomer;
+import static sk.upjs.miesici.admin.MySQLCustomerDao.errorCheck;
 
 public class CustomerEditController {
 
@@ -89,31 +90,40 @@ public class CustomerEditController {
         customer.setEmail(emailTextField.getText());
         try {
             customer.setCredit(Double.parseDouble(creditTextField.getText()));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ignored) {
+            errorCheck = 1;
         }
-        customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+        try {
+            customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+        } catch (IllegalArgumentException ignored) {
+            errorCheck = 1;
+        }
         if (!passwordTextField.getText().equals("")) {
             customer.setPassword(passwordTextField.getText());
         }
         customer.setAdmin(isAdminCheckBox.isSelected());
 
         if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("") || creditTextField.getText().equals("")
-                || expireTextField.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Neplatný formulár");
-            alert.setHeaderText("Údaje nie sú vyplnené správne.");
-            alert.setContentText("Prosím vyplňte všetky údaje!");
-            alert.show();
+                || expireTextField.getText().equals("") || errorCheck == 1) {
+            alertPopUp();
         } else {
             customerDao.edit(customer);
             saveButton.getScene().getWindow().hide();
         }
-
-
     }
+
 
     @FXML
     void initialize() {
+    }
+
+
+    private void alertPopUp() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Neplatný formulár");
+        alert.setHeaderText("Údaje nie sú vyplnené správne.");
+        alert.setContentText("Prosím vyplňte všetky údaje!");
+        alert.show();
     }
 }
 
