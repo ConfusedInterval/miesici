@@ -1,16 +1,26 @@
 package sk.upjs.miesici.admin;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.security.SecureRandom;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static sk.upjs.miesici.admin.MainController.idOfCustomer;
 
 public class CustomerEditController {
+
+    private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
+
+    @FXML
+    private Button saveButton;
 
     @FXML
     public TextField nameTextField;
@@ -59,7 +69,7 @@ public class CustomerEditController {
         passwordTextField.clear();
         char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
         String randomStr = RandomStringUtils.random(16, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
-        passwordTextField.appendText(randomStr);
+        passwordTextField.setText(randomStr);
     }
 
     @FXML
@@ -71,12 +81,39 @@ public class CustomerEditController {
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) {
+        Customer customer = new Customer();
+        customer.setId(idOfCustomer);
+        customer.setName(nameTextField.getText());
+        customer.setSurname(surnameTextField.getText());
+        customer.setAddress(addressTextField.getText());
+        customer.setEmail(emailTextField.getText());
+        try {
+            customer.setCredit(Double.parseDouble(creditTextField.getText()));
+        } catch (NumberFormatException e) {
+        }
+        customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+        if (!passwordTextField.getText().equals("")) {
+            customer.setPassword(passwordTextField.getText());
+        }
+        customer.setAdmin(isAdminCheckBox.isSelected());
+
+        if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("") || creditTextField.getText().equals("")
+                || expireTextField.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Neplatný formulár");
+            alert.setHeaderText("Údaje nie sú vyplnené správne.");
+            alert.setContentText("Prosím vyplňte všetky údaje!");
+            alert.show();
+        } else {
+            customerDao.edit(customer);
+            saveButton.getScene().getWindow().hide();
+        }
+
 
     }
 
     @FXML
     void initialize() {
-
     }
 }
 

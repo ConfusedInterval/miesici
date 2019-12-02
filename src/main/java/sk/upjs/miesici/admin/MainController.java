@@ -22,6 +22,7 @@ public class MainController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private ObservableList<Customer> customersModel;
+    public static long idOfCustomer = 0;
 
     @FXML
     private TextField filterTextField;
@@ -30,13 +31,13 @@ public class MainController {
     private Button addCustomer;
 
     @FXML
-    private Button editCustomer;
+    private Button refreshCustomer;
 
     @FXML
     private Button entryCustomer;
 
     @FXML
-    private TableView<Customer> customerTableView;
+    public TableView<Customer> customerTableView;
 
 
     @FXML
@@ -49,8 +50,8 @@ public class MainController {
     @FXML
     void editMouseEntered(MouseEvent event) {
         Tooltip tt = new Tooltip();
-        tt.setText("Edituj používateľa");
-        editCustomer.setTooltip(tt);
+        tt.setText("Obnov tabuľku");
+        refreshCustomer.setTooltip(tt);
     }
 
     @FXML
@@ -67,13 +68,15 @@ public class MainController {
         if (controller.getSavedCustomer() != null) {
             customersModel = FXCollections.observableArrayList(customerDao.getAll());
             customerTableView.setItems(FXCollections.observableArrayList(customersModel));
+            refreshTableView();
         }
     }
 
     @FXML
-    void editCustomerButtonClick(ActionEvent event) {
-        CustomerEditController controller = new CustomerEditController();
-        showEditCustomerWindow(controller, "CustomerEdit.fxml");
+    void refreshCustomerButtonClick(ActionEvent event) {
+        customersModel = FXCollections.observableArrayList(customerDao.getAll());
+        customerTableView.setItems(FXCollections.observableArrayList(customersModel));
+        refreshTableView();
     }
 
     @FXML
@@ -124,43 +127,9 @@ public class MainController {
                 onEdit();
             }
         });
-
-        // https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
-        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<Customer> filteredData = new FilteredList<>(customersModel, p -> true);
-
-        // 2. Set the filter Predicate whenever the filter changes.
-        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(customer -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (customer.getName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                } else if (customer.getSurname().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches last name.
-                }
-                return false; // Does not match.
-            });
-        });
-
-        // 3. Wrap the FilteredList in a SortedList.
-        SortedList<Customer> sortedData = new SortedList<>(filteredData);
-
-        // 4. Bind the SortedList comparator to the TableView comparator.
-        sortedData.comparatorProperty().bind(customerTableView.comparatorProperty());
-
-        // 5. Add sorted (and filtered) data to the table.
-        customerTableView.setItems(sortedData);
-
+        refreshTableView();
     }
 
-    // NEED TO FIX THIS
     public void onEdit() {
         if (customerTableView.getSelectionModel().getSelectedItem() != null) {
             Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
@@ -172,6 +141,7 @@ public class MainController {
             controller.emailTextField.setText(selectedCustomer.getEmail());
             controller.creditTextField.setText(Double.toString(selectedCustomer.getCredit()));
             controller.expireTextField.setText(String.valueOf(selectedCustomer.getMembershipExp()));
+            idOfCustomer = selectedCustomer.getId();
             if (selectedCustomer.isAdmin())
                 controller.isAdminCheckBox.setSelected(true);
         }
@@ -230,5 +200,40 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void refreshTableView(){
+        // https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Customer> filteredData = new FilteredList<>(customersModel, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(customer -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (customer.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+                } else if (customer.getSurname().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<Customer> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(customerTableView.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        customerTableView.setItems(sortedData);
     }
 }

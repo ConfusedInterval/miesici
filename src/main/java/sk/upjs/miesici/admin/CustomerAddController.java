@@ -59,7 +59,7 @@ public class CustomerAddController {
     @FXML
     void generatePasswordButtonClick(ActionEvent event) {
         passwordTextField.clear();
-        passwordTextField.appendText(generateText());
+        passwordTextField.setText(generateText());
     }
 
     @FXML
@@ -73,12 +73,7 @@ public class CustomerAddController {
             customer.setCredit(Double.parseDouble(creditTextField.getText()));
         } catch (NumberFormatException e) {
         }
-        String date1 = expireTextField.getText();
-        try {
-            Date date = new SimpleDateFormat("yyyy-mm-dd").parse(date1);
-            customer.setMembershipExp(date);
-        } catch (ParseException e) {
-        }
+        customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
         customer.setLogin(loginTextField.getText());
         customer.setPassword(passwordTextField.getText());
         customer.setAdmin(isAdminCheckBox.isSelected());
@@ -86,7 +81,7 @@ public class CustomerAddController {
         customerModel.getCustomers().add(customer);
         customerModel.load(customer);
         if (customerModel.getName() == null || customerModel.getSurname() == null || customerModel.getAddress() == null || customerModel.getEmail() == null || customerModel.getMembershipExp() == null ||
-                customerModel.getLogin() == null || customerModel.getPassword() == null || customerModel.getName().trim().isEmpty()) {
+                customerModel.getLogin() == null || customerModel.getPassword() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Neplatný formulár");
             alert.setHeaderText("Údaje nie sú vyplnené správne.");

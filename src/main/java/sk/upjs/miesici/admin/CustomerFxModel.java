@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class CustomerFxModel {
     private Long id;
@@ -13,7 +13,7 @@ public class CustomerFxModel {
     private StringProperty address = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
     private DoubleProperty credit = new SimpleDoubleProperty();
-    private Date MembershipExp = new Date();
+    private Date MembershipExp;
     private StringProperty login = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
     private BooleanProperty admin = new SimpleBooleanProperty();

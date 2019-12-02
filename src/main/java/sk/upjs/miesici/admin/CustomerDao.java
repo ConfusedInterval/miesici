@@ -6,4 +6,6 @@ public interface CustomerDao {
     List<Customer> getAll();
 
     Customer save(Customer customer);
+
+    void edit(Customer customer);
 }

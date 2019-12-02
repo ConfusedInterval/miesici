@@ -12,11 +12,11 @@
    <children>
       <TableView fx:id="customerTableView" layoutX="18.0" layoutY="56.0" prefHeight="386.0" prefWidth="622.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="56.0" />
       <Button fx:id="addCustomer" layoutX="17.0" layoutY="9.0" mnemonicParsing="false" onAction="#addCustomerButtonClick" onMouseEntered="#addMouseEntered" prefHeight="32.0" prefWidth="31.0" snapToPixel="false" style="-fx-background-size: 30; -fx-background-image: url(&quot;https://img.icons8.com/dusk/64/000000/add--v1.png&quot;); -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-background-color: #333333;" />
-      <Button fx:id="editCustomer" layoutX="55.0" layoutY="9.0" mnemonicParsing="false" onAction="#editCustomerButtonClick" onMouseEntered="#editMouseEntered" prefHeight="32.0" prefWidth="31.0" snapToPixel="false" style="-fx-background-size: 30; -fx-background-image: url(&quot;https://img.icons8.com/color/48/000000/edit.png&quot;); -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-background-color: #333333;" />
-      <Button fx:id="entryCustomer" layoutX="96.0" layoutY="9.0" mnemonicParsing="false" onAction="#entryCustomerButtonClick" onMouseEntered="#entryMouseEntered" prefHeight="32.0" prefWidth="31.0" snapToPixel="false" style="-fx-background-size: 30; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-background-color: #333333; -fx-background-image: url(&quot;https://img.icons8.com/flat_round/64/000000/list--v3.png&quot;);" />
-      <Line endX="903.0" endY="41.0" fill="WHITE" layoutX="-779.0" layoutY="7.0" opacity="0.3" startX="798.0" startY="41.0" stroke="WHITE" />
-      <TextField fx:id="filterTextField" layoutX="541.0" layoutY="13.0" />
-      <Text fill="WHITE" layoutX="499.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter">
+      <Button fx:id="refreshCustomer" layoutX="659.0" layoutY="10.0" mnemonicParsing="false" onAction="#refreshCustomerButtonClick" onMouseEntered="#editMouseEntered" prefHeight="32.0" prefWidth="31.0" snapToPixel="false" style="-fx-background-size: 30; -fx-background-image: url(&quot;https://img.icons8.com/plasticine/100/000000/refresh.png&quot;); -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-background-color: #333333;" />
+      <Button fx:id="entryCustomer" layoutX="56.0" layoutY="9.0" mnemonicParsing="false" onAction="#entryCustomerButtonClick" onMouseEntered="#entryMouseEntered" prefHeight="32.0" prefWidth="31.0" snapToPixel="false" style="-fx-background-size: 30; -fx-background-repeat: no-repeat; -fx-background-position: center; -fx-background-color: #333333; -fx-background-image: url(&quot;https://img.icons8.com/flat_round/64/000000/list--v3.png&quot;);" />
+      <Line endX="866.0" endY="41.0" fill="WHITE" layoutX="-779.0" layoutY="7.0" opacity="0.3" startX="798.0" startY="41.0" stroke="WHITE" />
+      <TextField fx:id="filterTextField" layoutX="499.0" layoutY="14.0" />
+      <Text fill="WHITE" layoutX="455.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter">
          <font>
             <Font size="14.0" />
          </font>
