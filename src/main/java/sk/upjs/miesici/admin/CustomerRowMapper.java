@@ -1,4 +1,4 @@
-package sk.upjs.miesici;
+package sk.upjs.miesici.admin;
 
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;

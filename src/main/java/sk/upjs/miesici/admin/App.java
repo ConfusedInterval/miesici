@@ -1,4 +1,4 @@
-package sk.upjs.miesici;
+package sk.upjs.miesici.admin;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

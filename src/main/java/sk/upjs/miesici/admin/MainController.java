@@ -1,9 +1,11 @@
-package sk.upjs.miesici;
+package sk.upjs.miesici.admin;
 
 import java.io.IOException;
 import java.sql.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +24,7 @@ public class MainController {
     private ObservableList<Customer> customersModel;
 
     @FXML
-    private TextField textField;
+    private TextField filterTextField;
 
     @FXML
     private Button addCustomer;
@@ -123,6 +125,39 @@ public class MainController {
             }
         });
 
+        // https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<Customer> filteredData = new FilteredList<>(customersModel, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(customer -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (customer.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches first name.
+                } else if (customer.getSurname().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<Customer> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(customerTableView.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        customerTableView.setItems(sortedData);
+
     }
 
     // NEED TO FIX THIS
@@ -131,7 +166,6 @@ public class MainController {
             Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
             CustomerEditController controller = new CustomerEditController();
             showEditCustomerWindow(controller, "CustomerEdit.fxml");
-            textField.setText(selectedCustomer.getName());
             controller.nameTextField.setText(selectedCustomer.getName());
             controller.surnameTextField.setText(selectedCustomer.getSurname());
             controller.addressTextField.setText(selectedCustomer.getAddress());

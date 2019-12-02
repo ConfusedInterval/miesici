@@ -1,5 +1,6 @@
-package sk.upjs.miesici;
+package sk.upjs.miesici.admin;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -63,7 +64,9 @@ public class CustomerEditController {
 
     @FXML
     void saveCreditButtonClick(ActionEvent event) {
-
+        double c = Double.parseDouble(addCreditTextField.getText());
+        creditTextField.setText(String.valueOf(Double.parseDouble(creditTextField.getText()) + c));
+        addCreditTextField.setText("");
     }
 
     @FXML

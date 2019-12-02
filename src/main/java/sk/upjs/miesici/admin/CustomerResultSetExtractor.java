@@ -1,4 +1,4 @@
-package sk.upjs.miesici;
+package sk.upjs.miesici.admin;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;

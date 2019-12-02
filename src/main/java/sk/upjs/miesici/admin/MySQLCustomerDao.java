@@ -1,4 +1,4 @@
-package sk.upjs.miesici;
+package sk.upjs.miesici.admin;
 
 import javafx.scene.control.Alert;
 import org.springframework.dao.DuplicateKeyException;

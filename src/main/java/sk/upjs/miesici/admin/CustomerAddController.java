@@ -1,4 +1,4 @@
-package sk.upjs.miesici;
+package sk.upjs.miesici.admin;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static sk.upjs.miesici.MySQLCustomerDao.errorCheck;
+import static sk.upjs.miesici.admin.MySQLCustomerDao.errorCheck;
 
 public class CustomerAddController {
 
