@@ -8,4 +8,8 @@ public interface CustomerDao {
     Customer save(Customer customer);
 
     void edit(Customer customer);
+    
+    // boolean isAdmin(String login);
+    
+    Customer getBylogin(String login);
 }

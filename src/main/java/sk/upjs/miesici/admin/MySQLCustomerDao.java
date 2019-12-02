@@ -130,6 +130,25 @@ public class MySQLCustomerDao implements CustomerDao {
             }
         }
     }
+    
+    @Override
+    public Customer getBylogin(String login) {
+    	List<Customer> list = getAll();
+    	for(Customer customer : list) {
+    		if (customer.getName().equals(login)) {
+    			return customer;
+    		}
+    	}
+    	return null;
+    }
+ 
+    
+// potom vymyslim :D    
+//    @Override
+//    public boolean isAdmin(String login) {
+//    	String sql = "SELECT admin FROM klient " + "WHERE login = " +login ;
+//    	return false;
+//    }
 
 
 }
