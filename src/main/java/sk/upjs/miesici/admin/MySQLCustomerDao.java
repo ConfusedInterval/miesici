@@ -72,7 +72,6 @@ public class MySQLCustomerDao implements CustomerDao {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, name, password);
-            System.out.println("Connection created");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
