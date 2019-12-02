@@ -106,6 +106,7 @@ public class CustomerEditController {
         if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("") || creditTextField.getText().equals("")
                 || expireTextField.getText().equals("") || errorCheck == 1) {
             alertPopUp();
+            errorCheck = 0;
         } else {
             customerDao.edit(customer);
             saveButton.getScene().getWindow().hide();

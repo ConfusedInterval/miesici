@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.apache.commons.lang3.RandomStringUtils;
+
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -72,10 +73,12 @@ public class CustomerAddController {
         try {
             customer.setCredit(Double.parseDouble(creditTextField.getText()));
         } catch (NumberFormatException ignored) {
+            errorCheck = 1;
         }
         try {
             customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
-        } catch (IllegalArgumentException ignored){
+        } catch (IllegalArgumentException ignored) {
+            errorCheck = 1;
         }
         customer.setLogin(loginTextField.getText());
         customer.setPassword(passwordTextField.getText());
@@ -84,15 +87,12 @@ public class CustomerAddController {
         customerModel.getCustomers().add(customer);
         customerModel.load(customer);
         if (customerModel.getName() == null || customerModel.getSurname() == null || customerModel.getAddress() == null || customerModel.getEmail() == null || customerModel.getMembershipExp() == null ||
-                customerModel.getLogin() == null || customerModel.getPassword() == null) {
+                customerModel.getLogin() == null || customerModel.getPassword() == null || errorCheck == 1) {
             alertPopUp();
+            errorCheck = 0;
         } else {
             this.savedCustomer = customerDao.save(customerModel.getCustomer());
-            if (errorCheck == 0) {
-                saveButton.getScene().getWindow().hide();
-            } else {
-                errorCheck = 0;
-            }
+            saveButton.getScene().getWindow().hide();
         }
     }
 
@@ -110,7 +110,7 @@ public class CustomerAddController {
         return randomStr;
     }
 
-    private void alertPopUp(){
+    private void alertPopUp() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Neplatný formulár");
         alert.setHeaderText("Údaje nie sú vyplnené správne.");
