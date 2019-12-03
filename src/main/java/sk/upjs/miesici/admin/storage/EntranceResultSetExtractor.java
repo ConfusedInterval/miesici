@@ -1,7 +1,8 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.storage;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class EntranceResultSetExtractor implements ResultSetExtractor<List<Entra
             if (entrance == null || entrance.getId() != id) {
                 entrance = new Entrance();
                 entrance.setId(id);
+                entrance.setKlient_id(rs.getLong("klient_id"));
                 entrance.setName(rs.getString("meno"));
                 entrance.setSurname(rs.getString("priezvisko"));
                 entrance.setArrival(rs.getString("prichod"));

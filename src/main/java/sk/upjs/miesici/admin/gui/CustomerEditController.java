@@ -1,20 +1,17 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.gui;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import sk.upjs.miesici.admin.storage.Customer;
+import sk.upjs.miesici.admin.storage.CustomerDao;
+import sk.upjs.miesici.admin.storage.DaoFactory;
 
 import java.security.SecureRandom;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import static sk.upjs.miesici.admin.MainController.idOfCustomer;
-import static sk.upjs.miesici.admin.MySQLCustomerDao.errorCheck;
+import static sk.upjs.miesici.admin.gui.MainController.idOfCustomer;
+import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 
 public class CustomerEditController {
 
@@ -51,6 +48,12 @@ public class CustomerEditController {
     private TextField addCreditTextField;
 
     @FXML
+    private CheckBox passwordEditButton;
+
+    @FXML
+    private TextField toggleTextField;
+
+    @FXML
     void addOneMonthButtonClick(ActionEvent event) {
 
     }
@@ -63,14 +66,6 @@ public class CustomerEditController {
     @FXML
     void addYearButtonClick(ActionEvent event) {
 
-    }
-
-    @FXML
-    void generatePasswordButtonClick(ActionEvent event) {
-        passwordTextField.clear();
-        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
-        String randomStr = RandomStringUtils.random(16, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
-        passwordTextField.setText(randomStr);
     }
 
     @FXML
@@ -118,6 +113,32 @@ public class CustomerEditController {
     void initialize() {
     }
 
+    @FXML
+    void editToggleClick(ActionEvent event) {
+        if (passwordEditButton.isSelected()){
+            toggleTextField.setText(passwordTextField.getText());
+            passwordTextField.setVisible(false);
+            toggleTextField.setVisible(true);
+        } else {
+            passwordTextField.setText(toggleTextField.getText());
+            passwordTextField.setVisible(true);
+            toggleTextField.setVisible(false);
+        }
+    }
+
+    @FXML
+    void generatePasswordButtonClick(ActionEvent event) {
+        passwordTextField.clear();
+        toggleTextField.clear();
+        passwordTextField.setText(generateText());
+        toggleTextField.setText(passwordTextField.getText());
+    }
+
+    private String generateText() {
+        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?").toCharArray();
+        String randomStr = RandomStringUtils.random(32, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
+        return randomStr;
+    }
 
     private void alertPopUp() {
         Alert alert = new Alert(Alert.AlertType.ERROR);

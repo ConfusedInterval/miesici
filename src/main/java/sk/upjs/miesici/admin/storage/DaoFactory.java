@@ -1,4 +1,4 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.storage;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;

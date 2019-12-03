@@ -1,4 +1,4 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.storage;
 
 import javafx.scene.control.Alert;
 import org.springframework.dao.DuplicateKeyException;
@@ -6,7 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,25 +133,24 @@ public class MySQLCustomerDao implements CustomerDao {
             }
         }
     }
-    
+
     @Override
     public Customer getBylogin(String login) {
-    	List<Customer> list = getAll();
-    	for(Customer customer : list) {
-    		if (customer.getName().equals(login)) {
-    			return customer;
-    		}
-    	}
-    	return null;
+        List<Customer> list = getAll();
+        for (Customer customer : list) {
+            if (customer.getName().equals(login)) {
+                return customer;
+            }
+        }
+        return null;
     }
- 
-    
-// potom vymyslim :D    
+
+
+// potom vymyslim :D
 //    @Override
 //    public boolean isAdmin(String login) {
 //    	String sql = "SELECT admin FROM klient " + "WHERE login = " +login ;
 //    	return false;
 //    }
-
 
 }

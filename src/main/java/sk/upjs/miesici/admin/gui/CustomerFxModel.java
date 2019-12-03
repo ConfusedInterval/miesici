@@ -1,10 +1,12 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.gui;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import java.util.ArrayList;
+import sk.upjs.miesici.admin.storage.Customer;
+
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class CustomerFxModel {
     private Long id;

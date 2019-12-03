@@ -1,7 +1,5 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.gui;
 
-import java.io.IOException;
-import java.sql.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -17,6 +15,13 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
+import sk.upjs.miesici.admin.storage.Customer;
+import sk.upjs.miesici.admin.storage.CustomerDao;
+import sk.upjs.miesici.admin.storage.DaoFactory;
+
+import java.io.IOException;
+import java.sql.Date;
 
 public class MainController {
 
@@ -68,7 +73,7 @@ public class MainController {
         if (controller.getSavedCustomer() != null) {
             customersModel = FXCollections.observableArrayList(customerDao.getAll());
             customerTableView.setItems(FXCollections.observableArrayList(customersModel));
-            refreshTableView();
+            filterTableView();
         }
     }
 
@@ -76,7 +81,7 @@ public class MainController {
     void refreshCustomerButtonClick(ActionEvent event) {
         customersModel = FXCollections.observableArrayList(customerDao.getAll());
         customerTableView.setItems(FXCollections.observableArrayList(customersModel));
-        refreshTableView();
+        filterTableView();
     }
 
     @FXML
@@ -127,7 +132,7 @@ public class MainController {
                 onEdit();
             }
         });
-        refreshTableView();
+        filterTableView();
     }
 
     public void onEdit() {
@@ -202,7 +207,7 @@ public class MainController {
         }
     }
 
-    private void refreshTableView(){
+    private void filterTableView() {
         // https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Customer> filteredData = new FilteredList<>(customersModel, p -> true);
@@ -217,13 +222,10 @@ public class MainController {
 
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
-
-                if (customer.getName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                } else if (customer.getSurname().toLowerCase().contains(lowerCaseFilter)) {
+                String surname = StringUtils.stripAccents(customer.getSurname().toLowerCase());
+                if (surname.contains(lowerCaseFilter)) {
                     return true; // Filter matches last name.
-                }
-                return false; // Does not match.
+                } else return customer.getId().toString().contains(lowerCaseFilter);
             });
         });
 

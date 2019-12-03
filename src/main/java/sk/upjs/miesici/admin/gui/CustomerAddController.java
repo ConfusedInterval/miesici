@@ -1,16 +1,20 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.gui;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import sk.upjs.miesici.admin.storage.Customer;
+import sk.upjs.miesici.admin.storage.CustomerDao;
+import sk.upjs.miesici.admin.storage.DaoFactory;
 
+import javax.xml.stream.FactoryConfigurationError;
+import java.awt.event.MouseEvent;
 import java.security.SecureRandom;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import static sk.upjs.miesici.admin.MySQLCustomerDao.errorCheck;
+import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 
 public class CustomerAddController {
 
@@ -55,13 +59,13 @@ public class CustomerAddController {
     private TextField loginTextField;
 
     @FXML
+    private TextField toggleTextField;
+
+    @FXML
     private PasswordField passwordTextField;
 
     @FXML
-    void generatePasswordButtonClick(ActionEvent event) {
-        passwordTextField.clear();
-        passwordTextField.setText(generateText());
-    }
+    private CheckBox togglePass;
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) {
@@ -100,12 +104,29 @@ public class CustomerAddController {
     void initialize() {
     }
 
-    public Customer getSavedCustomer() {
-        return savedCustomer;
+    @FXML
+    void togglePassword(ActionEvent event) {
+        if (togglePass.isSelected()){
+            toggleTextField.setText(passwordTextField.getText());
+            passwordTextField.setVisible(false);
+            toggleTextField.setVisible(true);
+        } else {
+            passwordTextField.setText(toggleTextField.getText());
+            passwordTextField.setVisible(true);
+            toggleTextField.setVisible(false);
+        }
+    }
+
+    @FXML
+    void generatePasswordButtonClick(ActionEvent event) {
+        passwordTextField.clear();
+        toggleTextField.clear();
+        passwordTextField.setText(generateText());
+        toggleTextField.setText(passwordTextField.getText());
     }
 
     private String generateText() {
-        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?").toCharArray();
+        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?").toCharArray();
         String randomStr = RandomStringUtils.random(32, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
         return randomStr;
     }
@@ -116,5 +137,10 @@ public class CustomerAddController {
         alert.setHeaderText("Údaje nie sú vyplnené správne.");
         alert.setContentText("Prosím vyplňte všetky údaje!");
         alert.show();
+    }
+
+
+    public Customer getSavedCustomer() {
+        return savedCustomer;
     }
 }

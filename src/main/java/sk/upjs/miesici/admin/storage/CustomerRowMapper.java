@@ -1,6 +1,7 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.storage;
 
 import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

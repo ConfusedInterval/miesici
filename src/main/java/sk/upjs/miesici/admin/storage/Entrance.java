@@ -1,18 +1,27 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.storage;
 
 public class Entrance {
-	private long id;
+	private Long id;
+	private Long klient_id;
 	private String name;
 	private String surname;
 	private String arrival;
 	private String exit;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getKlient_id() {
+		return klient_id;
+	}
+
+	public void setKlient_id(Long klient_id) {
+		this.klient_id = klient_id;
 	}
 
 	public String getName() {

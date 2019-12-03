@@ -1,4 +1,4 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.storage;
 
 import java.sql.Date;
 import java.util.ArrayList;

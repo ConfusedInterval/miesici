@@ -1,6 +1,7 @@
-package sk.upjs.miesici.admin;
+package sk.upjs.miesici.admin.storage;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.util.List;
 
 public class MySQLEntryDao implements EntryDao {
@@ -13,7 +14,7 @@ public class MySQLEntryDao implements EntryDao {
 
     @Override
     public List<Entrance> getAll() {
-        String sql = "SELECT id, kt.meno, kt.priezvisko, prichod, odchod " +
+        String sql = "SELECT id, klient_id, kt.meno, kt.priezvisko, prichod, odchod " +
                 "FROM vstup " +
                 "JOIN klient AS kt " +
                 "USING(klient_id)" ;
