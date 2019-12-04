@@ -1,5 +1,6 @@
 package sk.upjs.miesici.admin.gui;
 
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -15,19 +16,24 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
-import sk.upjs.miesici.admin.storage.Customer;
-import sk.upjs.miesici.admin.storage.CustomerDao;
-import sk.upjs.miesici.admin.storage.DaoFactory;
+import sk.upjs.miesici.admin.storage.*;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
+import static sk.upjs.miesici.admin.storage.MySQLEntranceDao.idOfEntrance;
 
 public class MainController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
+    private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
     private ObservableList<Customer> customersModel;
-    public static long idOfCustomer = 0;
+    public static long idOfCustomer;
 
     @FXML
     private TextField filterTextField;
@@ -36,10 +42,10 @@ public class MainController {
     private Button addCustomer;
 
     @FXML
-    private Button refreshCustomer;
+    private Button entryCustomer;
 
     @FXML
-    private Button entryCustomer;
+    private Label textEntrance;
 
     @FXML
     public TableView<Customer> customerTableView;
@@ -50,13 +56,6 @@ public class MainController {
         Tooltip tt = new Tooltip();
         tt.setText("Pridaj používateľa");
         addCustomer.setTooltip(tt);
-    }
-
-    @FXML
-    void editMouseEntered(MouseEvent event) {
-        Tooltip tt = new Tooltip();
-        tt.setText("Obnov tabuľku");
-        refreshCustomer.setTooltip(tt);
     }
 
     @FXML
@@ -78,16 +77,66 @@ public class MainController {
     }
 
     @FXML
-    void refreshCustomerButtonClick(ActionEvent event) {
-        customersModel = FXCollections.observableArrayList(customerDao.getAll());
-        customerTableView.setItems(FXCollections.observableArrayList(customersModel));
-        filterTableView();
+    void entryCustomerButtonClick(ActionEvent event) {
+        EntranceController controller = new EntranceController();
+        showEntryWindow(controller, "Entry.fxml");
     }
 
     @FXML
-    void entryCustomerButtonClick(ActionEvent event) {
-        EntryController controller = new EntryController();
-        showEntryWindow(controller, "Entry.fxml");
+    void arrivalButtonClick(ActionEvent event) throws InterruptedException {
+        Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+        Entrance entrance = new Entrance();
+        entrance.setKlient_id(selectedCustomer.getId());
+        entrance.setName(selectedCustomer.getName());
+        entrance.setSurname(selectedCustomer.getSurname());
+
+        LocalDateTime ldt = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        entrance.setArrival(format.format(ldt));
+        entranceDao.saveArrival(entrance);
+
+        if (idOfEntrance != 0) {
+            textEntrance.setText("Vstup bol zaznamenaný!");
+            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
+            pauseTransition.setOnFinished(e -> textEntrance.setText(""));
+            pauseTransition.play();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Neplatný príchod");
+            alert.setHeaderText("Zákazík už má zaznamenaný vstup.");
+            alert.setContentText("Prosím zaznačte odchod!");
+            alert.show();
+        }
+
+    }
+
+    @FXML
+    void exitButtonClick(ActionEvent event) {
+        Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+        Entrance entrance = new Entrance();
+        entrance.setKlient_id(selectedCustomer.getId());
+        entrance.setName(selectedCustomer.getName());
+        entrance.setSurname(selectedCustomer.getSurname());
+
+        LocalDateTime ldt = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        entrance.setExit(format.format(ldt));
+        entranceDao.saveExit(entrance);
+
+        if (idOfEntrance != 0) {
+            textEntrance.setText("Odchod bol zaznamenaný!");
+            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
+            pauseTransition.setOnFinished(e -> textEntrance.setText(""));
+            pauseTransition.play();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Neplatný odchod");
+            alert.setHeaderText("Zákazík nemá zaznamenaný vstup.");
+            alert.setContentText("Prosím zaznačte vstup!");
+            alert.show();
+
+        }
+
     }
 
     @FXML
@@ -135,21 +184,20 @@ public class MainController {
         filterTableView();
     }
 
-    public void onEdit() {
+    private void onEdit() {
         if (customerTableView.getSelectionModel().getSelectedItem() != null) {
             Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
+            idOfCustomer = selectedCustomer.getId();
+
             CustomerEditController controller = new CustomerEditController();
             showEditCustomerWindow(controller, "CustomerEdit.fxml");
-            controller.nameTextField.setText(selectedCustomer.getName());
-            controller.surnameTextField.setText(selectedCustomer.getSurname());
-            controller.addressTextField.setText(selectedCustomer.getAddress());
-            controller.emailTextField.setText(selectedCustomer.getEmail());
-            controller.creditTextField.setText(Double.toString(selectedCustomer.getCredit()));
-            controller.expireTextField.setText(String.valueOf(selectedCustomer.getMembershipExp()));
-            idOfCustomer = selectedCustomer.getId();
-            if (selectedCustomer.isAdmin())
-                controller.isAdminCheckBox.setSelected(true);
+
+            // refresh table
+            customersModel = FXCollections.observableArrayList(customerDao.getAll());
+            customerTableView.setItems(FXCollections.observableArrayList(customersModel));
+            filterTableView();
         }
+
     }
 
     private void showAddCustomerAddWindow(CustomerAddController controller, String nameOfFxml) {
@@ -170,7 +218,7 @@ public class MainController {
         }
     }
 
-    private void showEntryWindow(EntryController controller, String nameOfFxml) {
+    private void showEntryWindow(EntranceController controller, String nameOfFxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(nameOfFxml));
             fxmlLoader.setController(controller);
@@ -178,8 +226,8 @@ public class MainController {
             Scene scene = new Scene(parent);
             Stage modalStage = new Stage();
             modalStage.setScene(scene);
-            modalStage.setMinHeight(300);
-            modalStage.setMinWidth(370);
+            modalStage.setMinHeight(800);
+            modalStage.setMinWidth(500);
             modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
             modalStage.setTitle("Vstupy");
             modalStage.initModality(Modality.APPLICATION_MODAL);
@@ -201,7 +249,7 @@ public class MainController {
             modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
             modalStage.setTitle("Editácia");
             modalStage.initModality(Modality.APPLICATION_MODAL);
-            modalStage.show();
+            modalStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }

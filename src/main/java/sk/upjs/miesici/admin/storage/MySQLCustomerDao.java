@@ -91,6 +91,7 @@ public class MySQLCustomerDao implements CustomerDao {
                     + "kredit = ? , "
                     + "permanentka = ? , "
                     + "heslo = ? , "
+                    + "sol = ?, "
                     + "admin = ? "
                     + "WHERE klient_id = ?;";
             try (Connection conn = this.connect()) {
@@ -102,8 +103,9 @@ public class MySQLCustomerDao implements CustomerDao {
                 pstmt.setDouble(5, customer.getCredit());
                 pstmt.setDate(6, customer.getMembershipExp());
                 pstmt.setString(7, customer.getPassword());
-                pstmt.setBoolean(8, customer.isAdmin());
-                pstmt.setLong(9, customer.getId());
+                pstmt.setString(8, customer.getSalt());
+                pstmt.setBoolean(9, customer.isAdmin());
+                pstmt.setLong(10, customer.getId());
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());

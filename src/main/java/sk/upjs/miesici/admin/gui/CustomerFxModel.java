@@ -20,7 +20,6 @@ public class CustomerFxModel {
     private StringProperty password = new SimpleStringProperty();
     private BooleanProperty admin = new SimpleBooleanProperty();
     private StringProperty salt = new SimpleStringProperty();
-
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
 
 

@@ -5,14 +5,19 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.apache.commons.lang3.RandomStringUtils;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 
-import javax.xml.stream.FactoryConfigurationError;
-import java.awt.event.MouseEvent;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 
 import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 
@@ -68,7 +73,7 @@ public class CustomerAddController {
     private CheckBox togglePass;
 
     @FXML
-    void saveCustomerButtonClick(ActionEvent event) {
+    void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
         Customer customer = new Customer();
         customer.setName(nameTextField.getText());
         customer.setSurname(surnameTextField.getText());
@@ -85,9 +90,12 @@ public class CustomerAddController {
             errorCheck = 1;
         }
         customer.setLogin(loginTextField.getText());
-        customer.setPassword(passwordTextField.getText());
+        String salt = generateRandomSalt();
+        System.out.println(salt);
+        customer.setPassword(hashPassword(passwordTextField.getText(), salt));
+        System.out.println(hashPassword(passwordTextField.getText(), salt));
         customer.setAdmin(isAdminCheckBox.isSelected());
-        customer.setSalt(generateText());
+        customer.setSalt(salt);
         customerModel.getCustomers().add(customer);
         customerModel.load(customer);
         if (customerModel.getName() == null || customerModel.getSurname() == null || customerModel.getAddress() == null || customerModel.getEmail() == null || customerModel.getMembershipExp() == null ||
@@ -96,12 +104,17 @@ public class CustomerAddController {
             errorCheck = 0;
         } else {
             this.savedCustomer = customerDao.save(customerModel.getCustomer());
-            saveButton.getScene().getWindow().hide();
+            if (errorCheck == 0){
+                saveButton.getScene().getWindow().hide();
+            } else {
+                errorCheck = 0;
+            }
         }
     }
 
     @FXML
     void initialize() {
+
     }
 
     @FXML
@@ -121,14 +134,29 @@ public class CustomerAddController {
     void generatePasswordButtonClick(ActionEvent event) {
         passwordTextField.clear();
         toggleTextField.clear();
-        passwordTextField.setText(generateText());
+        passwordTextField.setText(generateRandomSalt());
         toggleTextField.setText(passwordTextField.getText());
     }
 
-    private String generateText() {
+    private String generateRandomSalt() {
         char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?").toCharArray();
         String randomStr = RandomStringUtils.random(32, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
         return randomStr;
+    }
+
+    private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        char[] passwordChars = password.toCharArray();
+        byte[] saltBytes = salt.getBytes();
+
+        PBEKeySpec spec = new PBEKeySpec(
+                passwordChars,
+                saltBytes,
+                2000,
+                512
+        );
+        SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] hashedPassword = key.generateSecret(spec).getEncoded();
+        return String.format("%x", new BigInteger(hashedPassword));
     }
 
     private void alertPopUp() {

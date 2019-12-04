@@ -3,78 +3,37 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="344.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="249.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="25.0" layoutY="61.0" text="Meno" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="25.0" layoutY="96.0" text="Priezvisko" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="25.0" layoutY="131.0" text="Adresa" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <TextField fx:id="nameTextField" layoutX="150.0" layoutY="61.0" promptText="Meno" />
-      <TextField fx:id="surnameTextField" layoutX="150.0" layoutY="96.0" promptText="Priezvisko" />
-      <TextField fx:id="addressTextField" layoutX="150.0" layoutY="131.0" promptText="Adresa" />
-      <Label layoutX="25.0" layoutY="166.0" text="E-mail" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <TextField fx:id="emailTextField" layoutX="150.0" layoutY="166.0" promptText="E-mail" />
-      <CheckBox fx:id="isAdminCheckBox" layoutX="25.0" layoutY="423.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
-      <Button fx:id="saveButton" layoutX="261.0" layoutY="419.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" text="Pridať">
+      <Button fx:id="saveButton" layoutX="189.0" layoutY="397.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" text="Pridať">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Label layoutX="25.0" layoutY="201.0" text="Kredit" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <TextField fx:id="creditTextField" layoutX="150.0" layoutY="201.0" prefHeight="25.0" prefWidth="46.0" promptText="Kredit" />
-      <TextField fx:id="expireTextField" layoutX="150.0" layoutY="236.0" promptText="Expirácia" />
-      <Label layoutX="25.0" layoutY="236.0" text="Expirácia" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="25.0" layoutY="271.0" text="Login" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <TextField fx:id="loginTextField" layoutX="150.0" layoutY="271.0" promptText="Login" />
-      <TextField fx:id="toggleTextField" layoutX="150.0" layoutY="304.0" prefHeight="25.0" prefWidth="123.0" />
-      <Label layoutX="25.0" layoutY="306.0" text="Heslo" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Button layoutX="150.0" layoutY="336.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj heslo">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Text fill="WHITE" layoutX="82.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pridanie používateľa">
+      <Text fill="WHITE" layoutX="35.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pridanie používateľa">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <PasswordField fx:id="passwordTextField" layoutX="150.0" layoutY="304.0" prefHeight="25.0" prefWidth="123.0" promptText="Heslo" />
-      <CheckBox fx:id="togglePass" layoutX="283.0" layoutY="308.0" mnemonicParsing="false" onAction="#togglePassword" textFill="WHITE" />
+      <TextField fx:id="toggleTextField" focusTraversable="false" layoutX="42.0" layoutY="300.0" prefHeight="25.0" prefWidth="165.0" />
+      <TextField fx:id="nameTextField" layoutX="42.0" layoutY="55.0" prefHeight="25.0" prefWidth="165.0" promptText="Meno" />
+      <TextField fx:id="surnameTextField" layoutX="42.0" layoutY="90.0" prefHeight="25.0" prefWidth="165.0" promptText="Priezvisko" />
+      <TextField fx:id="addressTextField" layoutX="42.0" layoutY="125.0" prefHeight="25.0" prefWidth="165.0" promptText="Adresa" />
+      <TextField fx:id="emailTextField" layoutX="42.0" layoutY="160.0" prefHeight="25.0" prefWidth="165.0" promptText="E-mail" />
+      <TextField fx:id="expireTextField" layoutX="42.0" layoutY="195.0" prefHeight="25.0" prefWidth="165.0" promptText="Expirácia" />
+      <TextField fx:id="creditTextField" layoutX="42.0" layoutY="230.0" prefHeight="25.0" prefWidth="77.0" promptText="Kredit" />
+      <TextField fx:id="loginTextField" layoutX="42.0" layoutY="265.0" prefHeight="25.0" prefWidth="165.0" promptText="Login" />
+      <PasswordField fx:id="passwordTextField" layoutX="42.0" layoutY="300.0" prefHeight="25.0" prefWidth="165.0" promptText="Heslo" />
+      <CheckBox fx:id="togglePass" layoutX="213.0" layoutY="303.0" mnemonicParsing="false" onAction="#togglePassword" textFill="WHITE" />
+      <Button layoutX="42.0" layoutY="335.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj heslo">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <CheckBox fx:id="isAdminCheckBox" layoutX="14.0" layoutY="401.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
    </children>
 </AnchorPane>

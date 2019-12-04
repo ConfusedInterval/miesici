@@ -12,13 +12,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.apache.commons.lang3.StringUtils;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 import sk.upjs.miesici.admin.storage.Entrance;
-import sk.upjs.miesici.admin.storage.EntryDao;
-
+import sk.upjs.miesici.admin.storage.EntranceDao;
 import java.time.LocalDateTime;
 
-public class EntryController {
+public class EntranceController {
 
-    private EntryDao entryDao = DaoFactory.INSTANCE.getEntryDao();
+    private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
     private ObservableList<Entrance> entrancesModel;
 
     @FXML
@@ -29,8 +28,7 @@ public class EntryController {
 
     @FXML
     void initialize() {
-
-        entrancesModel = FXCollections.observableArrayList(entryDao.getAll());
+        entrancesModel = FXCollections.observableArrayList(entranceDao.getAll());
         entryTableView.setItems(FXCollections.observableArrayList(entrancesModel));
 
         TableColumn<Entrance, String> klientIdCol = new TableColumn<>("Id");
@@ -53,7 +51,10 @@ public class EntryController {
         exitCol.setCellValueFactory(new PropertyValueFactory<>("exit"));
         entryTableView.getColumns().add(exitCol);
 
+        filerTableView();
+    }
 
+    private void filerTableView(){
         // https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
         FilteredList<Entrance> filteredData = new FilteredList<>(entrancesModel, p -> true);

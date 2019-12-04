@@ -7,7 +7,7 @@ public enum DaoFactory {
     INSTANCE;
 
     private CustomerDao customerDao;
-    private EntryDao entryDao;
+    private EntranceDao entranceDao;
 
     public CustomerDao getCustomerDao() {
         if (customerDao == null) {
@@ -16,11 +16,11 @@ public enum DaoFactory {
         return customerDao;
     }
 
-    public EntryDao getEntryDao(){
-        if (entryDao == null){
-            entryDao = new MySQLEntryDao(getJdbcTemplate());
+    public EntranceDao getEntranceDao(){
+        if (entranceDao == null){
+            entranceDao = new MySQLEntranceDao(getJdbcTemplate());
         }
-        return entryDao;
+        return entranceDao;
     }
 
     private JdbcTemplate getJdbcTemplate() {

@@ -11,7 +11,6 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		System.out.println(getClass().getResource("Main.fxml"));
 		LoginController controller = new LoginController();
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
 		fxmlLoader.setController(controller);
