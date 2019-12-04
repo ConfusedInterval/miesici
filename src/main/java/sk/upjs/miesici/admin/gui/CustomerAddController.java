@@ -1,12 +1,8 @@
 package sk.upjs.miesici.admin.gui;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import org.apache.commons.lang3.RandomStringUtils;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
@@ -29,11 +25,6 @@ public class CustomerAddController {
 
     public CustomerAddController() {
         customerModel = new CustomerFxModel();
-    }
-
-    public CustomerAddController(Customer customer) {
-        customerModel = new CustomerFxModel();
-        customerModel.load(customer);
     }
 
     @FXML

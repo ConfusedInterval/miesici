@@ -25,7 +25,6 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 import static sk.upjs.miesici.admin.storage.MySQLEntranceDao.idOfEntrance;
 
 public class MainController {
