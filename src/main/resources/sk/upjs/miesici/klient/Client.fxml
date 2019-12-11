@@ -17,7 +17,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="7.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../../Desktop/login/preview%20(3).png" />
+                  <Image url="@../../../../../../../../../Desktop/login/preview%20(3).png" />
                </image>
             </ImageView>
             <Button layoutY="150.0" mnemonicParsing="false" onAction="#homeClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Domov">
@@ -53,6 +53,14 @@
                </cursor>
             </Button>
             <Button layoutY="264.0" mnemonicParsing="false" onAction="#settingClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Nastavenia">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </Button>
+            <Button layoutY="456.0" mnemonicParsing="false" onAction="#logOutClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Odhlásiť sa">
                <font>
                   <Font size="16.0" />
                </font>
@@ -111,7 +119,7 @@
             </AnchorPane>
             <AnchorPane fx:id="entriesAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                <children>
-                  <TableView layoutX="17.0" layoutY="83.0" prefHeight="391.0" prefWidth="486.0" />
+                  <TableView fx:id="entriesTablieView" layoutX="17.0" layoutY="83.0" prefHeight="391.0" prefWidth="486.0" />
                   <Label layoutX="180.0" layoutY="44.0" text="Vaše návštevy" textFill="WHITE">
                      <font>
                         <Font size="26.0" />
@@ -131,22 +139,22 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="106.0" layoutY="137.0" prefHeight="30.0" prefWidth="358.0">
+                  <TextField fx:id="emailTextField" layoutX="106.0" layoutY="137.0" prefHeight="30.0" prefWidth="358.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <PasswordField layoutX="106.0" layoutY="196.0" prefHeight="30.0" prefWidth="358.0" promptText="staré heslo">
+                  <PasswordField fx:id="oldPasswordField" layoutX="106.0" layoutY="196.0" prefHeight="30.0" prefWidth="358.0" promptText="staré heslo">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </PasswordField>
-                  <PasswordField layoutX="106.0" layoutY="239.0" prefHeight="30.0" prefWidth="358.0" promptText="nové heslo">
+                  <PasswordField fx:id="newPasswordField" layoutX="106.0" layoutY="239.0" prefHeight="30.0" prefWidth="358.0" promptText="nové heslo">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </PasswordField>
-                  <PasswordField layoutX="106.0" layoutY="280.0" prefHeight="30.0" prefWidth="358.0" promptText="potvrďte heslo">
+                  <PasswordField fx:id="repeatPasswordField" layoutX="106.0" layoutY="280.0" prefHeight="30.0" prefWidth="358.0" promptText="potvrďte heslo">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -161,7 +169,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="106.0" layoutY="350.0" prefHeight="30.0" prefWidth="358.0">
+                  <TextField fx:id="adressTextField" layoutX="106.0" layoutY="350.0" prefHeight="30.0" prefWidth="358.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -176,7 +184,7 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <TableView layoutX="23.0" layoutY="164.0" prefHeight="114.0" prefWidth="474.0" />
+                  <TableView fx:id="clientTable" layoutX="9.0" layoutY="163.0" prefHeight="55.0" prefWidth="502.0" />
                </children>
             </AnchorPane>
          </children>

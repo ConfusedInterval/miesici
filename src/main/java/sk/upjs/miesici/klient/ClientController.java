@@ -15,8 +15,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -58,7 +60,22 @@ public class ClientController {
     private TableView<Customer> clientTable;
     
     @FXML
-    private TableView<Entrance> entriesTablieView;
+    private TableView<Entrance> entriesTablieView;    
+   
+    @FXML
+    private TextField emailTextField;
+    
+    @FXML
+    private TextField adressTextField;
+
+    @FXML
+    private PasswordField oldPasswordField;
+
+    @FXML
+    private PasswordField newPasswordField;
+
+    @FXML
+    private PasswordField repeatPasswordField;
     
     private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
     private ObservableList<Entrance> entrancesModel;
@@ -142,6 +159,8 @@ public class ClientController {
     	hideAll();
     	Stage stage = (Stage) getSettingsAnchorPane().getScene().getWindow();
     	stage.setTitle("Nastavenia");
+    	emailTextField.setText(customer.getEmail());
+    	adressTextField.setText(customer.getAddress());
     	getSettingsAnchorPane().setVisible(true);
 
     }
