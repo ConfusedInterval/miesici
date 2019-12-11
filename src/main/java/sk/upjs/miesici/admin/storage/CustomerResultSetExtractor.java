@@ -25,6 +25,9 @@ public class CustomerResultSetExtractor implements ResultSetExtractor<List<Custo
                 customer.setEmail(rs.getString("email"));
                 customer.setCredit(rs.getDouble("kredit"));
                 customer.setMembershipExp(rs.getDate("permanentka"));
+                customer.setLogin(rs.getString("login"));
+                customer.setPassword(rs.getString("heslo"));
+                customer.setSalt(rs.getString("sol"));
                 customer.setAdmin(rs.getBoolean("admin"));
                 result.add(customer);
             }

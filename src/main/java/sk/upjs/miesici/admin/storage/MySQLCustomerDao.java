@@ -1,5 +1,6 @@
 package sk.upjs.miesici.admin.storage;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +26,7 @@ public class MySQLCustomerDao implements CustomerDao {
 
     @Override
     public List<Customer> getAll() {
-        String sql = "SELECT klient_id, meno, priezvisko, adresa, email, kredit, permanentka, admin " +
+        String sql = "SELECT klient_id, meno, priezvisko, adresa, email, kredit, permanentka, login, heslo, sol, admin " +
                 "FROM klient ";
         List<Customer> result = jdbcTemplate.query(sql, new CustomerResultSetExtractor());
         return result;
@@ -140,19 +141,11 @@ public class MySQLCustomerDao implements CustomerDao {
     public Customer getBylogin(String login) {
         List<Customer> list = getAll();
         for (Customer customer : list) {
-            if (customer.getName().equals(login)) {
+            if (customer.getLogin().equals(login)) {
                 return customer;
             }
         }
         return null;
     }
-
-
-// potom vymyslim :D
-//    @Override
-//    public boolean isAdmin(String login) {
-//    	String sql = "SELECT admin FROM klient " + "WHERE login = " +login ;
-//    	return false;
-//    }
 
 }

@@ -23,6 +23,6 @@
       <TextField fx:id="filterTextField" layoutX="544.0" layoutY="14.0" promptText="Filter" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
       <Button focusTraversable="false" layoutX="562.0" layoutY="469.0" mnemonicParsing="false" onAction="#arrivalButtonClick" text="Príchod" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="90.0" />
       <Button layoutX="631.0" layoutY="469.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Odchod" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="17.0" />
-      <Label fx:id="textEntrance" layoutX="405.0" layoutY="473.0" prefHeight="17.0" prefWidth="133.0" textFill="#13c300" />
+      <Label fx:id="textEntrance" layoutX="395.0" layoutY="473.0" prefHeight="17.0" prefWidth="143.0" textFill="#13c300" />
    </children>
 </AnchorPane>
