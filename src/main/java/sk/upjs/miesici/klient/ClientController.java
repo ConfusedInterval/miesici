@@ -1,12 +1,31 @@
 package sk.upjs.miesici.klient;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
+import javax.security.auth.login.LoginContext;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sk.upjs.miesici.admin.gui.MainController;
+import sk.upjs.miesici.admin.storage.Customer;
+import sk.upjs.miesici.admin.storage.CustomerDao;
+import sk.upjs.miesici.admin.storage.DaoFactory;
+import sk.upjs.miesici.login.LoginController;
 
 public class ClientController {
 
@@ -30,9 +49,20 @@ public class ClientController {
 
     @FXML
     private AnchorPane homeAnchorPane;
+    
 
+    @FXML
+    private TableView<Customer> clientTable;
+    
+    private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
+    private ObservableList<Customer> customersModel;
+    private Customer customer;
 
     
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
 	public AnchorPane getSettingsAnchorPane() {
 		return settingsAnchorPane;
@@ -103,6 +133,57 @@ public class ClientController {
     	stage.setTitle("Tréning");
     	getTrainingAnchorPane().setVisible(true);
     }
+    
+    @FXML
+    void initialize() {
+        customersModel = FXCollections.observableArrayList(customer);
+        clientTable.setItems(FXCollections.observableArrayList(customersModel));
+
+        TableColumn<Customer, String> nameCol = new TableColumn<>("Meno");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clientTable.getColumns().add(nameCol);
+
+        TableColumn<Customer, String> surnameCol = new TableColumn<>("Priezvisko");
+        surnameCol.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        clientTable.getColumns().add(surnameCol);
+
+        TableColumn<Customer, String> addressCol = new TableColumn<>("Adresa");
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        clientTable.getColumns().add(addressCol);
+
+        TableColumn<Customer, String> emailCol = new TableColumn<>("E-mail");
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        clientTable.getColumns().add(emailCol);
+
+        TableColumn<Customer, Double> creditCol = new TableColumn<>("Kredit");
+        creditCol.setCellValueFactory(new PropertyValueFactory<>("credit"));
+        clientTable.getColumns().add(creditCol);
+
+        TableColumn<Customer, Date> permanentkaCol = new TableColumn<>("Permanentka");
+        permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
+        clientTable.getColumns().add(permanentkaCol);
+      
+    }
+    
+    @FXML
+    void logOutClick(ActionEvent event) {
+    	  LoginController controller = new LoginController();
+          try {
+              FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/login/Login.fxml"));
+              fxmlLoader.setController(controller);
+              Parent parent = fxmlLoader.load();
+              Scene scene = new Scene(parent);
+              Stage modalStage = new Stage();
+              modalStage.setScene(scene);
+              modalStage.setResizable(false);
+              modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+              modalStage.show();
+              getHomeAnchorPane().getScene().getWindow().hide();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+    }
+
 
     
 }

@@ -52,12 +52,14 @@ public class LoginController {
 
     @FXML
     private TextField toggleTextField;
+    
+    private Customer assign;
 
 
     @FXML
     void loginButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
         try {
-            Customer assign = customerDao.getBylogin(loginTextField.getText());
+            assign = customerDao.getBylogin(loginTextField.getText());
             String passwordHidden = hashPassword(passwordTextField.getText(), assign.getSalt());
             String passwordUnhidden = hashPassword(toggleTextField.getText(), assign.getSalt());
             if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden)) && assign.isAdmin()) {
@@ -122,6 +124,7 @@ public class LoginController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/klient/Client.fxml"));
             fxmlLoader.setController(controller);
+            controller.setCustomer(assign);
             Parent parent = fxmlLoader.load();
             Scene scene = new Scene(parent);
             Stage modalStage = new Stage();
