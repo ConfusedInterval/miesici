@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,18 @@ public class MySQLEntranceDao implements EntranceDao {
                 "USING(klient_id)";
         List<Entrance> result = jdbcTemplate.query(sql, new EntranceResultSetExtractor());
         return result;
+    }
+    
+    @Override
+    public List<Entrance> getByCustomerId(long id) {
+    	List<Entrance> entries = getAll();
+    	List<Entrance> entriesById = new ArrayList<Entrance>();
+    	for(Entrance entry: entries) {
+    		if(entry.getKlient_id() == id) {
+    			entriesById.add(entry);
+    		}
+    	}
+    	return entriesById;
     }
 
     @Override

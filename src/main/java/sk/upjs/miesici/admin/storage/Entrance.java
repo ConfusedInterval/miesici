@@ -1,5 +1,8 @@
 package sk.upjs.miesici.admin.storage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Entrance {
 	private Long id;
 	private Long klient_id;
@@ -7,7 +10,7 @@ public class Entrance {
 	private String surname;
 	private String arrival;
 	private String exit;
-
+	
 	public Long getId() {
 		return id;
 	}

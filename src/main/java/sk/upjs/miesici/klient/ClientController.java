@@ -3,6 +3,7 @@ package sk.upjs.miesici.klient;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import javax.security.auth.login.LoginContext;
@@ -25,6 +26,8 @@ import sk.upjs.miesici.admin.gui.MainController;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
+import sk.upjs.miesici.admin.storage.Entrance;
+import sk.upjs.miesici.admin.storage.EntranceDao;
 import sk.upjs.miesici.login.LoginController;
 
 public class ClientController {
@@ -54,7 +57,12 @@ public class ClientController {
     @FXML
     private TableView<Customer> clientTable;
     
-    private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
+    @FXML
+    private TableView<Entrance> entriesTablieView;
+    
+    private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
+    private ObservableList<Entrance> entrancesModel;
+
     private ObservableList<Customer> customersModel;
     private Customer customer;
 
@@ -100,11 +108,23 @@ public class ClientController {
     	getContactAnchorPane().setVisible(true);
     }
 
+    
+    // bude este upravene
     @FXML
     void entriesClick(ActionEvent event) {
     	hideAll();
     	Stage stage = (Stage) getEntriesAnchorPane().getScene().getWindow();
     	stage.setTitle("Vstupy");
+    	entrancesModel = FXCollections.observableArrayList(entranceDao.getByCustomerId(customer.getId()));
+    	entriesTablieView.setItems(FXCollections.observableArrayList(entrancesModel));
+
+        TableColumn<Entrance, LocalDateTime> arrivalCol = new TableColumn<>("Príchod");
+        arrivalCol.setCellValueFactory(new PropertyValueFactory<>("arrival"));
+        entriesTablieView.getColumns().add(arrivalCol);
+
+        TableColumn<Entrance, LocalDateTime> exitCol = new TableColumn<>("Odchod");
+        exitCol.setCellValueFactory(new PropertyValueFactory<>("exit"));
+        entriesTablieView.getColumns().add(exitCol);
     	getEntriesAnchorPane().setVisible(true);
     }
 
