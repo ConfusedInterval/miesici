@@ -1,29 +1,43 @@
 package sk.upjs.miesici.klient;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import javax.security.auth.login.LoginContext;
 
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import sk.upjs.miesici.admin.gui.MainController;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
@@ -34,59 +48,79 @@ import sk.upjs.miesici.login.LoginController;
 
 public class ClientController {
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+	@FXML
+	private URL location;
 
-    @FXML
-    private AnchorPane trainingAnchorPane;
+	@FXML
+	private AnchorPane trainingAnchorPane;
 
-    @FXML
-    private AnchorPane contactAnchorPane;
+	@FXML
+	private AnchorPane contactAnchorPane;
 
-    @FXML
-    private AnchorPane entriesAnchorPane;
+	@FXML
+	private AnchorPane entriesAnchorPane;
 
-    @FXML
-    private AnchorPane settingsAnchorPane;
+	@FXML
+	private AnchorPane settingsAnchorPane;
 
-    @FXML
-    private AnchorPane homeAnchorPane;
-    
+	@FXML
+	private AnchorPane homeAnchorPane;
 
-    @FXML
-    private TableView<Customer> clientTable;
-    
-    @FXML
-    private TableView<Entrance> entriesTablieView;    
-   
-    @FXML
-    private TextField emailTextField;
-    
-    @FXML
-    private TextField adressTextField;
+	@FXML
+	private TableView<Customer> clientTable;
 
-    @FXML
-    private PasswordField oldPasswordField;
+	@FXML
+	private TableView<Entrance> entriesTablieView;
 
-    @FXML
-    private PasswordField newPasswordField;
+	@FXML
+	private TextField emailTextField;
 
-    @FXML
-    private PasswordField repeatPasswordField;
-    
-    private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
-    private ObservableList<Entrance> entrancesModel;
+	@FXML
+	private TextField adressTextField;
 
-    private ObservableList<Customer> customersModel;
-    private Customer customer;
+	@FXML
+	private PasswordField oldPasswordField;
 
-    
+	@FXML
+	private PasswordField newPasswordField;
+
+	@FXML
+	private PasswordField repeatPasswordField;
+
+	@FXML
+	private ImageView clientImageView;
+
+	@FXML
+	private AnchorPane memberShipExtendAnchorPane;
+
+	@FXML
+	private RadioButton oneMonthRadioButton;
+
+	@FXML
+	private ToggleGroup tgMembershipExtend;
+
+	@FXML
+	private RadioButton threeMonthRadioButton;
+
+	@FXML
+	private Label membershipExtendedLabel;
+
+	private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
+	private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
+	private ObservableList<Entrance> entrancesModel;
+
+	private ObservableList<Customer> customersModel;
+	private Customer customer;
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public AnchorPane getMemberShipExtendAnchorPane() {
+		return memberShipExtendAnchorPane;
 	}
 
 	public AnchorPane getSettingsAnchorPane() {
@@ -108,121 +142,211 @@ public class ClientController {
 	public AnchorPane getEntriesAnchorPane() {
 		return entriesAnchorPane;
 	}
-	
+
 	public void hideAll() {
-		getSettingsAnchorPane().setVisible(false);
-		getTrainingAnchorPane().setVisible(false);
-		getContactAnchorPane().setVisible(false);
-		getHomeAnchorPane().setVisible(false);
-		getEntriesAnchorPane().setVisible(false);
+		settingsAnchorPane.setVisible(false);
+		trainingAnchorPane.setVisible(false);
+		contactAnchorPane.setVisible(false);
+		homeAnchorPane.setVisible(false);
+		entriesAnchorPane.setVisible(false);
+		memberShipExtendAnchorPane.setVisible(false);
 	}
-	
-    @FXML
-    void contactClick(ActionEvent event) {
-    	hideAll();
-    	Stage stage = (Stage) getContactAnchorPane().getScene().getWindow();
-    	stage.setTitle("Kontakt");
-    	getContactAnchorPane().setVisible(true);
-    }
 
-    
-    // bude este upravene
-    @FXML
-    void entriesClick(ActionEvent event) {
-    	hideAll();
-    	Stage stage = (Stage) getEntriesAnchorPane().getScene().getWindow();
-    	stage.setTitle("Vstupy");
-    	entrancesModel = FXCollections.observableArrayList(entranceDao.getByCustomerId(customer.getId()));
-    	entriesTablieView.setItems(FXCollections.observableArrayList(entrancesModel));
+	@FXML
+	void contactClick(ActionEvent event) {
+		hideAll();
+		Stage stage = (Stage) contactAnchorPane.getScene().getWindow();
+		stage.setTitle("Kontakt");
+		contactAnchorPane.setVisible(true);
+	}
 
-        TableColumn<Entrance, LocalDateTime> arrivalCol = new TableColumn<>("Príchod");
-        arrivalCol.setCellValueFactory(new PropertyValueFactory<>("arrival"));
-        entriesTablieView.getColumns().add(arrivalCol);
+	// bude este upravene
+	@FXML
+	void entriesClick(ActionEvent event) {
+		hideAll();
+		Stage stage = (Stage) entriesAnchorPane.getScene().getWindow();
+		stage.setTitle("Vstupy");
+		entriesAnchorPane.setVisible(true);
+	}
 
-        TableColumn<Entrance, LocalDateTime> exitCol = new TableColumn<>("Odchod");
-        exitCol.setCellValueFactory(new PropertyValueFactory<>("exit"));
-        entriesTablieView.getColumns().add(exitCol);
-    	getEntriesAnchorPane().setVisible(true);
-    }
+	@FXML
+	void homeClick(ActionEvent event) {
+		hideAll();
+		Stage stage = (Stage) homeAnchorPane.getScene().getWindow();
+		stage.setTitle("Domov");
+		homeAnchorPane.setVisible(true);
 
-    @FXML
-    void homeClick(ActionEvent event) {
-    	hideAll();
-    	Stage stage = (Stage) getHomeAnchorPane().getScene().getWindow();
-    	stage.setTitle("Domov");
-    	getHomeAnchorPane().setVisible(true);
+	}
 
-    }
+	@FXML
+	void settingClick(ActionEvent event) {
+		hideAll();
+		Stage stage = (Stage) settingsAnchorPane.getScene().getWindow();
+		stage.setTitle("Nastavenia");
+		emailTextField.setText(customer.getEmail());
+		adressTextField.setText(customer.getAddress());
+		settingsAnchorPane.setVisible(true);
 
-    @FXML
-    void settingClick(ActionEvent event) {
-    	hideAll();
-    	Stage stage = (Stage) getSettingsAnchorPane().getScene().getWindow();
-    	stage.setTitle("Nastavenia");
-    	emailTextField.setText(customer.getEmail());
-    	adressTextField.setText(customer.getAddress());
-    	getSettingsAnchorPane().setVisible(true);
+	}
 
-    }
+	@FXML
+	void trainingClick(ActionEvent event) {
+		hideAll();
+		Stage stage = (Stage) trainingAnchorPane.getScene().getWindow();
+		stage.setTitle("Tréning");
+		trainingAnchorPane.setVisible(true);
+	}
 
-    @FXML
-    void trainingClick(ActionEvent event) {
-    	hideAll();
-    	Stage stage = (Stage) getTrainingAnchorPane().getScene().getWindow();
-    	stage.setTitle("Tréning");
-    	getTrainingAnchorPane().setVisible(true);
-    }
-    
-    @FXML
-    void initialize() {
-        customersModel = FXCollections.observableArrayList(customer);
-        clientTable.setItems(FXCollections.observableArrayList(customersModel));
+	@FXML
+	void initialize() {
+		File file = new File("src/main/resources/sk/upjs/miesici/logo/logo.png");
+		Image image = new Image(file.toURI().toString());
+		clientImageView.setImage(image);
 
-        TableColumn<Customer, String> nameCol = new TableColumn<>("Meno");
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        clientTable.getColumns().add(nameCol);
+		customersModel = FXCollections.observableArrayList(customer);
+		clientTable.setItems(FXCollections.observableArrayList(customersModel));
 
-        TableColumn<Customer, String> surnameCol = new TableColumn<>("Priezvisko");
-        surnameCol.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        clientTable.getColumns().add(surnameCol);
+		TableColumn<Customer, String> nameCol = new TableColumn<>("Meno");
+		nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+		clientTable.getColumns().add(nameCol);
 
-        TableColumn<Customer, String> addressCol = new TableColumn<>("Adresa");
-        addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        clientTable.getColumns().add(addressCol);
+		TableColumn<Customer, String> surnameCol = new TableColumn<>("Priezvisko");
+		surnameCol.setCellValueFactory(new PropertyValueFactory<>("surname"));
+		clientTable.getColumns().add(surnameCol);
 
-        TableColumn<Customer, String> emailCol = new TableColumn<>("E-mail");
-        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        clientTable.getColumns().add(emailCol);
+		TableColumn<Customer, String> addressCol = new TableColumn<>("Adresa");
+		addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+		clientTable.getColumns().add(addressCol);
 
-        TableColumn<Customer, Double> creditCol = new TableColumn<>("Kredit");
-        creditCol.setCellValueFactory(new PropertyValueFactory<>("credit"));
-        clientTable.getColumns().add(creditCol);
+		TableColumn<Customer, String> emailCol = new TableColumn<>("E-mail");
+		emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+		clientTable.getColumns().add(emailCol);
 
-        TableColumn<Customer, Date> permanentkaCol = new TableColumn<>("Permanentka");
-        permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
-        clientTable.getColumns().add(permanentkaCol);
-      
-    }
-    
-    @FXML
-    void logOutClick(ActionEvent event) {
-    	  LoginController controller = new LoginController();
-          try {
-              FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/login/Login.fxml"));
-              fxmlLoader.setController(controller);
-              Parent parent = fxmlLoader.load();
-              Scene scene = new Scene(parent);
-              Stage modalStage = new Stage();
-              modalStage.setScene(scene);
-              modalStage.setResizable(false);
-              modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
-              modalStage.show();
-              getHomeAnchorPane().getScene().getWindow().hide();
-          } catch (IOException e) {
-              e.printStackTrace();
-          }
-    }
+		TableColumn<Customer, Double> creditCol = new TableColumn<>("Kredit");
+		creditCol.setCellValueFactory(new PropertyValueFactory<>("credit"));
+		clientTable.getColumns().add(creditCol);
 
+		TableColumn<Customer, Date> permanentkaCol = new TableColumn<>("Permanentka");
+		permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
+		clientTable.getColumns().add(permanentkaCol);
 
-    
+		entrancesModel = FXCollections.observableArrayList(entranceDao.getByCustomerId(customer.getId()));
+		entriesTablieView.setItems(FXCollections.observableArrayList(entrancesModel));
+
+		TableColumn<Entrance, LocalDateTime> arrivalCol = new TableColumn<>("Príchod");
+		arrivalCol.setCellValueFactory(new PropertyValueFactory<>("arrival"));
+		entriesTablieView.getColumns().add(arrivalCol);
+
+		TableColumn<Entrance, LocalDateTime> exitCol = new TableColumn<>("Odchod");
+		exitCol.setCellValueFactory(new PropertyValueFactory<>("exit"));
+		entriesTablieView.getColumns().add(exitCol);
+
+	}
+
+	void refreshHomeTable() {
+		clientTable.getColumns().get(0).setVisible(false);
+		clientTable.getColumns().get(0).setVisible(true);
+	}
+
+	@FXML
+	void backToHomeAnchorPaneClick(ActionEvent event) {
+		refreshHomeTable();
+		homeClick(event);
+	}
+
+	void notEnoughCreditAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Nedostatok kreditu!");
+		alert.setHeaderText("Nedostatok kreditu!");
+		alert.setContentText("Pre nabitie kreditu sa zastavte na našej pobočke.");
+		alert.show();
+	}
+
+	void membershipExtendedInfo(int n) {
+		String month;
+		if (n == 1) {
+			month = "mesiac";
+		} else {
+			month = "mesiace";
+		}
+		membershipExtendedLabel.setText("Členstvo úspešne predĺžené" + " o " + n + " " + month);
+		membershipExtendedLabel.setVisible(true);
+		PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
+		visiblePause.setOnFinished(e -> membershipExtendedLabel.setVisible(false));
+		visiblePause.play();
+	}
+
+	@FXML
+	void membershipExtendClick(ActionEvent event) {
+		double credit = customer.getCredit();
+		if (oneMonthRadioButton.isSelected() && credit >= 25) {
+			customer.setCredit(credit - 20);
+			LocalDate date = customer.getMembershipExp().toLocalDate();
+			if (date.isBefore(LocalDate.now())) {
+				LocalDate ldt = LocalDate.now().plusMonths(1);
+				customer.setMembershipExp(Date.valueOf(ldt));
+			} else {
+				LocalDate ldt = date.plusMonths(1);
+				customer.setMembershipExp(Date.valueOf(ldt));
+			}
+			membershipExtendedInfo(1);
+			refreshHomeTable();
+			return;
+		} else {
+			if (credit <= 25) {
+				notEnoughCreditAlert();
+				return;
+			}
+		}
+
+		if (threeMonthRadioButton.isSelected() && credit >= 70) {
+			customer.setCredit(credit - 70);
+			LocalDate date = customer.getMembershipExp().toLocalDate();
+			if (date.isBefore(LocalDate.now())) {
+				LocalDate ldt = LocalDate.now().plusMonths(3);
+				customer.setMembershipExp(Date.valueOf(ldt));
+			} else {
+				LocalDate ldt = date.plusMonths(3);
+				customer.setMembershipExp(Date.valueOf(ldt));
+			}
+			membershipExtendedInfo(3);
+			customerDao.edit(customer);
+			refreshHomeTable();
+			return;
+		} else {
+			if (credit <= 70) {
+				notEnoughCreditAlert();
+				return;
+			}
+		}
+
+	}
+
+	@FXML
+	void showMembershipExtendAnchodPaneClick(ActionEvent event) {
+		Stage stage = (Stage) homeAnchorPane.getScene().getWindow();
+		stage.setTitle("Predĺženie členstva");
+		memberShipExtendAnchorPane.setVisible(true);
+	}
+
+	@FXML
+	void logOutClick(ActionEvent event) {
+		LoginController controller = new LoginController();
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/login/Login.fxml"));
+			fxmlLoader.setController(controller);
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage modalStage = new Stage();
+			modalStage.setScene(scene);
+			modalStage.setResizable(false);
+			modalStage.getIcons().add(
+					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.show();
+			homeAnchorPane.getScene().getWindow().hide();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
