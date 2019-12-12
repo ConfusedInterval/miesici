@@ -164,6 +164,7 @@ public class MainController {
             modalStage.setScene(scene);
             modalStage.setResizable(false);
             modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+            modalStage.setTitle("Prihlásenie");
             modalStage.show();
             addCustomer.getScene().getWindow().hide();
         } catch (IOException e) {

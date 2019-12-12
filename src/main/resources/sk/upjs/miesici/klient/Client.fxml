@@ -24,7 +24,7 @@
                   <Font size="16.0" />
                </font>
                <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
             <Button layoutY="188.0" mnemonicParsing="false" onAction="#entriesClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Vstupy">
@@ -32,7 +32,7 @@
                   <Font size="16.0" />
                </font>
                <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
             <Button layoutY="226.0" mnemonicParsing="false" onAction="#trainingClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Tréningy">
@@ -40,7 +40,7 @@
                   <Font size="16.0" />
                </font>
                <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
             <Button layoutY="304.0" mnemonicParsing="false" onAction="#contactClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Kontakt">
@@ -48,7 +48,7 @@
                   <Font size="16.0" />
                </font>
                <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
             <Button layoutY="264.0" mnemonicParsing="false" onAction="#settingClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Nastavenia">
@@ -56,7 +56,7 @@
                   <Font size="16.0" />
                </font>
                <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
             <Button layoutY="456.0" mnemonicParsing="false" onAction="#logOutClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Odhlásiť sa">
@@ -64,7 +64,7 @@
                   <Font size="16.0" />
                </font>
                <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
+                  <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
          </children>
@@ -79,7 +79,10 @@
                      </font>
                   </Label>
                   <TableView layoutX="16.0" layoutY="82.0" prefHeight="332.0" prefWidth="486.0" />
-                  <Button layoutX="411.0" layoutY="453.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Pridať tréning" />
+                  <Button layoutX="411.0" layoutY="453.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Pridať tréning">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="contactAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
@@ -173,12 +176,18 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Button layoutX="440.0" layoutY="454.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Uložiť" />
+                  <Button layoutX="440.0" layoutY="454.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Uložiť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="homeAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                <children>
-                  <Button layoutX="402.0" layoutY="468.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo" />
+                  <Button layoutX="402.0" layoutY="468.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label layoutX="108.0" layoutY="37.0" text="Vitajte v posilňovni Miesiči" textFill="WHITE">
                      <font>
                         <Font size="26.0" />
@@ -187,8 +196,14 @@
                   <TableView fx:id="clientTable" layoutX="9.0" layoutY="141.0" prefHeight="55.0" prefWidth="502.0" />
                   <AnchorPane fx:id="memberShipExtendAnchorPane" layoutY="308.0" prefHeight="200.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                      <children>
-                        <Button layoutX="14.0" layoutY="157.0" mnemonicParsing="false" onAction="#backToHomeAnchorPaneClick" style="-fx-background-color: cyan;" text="Späť" />
-                        <Button layoutX="402.0" layoutY="157.0" mnemonicParsing="false" onAction="#membershipExtendClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo" />
+                        <Button layoutX="14.0" layoutY="157.0" mnemonicParsing="false" onAction="#backToHomeAnchorPaneClick" style="-fx-background-color: cyan;" text="Späť">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Button layoutX="402.0" layoutY="157.0" mnemonicParsing="false" onAction="#membershipExtendClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                         <Label layoutX="231.0" text="Cenník" textFill="WHITE">
                            <font>
                               <Font size="19.0" />
@@ -218,8 +233,14 @@
                            <toggleGroup>
                               <ToggleGroup fx:id="tgMembershipExtend" />
                            </toggleGroup>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </RadioButton>
-                        <RadioButton fx:id="threeMonthRadioButton" layoutX="217.0" layoutY="103.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgMembershipExtend" />
+                        <RadioButton fx:id="threeMonthRadioButton" layoutX="217.0" layoutY="103.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgMembershipExtend">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></RadioButton>
                      </children>
                   </AnchorPane>
                   <Label fx:id="membershipExtendedLabel" layoutX="90.0" layoutY="240.0" textFill="#13c300">
