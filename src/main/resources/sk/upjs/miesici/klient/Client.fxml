@@ -184,7 +184,7 @@
             </AnchorPane>
             <AnchorPane fx:id="homeAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                <children>
-                  <Button layoutX="402.0" layoutY="468.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
+                  <Button layoutX="402.0" layoutY="465.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
