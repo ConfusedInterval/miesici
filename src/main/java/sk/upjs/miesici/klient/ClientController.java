@@ -290,6 +290,7 @@ public class ClientController {
 				customer.setMembershipExp(Date.valueOf(ldt));
 			}
 			membershipExtendedInfo(1);
+			customerDao.edit(customer);
 			refreshHomeTable();
 			return;
 		} else {
