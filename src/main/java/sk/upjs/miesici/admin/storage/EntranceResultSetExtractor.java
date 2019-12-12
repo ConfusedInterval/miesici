@@ -23,6 +23,7 @@ public class EntranceResultSetExtractor implements ResultSetExtractor<List<Entra
                 entrance.setSurname(rs.getString("priezvisko"));
                 entrance.setArrival(rs.getString("prichod"));
                 entrance.setExit(rs.getString("odchod"));
+                entrance.setLocker(rs.getInt("skrinka"));
                 result.add(entrance);
             }
         }

@@ -21,8 +21,20 @@
          </cursor></Button>
       <Line endX="866.0" endY="41.0" fill="WHITE" layoutX="-779.0" layoutY="7.0" opacity="0.3" startX="798.0" startY="41.0" stroke="WHITE" />
       <TextField fx:id="filterTextField" layoutX="544.0" layoutY="14.0" promptText="Filter" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-      <Button focusTraversable="false" layoutX="562.0" layoutY="469.0" mnemonicParsing="false" onAction="#arrivalButtonClick" text="Príchod" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="90.0" />
-      <Button layoutX="631.0" layoutY="469.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Odchod" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="17.0" />
-      <Label fx:id="textEntrance" layoutX="395.0" layoutY="473.0" prefHeight="17.0" prefWidth="143.0" textFill="#13c300" />
+      <Button focusTraversable="false" layoutX="568.0" layoutY="469.0" mnemonicParsing="false" onAction="#arrivalButtonClick" text="Príchod" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="82.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button layoutX="631.0" layoutY="469.0" mnemonicParsing="false" onAction="#exitButtonClick" text="Odchod" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="17.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Label fx:id="textEntrance" layoutX="322.0" layoutY="473.0" prefHeight="17.0" prefWidth="143.0" textFill="#13c300" />
+      <TextField fx:id="lockerTextField" layoutX="480.0" layoutY="469.0" prefHeight="25.0" prefWidth="80.0" promptText="Číslo skrinky" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="147.0" />
+      <Button layoutX="22.0" layoutY="469.0" mnemonicParsing="false" onAction="#logOutClick" text="Odhlás sa">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

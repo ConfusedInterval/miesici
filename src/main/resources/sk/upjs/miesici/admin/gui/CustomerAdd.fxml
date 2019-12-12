@@ -9,31 +9,71 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="249.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="345.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="saveButton" layoutX="189.0" layoutY="397.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" text="Pridať">
+      <Button fx:id="saveButton" defaultButton="true" layoutX="272.0" layoutY="397.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" style="-fx-background-color: #e7e7e7;" text="Pridať">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Text fill="WHITE" layoutX="35.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pridanie používateľa">
+      <Text fill="WHITE" layoutX="83.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pridanie používateľa">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="toggleTextField" focusTraversable="false" layoutX="42.0" layoutY="300.0" prefHeight="25.0" prefWidth="165.0" />
-      <TextField fx:id="nameTextField" layoutX="42.0" layoutY="55.0" prefHeight="25.0" prefWidth="165.0" promptText="Meno" />
-      <TextField fx:id="surnameTextField" layoutX="42.0" layoutY="90.0" prefHeight="25.0" prefWidth="165.0" promptText="Priezvisko" />
-      <TextField fx:id="addressTextField" layoutX="42.0" layoutY="125.0" prefHeight="25.0" prefWidth="165.0" promptText="Adresa" />
-      <TextField fx:id="emailTextField" layoutX="42.0" layoutY="160.0" prefHeight="25.0" prefWidth="165.0" promptText="E-mail" />
-      <TextField fx:id="expireTextField" layoutX="42.0" layoutY="195.0" prefHeight="25.0" prefWidth="165.0" promptText="Expirácia" />
-      <TextField fx:id="creditTextField" layoutX="42.0" layoutY="230.0" prefHeight="25.0" prefWidth="77.0" promptText="Kredit" />
-      <TextField fx:id="loginTextField" layoutX="42.0" layoutY="265.0" prefHeight="25.0" prefWidth="165.0" promptText="Login" />
-      <PasswordField fx:id="passwordTextField" layoutX="42.0" layoutY="300.0" prefHeight="25.0" prefWidth="165.0" promptText="Heslo" />
-      <CheckBox fx:id="togglePass" layoutX="213.0" layoutY="303.0" mnemonicParsing="false" onAction="#togglePassword" textFill="WHITE" />
-      <Button layoutX="42.0" layoutY="335.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj heslo">
+      <TextField fx:id="nameTextField" layoutX="129.0" layoutY="66.0" prefHeight="25.0" prefWidth="165.0" promptText="Meno" />
+      <TextField fx:id="surnameTextField" layoutX="129.0" layoutY="101.0" prefHeight="25.0" prefWidth="165.0" promptText="Priezvisko" />
+      <TextField fx:id="addressTextField" layoutX="129.0" layoutY="136.0" prefHeight="25.0" prefWidth="165.0" promptText="Adresa" />
+      <TextField fx:id="emailTextField" layoutX="129.0" layoutY="171.0" prefHeight="25.0" prefWidth="165.0" promptText="E-mail" />
+      <TextField fx:id="expireTextField" layoutX="129.0" layoutY="206.0" prefHeight="25.0" prefWidth="165.0" promptText="Expirácia" />
+      <TextField fx:id="creditTextField" layoutX="129.0" layoutY="241.0" prefHeight="25.0" prefWidth="77.0" promptText="Kredit" />
+      <TextField fx:id="loginTextField" layoutX="129.0" layoutY="276.0" prefHeight="25.0" prefWidth="165.0" promptText="Login" />
+      <TextField fx:id="toggleTextField" focusTraversable="false" layoutX="129.0" layoutY="312.0" prefHeight="25.0" prefWidth="165.0" />
+      <PasswordField fx:id="passwordTextField" layoutX="129.0" layoutY="311.0" prefHeight="25.0" prefWidth="165.0" promptText="Heslo" />
+      <CheckBox fx:id="togglePass" focusTraversable="false" layoutX="305.0" layoutY="315.0" mnemonicParsing="false" onAction="#togglePassword" textFill="WHITE" />
+      <Button focusTraversable="false" layoutX="129.0" layoutY="346.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj heslo">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <CheckBox fx:id="isAdminCheckBox" layoutX="14.0" layoutY="401.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
+      <CheckBox fx:id="isAdminCheckBox" focusTraversable="false" layoutX="14.0" layoutY="401.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
+      <Text fill="WHITE" layoutX="29.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meno">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="29.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priezvisko">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="29.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresa">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="29.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="29.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expirácia">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="29.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kredit">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="29.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="29.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Heslo">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

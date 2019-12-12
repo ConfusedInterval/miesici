@@ -16,17 +16,20 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.text.ParseException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static sk.upjs.miesici.admin.gui.MainController.idOfCustomer;
 import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 
 public class CustomerEditController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private ObservableList<Customer> customersModel = FXCollections.observableArrayList(customerDao.getAll());
+    private Customer customer;
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     @FXML
     private Button saveButton;
@@ -66,7 +69,6 @@ public class CustomerEditController {
 
     @FXML
     void initialize() {
-        Customer customer = getById(idOfCustomer);
         nameTextField.setText(customer.getName());
         surnameTextField.setText(customer.getSurname());
         addressTextField.setText(customer.getAddress());
@@ -79,17 +81,30 @@ public class CustomerEditController {
     }
 
     @FXML
-    void addOneMonthButtonClick(ActionEvent event) throws ParseException {
-        LocalDateTime ldt = LocalDateTime.now().plusMonths(1);
+    void addOneMonthButtonClick(ActionEvent event) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        expireTextField.setText(format.format(ldt));
+        LocalDate date = LocalDate.parse(expireTextField.getText(), format);
+
+        if (date.isBefore(LocalDate.now())){
+            LocalDate ldt = LocalDate.now().plusMonths(1);
+            expireTextField.setText(format.format(ldt));
+        } else {
+            LocalDate ldt = date.plusMonths(1);
+            expireTextField.setText(format.format(ldt));
+        }
     }
 
     @FXML
     void addThreeMonthButtonClick(ActionEvent event) {
-        LocalDateTime ldt = LocalDateTime.now().plusMonths(3);
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        expireTextField.setText(format.format(ldt));
+        LocalDate date = LocalDate.parse(expireTextField.getText(), format);
+        if (date.isBefore(LocalDate.now())){
+            LocalDate ldt = LocalDate.now().plusMonths(3);
+            expireTextField.setText(format.format(ldt));
+        } else {
+            LocalDate ldt = date.plusMonths(3);
+            expireTextField.setText(format.format(ldt));
+        }
     }
 
     @FXML
@@ -101,7 +116,6 @@ public class CustomerEditController {
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        Customer customer = getById(idOfCustomer);
         customer.setName(nameTextField.getText());
         customer.setSurname(surnameTextField.getText());
         customer.setAddress(addressTextField.getText());
@@ -176,7 +190,7 @@ public class CustomerEditController {
     }
 
     private void alertPopUp() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Neplatný formulár");
         alert.setHeaderText("Údaje nie sú vyplnené správne.");
         alert.setContentText("Prosím vyplňte všetky údaje!");

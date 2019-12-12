@@ -109,7 +109,7 @@ public class LoginController {
             modalStage.setScene(scene);
             modalStage.setResizable(false);
             modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
-            modalStage.setTitle("Hlavné okno");
+            modalStage.setTitle("Admin");
             modalStage.setMinHeight(196);
             modalStage.setMinWidth(600);
             modalStage.show();

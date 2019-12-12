@@ -82,9 +82,7 @@ public class CustomerAddController {
         }
         customer.setLogin(loginTextField.getText());
         String salt = generateRandomSalt();
-        System.out.println(salt);
         customer.setPassword(hashPassword(passwordTextField.getText(), salt));
-        System.out.println(hashPassword(passwordTextField.getText(), salt));
         customer.setAdmin(isAdminCheckBox.isSelected());
         customer.setSalt(salt);
         customerModel.getCustomers().add(customer);
@@ -151,7 +149,7 @@ public class CustomerAddController {
     }
 
     private void alertPopUp() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Neplatný formulár");
         alert.setHeaderText("Údaje nie sú vyplnené správne.");
         alert.setContentText("Prosím vyplňte všetky údaje!");

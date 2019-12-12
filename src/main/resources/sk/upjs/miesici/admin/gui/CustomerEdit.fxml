@@ -12,46 +12,46 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="481.0" prefWidth="345.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="saveButton" layoutX="259.0" layoutY="438.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" prefHeight="25.0" prefWidth="52.0" text="Uložiť">
+      <Button fx:id="saveButton" defaultButton="true" layoutX="259.0" layoutY="438.0" mnemonicParsing="false" onAction="#saveCustomerButtonClick" prefHeight="25.0" prefWidth="52.0" style="-fx-background-color: #e7e7e7;" text="Uložiť">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Label layoutX="23.0" layoutY="59.0" text="Meno" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="64.0" text="Meno" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="94.0" text="Priezvisko" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="99.0" text="Priezvisko" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="129.0" text="Adresa" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="134.0" text="Adresa" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="164.0" text="E-mail" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="169.0" text="E-mail" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="199.0" text="Kredit" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="204.0" text="Kredit" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="234.0" text="Expirácia" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="239.0" text="Expirácia" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="21.0" layoutY="314.0" text="Heslo" textFill="WHITE">
+      <Label layoutX="25.0" layoutY="317.0" text="Heslo" textFill="WHITE">
          <font>
-            <Font size="15.0" />
+            <Font size="14.0" />
          </font>
       </Label>
-      <Text fill="WHITE" layoutX="96.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Editácia používateľa">
+      <Text fill="WHITE" layoutX="85.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Editácia používateľa">
          <font>
             <Font size="20.0" />
          </font>
@@ -68,15 +68,21 @@
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <TextField fx:id="expireTextField" layoutX="125.0" layoutY="236.0" prefHeight="25.0" prefWidth="186.0" />
-      <Button layoutX="125.0" layoutY="274.0" mnemonicParsing="false" onAction="#addOneMonthButtonClick" prefHeight="25.0" prefWidth="77.0" text="+1 mesiac" />
-      <Button layoutX="208.0" layoutY="274.0" mnemonicParsing="false" onAction="#addThreeMonthButtonClick" text="+3 mesiace" />
-      <TextField fx:id="toggleTextField" focusTraversable="false" layoutX="123.0" layoutY="314.0" prefHeight="25.0" prefWidth="186.0" />
-      <PasswordField fx:id="passwordTextField" layoutX="123.0" layoutY="314.0" prefHeight="25.0" prefWidth="186.0" promptText="Heslo" />
-      <CheckBox fx:id="passwordEditButton" layoutX="316.0" layoutY="318.0" mnemonicParsing="false" onAction="#editToggleClick" textFill="WHITE" />
-      <Button layoutX="123.0" layoutY="349.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj nové heslo">
+      <Button layoutX="125.0" layoutY="274.0" mnemonicParsing="false" onAction="#addOneMonthButtonClick" prefHeight="25.0" prefWidth="77.0" text="+1 mesiac">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <CheckBox fx:id="isAdminCheckBox" layoutX="18.0" layoutY="442.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
+      <Button layoutX="208.0" layoutY="274.0" mnemonicParsing="false" onAction="#addThreeMonthButtonClick" text="+3 mesiace">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <TextField fx:id="toggleTextField" focusTraversable="false" layoutX="123.0" layoutY="314.0" prefHeight="25.0" prefWidth="186.0" />
+      <PasswordField fx:id="passwordTextField" layoutX="123.0" layoutY="314.0" prefHeight="25.0" prefWidth="186.0" promptText="Heslo" />
+      <CheckBox fx:id="passwordEditButton" layoutX="316.0" layoutY="318.0" mnemonicParsing="false" onAction="#editToggleClick" textFill="WHITE" />
+      <Button focusTraversable="false" layoutX="123.0" layoutY="349.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj nové heslo">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <CheckBox fx:id="isAdminCheckBox" focusTraversable="false" layoutX="18.0" layoutY="442.0" mnemonicParsing="false" text="Admin" textFill="WHITE" />
    </children>
 </AnchorPane>

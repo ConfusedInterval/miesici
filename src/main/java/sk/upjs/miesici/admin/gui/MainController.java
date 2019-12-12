@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 import sk.upjs.miesici.admin.storage.*;
+import sk.upjs.miesici.login.LoginController;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -26,16 +27,19 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static sk.upjs.miesici.admin.storage.MySQLEntranceDao.idOfEntrance;
+import static sk.upjs.miesici.admin.storage.MySQLEntranceDao.typeOfError;
 
 public class MainController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
     private ObservableList<Customer> customersModel;
-    public static long idOfCustomer;
 
     @FXML
     private TextField filterTextField;
+
+    @FXML
+    private TextField lockerTextField;
 
     @FXML
     private Button addCustomer;
@@ -47,7 +51,7 @@ public class MainController {
     private Label textEntrance;
 
     @FXML
-    public TableView<Customer> customerTableView;
+    private TableView<Customer> customerTableView;
 
 
     @FXML
@@ -82,31 +86,43 @@ public class MainController {
     }
 
     @FXML
-    void arrivalButtonClick(ActionEvent event) throws InterruptedException {
+    void arrivalButtonClick(ActionEvent event) {
         Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
         Entrance entrance = new Entrance();
         entrance.setKlient_id(selectedCustomer.getId());
         entrance.setName(selectedCustomer.getName());
         entrance.setSurname(selectedCustomer.getSurname());
-
-        LocalDateTime ldt = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        entrance.setArrival(format.format(ldt));
-        entranceDao.saveArrival(entrance);
-
-        if (idOfEntrance != 0) {
-            textEntrance.setText("Vstup bol zaznamenaný!");
-            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
-            pauseTransition.setOnFinished(e -> textEntrance.setText(""));
-            pauseTransition.play();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+        try {
+            entrance.setLocker(Integer.parseInt(lockerTextField.getText()));
+            LocalDateTime ldt = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            entrance.setArrival(format.format(ldt));
+            entranceDao.saveArrival(entrance);
+            if (typeOfError == 1) {
+                textEntrance.setText("Vstup bol zaznamenaný!");
+                PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
+                pauseTransition.setOnFinished(e -> textEntrance.setText(""));
+                pauseTransition.play();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Neplatný príchod");
+                if (typeOfError == 0){
+                    alert.setHeaderText("Zákazík už má zaznamenaný vstup.");
+                    alert.setContentText("Prosím zaznačte odchod!");
+                } else {
+                    alert.setHeaderText("Číslo skrinky je obsadené.");
+                    alert.setContentText("Vyberte, prosím, iné číslo!");
+                }
+                alert.show();
+            }
+        } catch (NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Neplatný príchod");
-            alert.setHeaderText("Zákazík už má zaznamenaný vstup.");
-            alert.setContentText("Prosím zaznačte odchod!");
+            alert.setHeaderText("Zadali ste nesprávny typ dát.");
+            alert.setContentText("Prosím zadajte číselný údaj!");
             alert.show();
         }
-
+        lockerTextField.setText("");
     }
 
     @FXML
@@ -122,7 +138,7 @@ public class MainController {
         entrance.setExit(format.format(ldt));
         entranceDao.saveExit(entrance);
 
-        if (idOfEntrance != 0) {
+        if (typeOfError == 0) {
             textEntrance.setText("Odchod bol zaznamenaný!");
             PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
             pauseTransition.setOnFinished(e -> textEntrance.setText(""));
@@ -133,9 +149,26 @@ public class MainController {
             alert.setHeaderText("Zákazík nemá zaznamenaný vstup.");
             alert.setContentText("Prosím zaznačte vstup!");
             alert.show();
-
         }
+    }
 
+    @FXML
+    void logOutClick(ActionEvent event) {
+        LoginController controller = new LoginController();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/login/Login.fxml"));
+            fxmlLoader.setController(controller);
+            Parent parent = fxmlLoader.load();
+            Scene scene = new Scene(parent);
+            Stage modalStage = new Stage();
+            modalStage.setScene(scene);
+            modalStage.setResizable(false);
+            modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+            modalStage.show();
+            addCustomer.getScene().getWindow().hide();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -186,9 +219,9 @@ public class MainController {
     private void onEdit() {
         if (customerTableView.getSelectionModel().getSelectedItem() != null) {
             Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
-            idOfCustomer = selectedCustomer.getId();
 
             CustomerEditController controller = new CustomerEditController();
+            controller.setCustomer(selectedCustomer);
             showEditCustomerWindow(controller, "CustomerEdit.fxml");
 
             // refresh table
