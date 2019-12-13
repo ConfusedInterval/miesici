@@ -400,7 +400,6 @@ public class ClientController {
 			} else {
 				incorrectPasswordsAlert();
 				return;
-
 			}
 		}
 		incorrectOldPasswordAlert();
