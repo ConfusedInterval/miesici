@@ -21,6 +21,7 @@ public class CustomerAddController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private Customer savedCustomer;
+    private Customer customer = new Customer();
 
     @FXML
     private Button saveButton;
@@ -60,36 +61,23 @@ public class CustomerAddController {
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        Customer customer = new Customer();
+        distributePassword();
         customer.setName(nameTextField.getText());
         customer.setSurname(surnameTextField.getText());
         customer.setAddress(addressTextField.getText());
         customer.setEmail(emailTextField.getText());
-        try {
-            customer.setCredit(Double.parseDouble(creditTextField.getText()));
-        } catch (NumberFormatException ignored) {
-            errorCheck = 1;
-        }
-        try {
-            customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
-        } catch (IllegalArgumentException ignored) {
-            errorCheck = 1;
-        }
-        customer.setLogin(loginTextField.getText());
-        String salt = generateRandomSalt();
-        customer.setPassword(hashPassword(passwordTextField.getText(), salt));
         customer.setAdmin(isAdminCheckBox.isSelected());
-        customer.setSalt(salt);
+        saveCreditMembershipAndPassword();
         if (customer.getName() == null || customer.getSurname() == null || customer.getAddress() == null || customer.getEmail() == null || customer.getMembershipExp() == null ||
                 customer.getLogin() == null || customer.getPassword() == null || errorCheck == 1) {
             alertPopUp();
             errorCheck = 0;
         } else {
-            this.savedCustomer = customerDao.save(customer);
-            if (errorCheck == 0){
+            if (passwordTextField.getText().length() >= 6) {
+                this.savedCustomer = customerDao.save(customer);
                 saveButton.getScene().getWindow().hide();
             } else {
-                errorCheck = 0;
+                alertPasswordPopUp();
             }
         }
     }
@@ -101,7 +89,7 @@ public class CustomerAddController {
 
     @FXML
     void togglePassword(ActionEvent event) {
-        if (togglePass.isSelected()){
+        if (togglePass.isSelected()) {
             toggleTextField.setText(passwordTextField.getText());
             passwordTextField.setVisible(false);
             toggleTextField.setVisible(true);
@@ -149,8 +137,41 @@ public class CustomerAddController {
         alert.show();
     }
 
+    private void alertPasswordPopUp() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Neplatný formulár");
+        alert.setHeaderText("Heslo nie je dostatočne dlhé!");
+        alert.setContentText("Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
+        alert.show();
+    }
+
+
+    private void distributePassword() {
+        if (togglePass.isSelected()) {
+            passwordTextField.setText(toggleTextField.getText());
+        }
+    }
+
+    private void saveCreditMembershipAndPassword() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        try {
+            customer.setCredit(Double.parseDouble(creditTextField.getText()));
+        } catch (NumberFormatException ignored) {
+            errorCheck = 1;
+        }
+        try {
+            customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+        } catch (IllegalArgumentException ignored) {
+            errorCheck = 1;
+        }
+        customer.setLogin(loginTextField.getText());
+        String salt = generateRandomSalt();
+        customer.setPassword(hashPassword(passwordTextField.getText(), salt));
+        customer.setSalt(salt);
+    }
 
     public Customer getSavedCustomer() {
         return savedCustomer;
     }
+
+
 }

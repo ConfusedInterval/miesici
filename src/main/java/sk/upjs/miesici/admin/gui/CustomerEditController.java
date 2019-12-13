@@ -84,8 +84,7 @@ public class CustomerEditController {
     void addOneMonthButtonClick(ActionEvent event) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(expireTextField.getText(), format);
-
-        if (date.isBefore(LocalDate.now())){
+        if (date.isBefore(LocalDate.now())) {
             LocalDate ldt = LocalDate.now().plusMonths(1);
             expireTextField.setText(format.format(ldt));
         } else {
@@ -98,7 +97,7 @@ public class CustomerEditController {
     void addThreeMonthButtonClick(ActionEvent event) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(expireTextField.getText(), format);
-        if (date.isBefore(LocalDate.now())){
+        if (date.isBefore(LocalDate.now())) {
             LocalDate ldt = LocalDate.now().plusMonths(3);
             expireTextField.setText(format.format(ldt));
         } else {
@@ -116,33 +115,28 @@ public class CustomerEditController {
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
+        passwordCheck();
         customer.setName(nameTextField.getText());
         customer.setSurname(surnameTextField.getText());
         customer.setAddress(addressTextField.getText());
         customer.setEmail(emailTextField.getText());
-        try {
-            customer.setCredit(Double.parseDouble(creditTextField.getText()));
-        } catch (NumberFormatException ignored) {
-            errorCheck = 1;
-        }
-        try {
-            customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
-        } catch (IllegalArgumentException ignored) {
-            errorCheck = 1;
-        }
-        if (!passwordTextField.getText().equals("")) {
-            customer.setSalt(generateRandomText());
-            customer.setPassword(hashPassword(passwordTextField.getText(), customer.getSalt()));
-        }
         customer.setAdmin(isAdminCheckBox.isSelected());
-
-        if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("") || creditTextField.getText().equals("")
-                || expireTextField.getText().equals("") || errorCheck == 1) {
+        saveCreditMembershipAndPassword();
+        if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("") ||
+                creditTextField.getText().equals("") || expireTextField.getText().equals("") || errorCheck == 1) {
             alertPopUp();
             errorCheck = 0;
         } else {
-            customerDao.edit(customer);
-            saveButton.getScene().getWindow().hide();
+            if (passwordTextField.getText().length() < 6 ) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Neplatný formulár");
+                alert.setHeaderText("Heslo nie je dostatočne dlhé!");
+                alert.setContentText("Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
+                alert.show();
+            } else {
+                customerDao.edit(customer);
+                saveButton.getScene().getWindow().hide();
+            }
         }
     }
 
@@ -197,6 +191,29 @@ public class CustomerEditController {
         alert.show();
     }
 
+    private void saveCreditMembershipAndPassword() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        try {
+            customer.setCredit(Double.parseDouble(creditTextField.getText()));
+        } catch (NumberFormatException ignored) {
+            errorCheck = 1;
+        }
+        try {
+            customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+        } catch (IllegalArgumentException ignored) {
+            errorCheck = 1;
+        }
+        if (!passwordTextField.getText().equals("")) {
+            customer.setSalt(generateRandomText());
+            customer.setPassword(hashPassword(passwordTextField.getText(), customer.getSalt()));
+        }
+    }
+
+    private void passwordCheck(){
+        if (passwordEditButton.isSelected()){
+            passwordTextField.setText(toggleTextField.getText());
+        }
+    }
+
     private Customer getById(Long id) {
         for (Customer customer : customersModel) {
             if (customer.getId().equals(id)) {
@@ -205,5 +222,7 @@ public class CustomerEditController {
         }
         return null;
     }
+
+
 }
 

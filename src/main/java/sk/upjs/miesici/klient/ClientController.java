@@ -368,7 +368,7 @@ public class ClientController {
 	}
 
 	void passwordNotLongEnoughAlert() {
-		Alert alert = new Alert(AlertType.ERROR);
+		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Heslo nie je dostatočne dlhé!");
 		alert.setHeaderText("Heslo nie je dostatočne dlhé!");
 		alert.setContentText("Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");

@@ -27,8 +27,8 @@
       <TextField fx:id="expireTextField" layoutX="129.0" layoutY="206.0" prefHeight="25.0" prefWidth="165.0" promptText="Expirácia" />
       <TextField fx:id="creditTextField" layoutX="129.0" layoutY="241.0" prefHeight="25.0" prefWidth="77.0" promptText="Kredit" />
       <TextField fx:id="loginTextField" layoutX="129.0" layoutY="276.0" prefHeight="25.0" prefWidth="165.0" promptText="Login" />
-      <TextField fx:id="toggleTextField" focusTraversable="false" layoutX="129.0" layoutY="312.0" prefHeight="25.0" prefWidth="165.0" />
-      <PasswordField fx:id="passwordTextField" layoutX="129.0" layoutY="311.0" prefHeight="25.0" prefWidth="165.0" promptText="Heslo" />
+      <TextField fx:id="toggleTextField" focusTraversable="false" layoutX="129.0" layoutY="312.0" prefHeight="25.0" prefWidth="165.0" promptText="Heslo" />
+      <PasswordField fx:id="passwordTextField" layoutX="129.0" layoutY="312.0" prefHeight="25.0" prefWidth="165.0" promptText="Heslo" />
       <CheckBox fx:id="togglePass" focusTraversable="false" layoutX="305.0" layoutY="315.0" mnemonicParsing="false" onAction="#togglePassword" textFill="WHITE" />
       <Button focusTraversable="false" layoutX="129.0" layoutY="346.0" mnemonicParsing="false" onAction="#generatePasswordButtonClick" text="Generuj heslo">
          <cursor>
