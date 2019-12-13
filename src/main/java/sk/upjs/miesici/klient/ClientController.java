@@ -410,7 +410,7 @@ public class ClientController {
 	void saveClick(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		customer.setAddress(adressTextField.getText());
 		customer.setEmail(emailTextField.getText());
-		if (newPasswordField.getText() != null) {
+		if (!newPasswordField.getText().equals("")) {
 			changePassword();
 		}
 		customerDao.edit(customer);

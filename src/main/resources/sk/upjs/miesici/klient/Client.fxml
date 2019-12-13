@@ -129,59 +129,6 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="settingsAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
-               <children>
-                  <Label layoutX="196.0" layoutY="35.0" text="Nastavenia" textFill="WHITE">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="38.0" layoutY="142.0" text="email:" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="emailTextField" layoutX="106.0" layoutY="137.0" prefHeight="30.0" prefWidth="358.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextField>
-                  <PasswordField fx:id="oldPasswordField" layoutX="106.0" layoutY="196.0" prefHeight="30.0" prefWidth="358.0" promptText="staré heslo">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </PasswordField>
-                  <PasswordField fx:id="newPasswordField" layoutX="106.0" layoutY="239.0" prefHeight="30.0" prefWidth="358.0" promptText="nové heslo">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </PasswordField>
-                  <PasswordField fx:id="repeatPasswordField" layoutX="106.0" layoutY="280.0" prefHeight="30.0" prefWidth="358.0" promptText="potvrďte heslo">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </PasswordField>
-                  <Label layoutX="38.0" layoutY="201.0" text="heslo:" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="34.0" layoutY="356.0" text="adresa:" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="adressTextField" layoutX="106.0" layoutY="350.0" prefHeight="30.0" prefWidth="358.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextField>
-                  <Button layoutX="440.0" layoutY="454.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Uložiť">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-               </children>
-            </AnchorPane>
             <AnchorPane fx:id="homeAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                <children>
                   <Button layoutX="402.0" layoutY="468.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
@@ -248,6 +195,59 @@
                         <Font size="19.0" />
                      </font>
                   </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="settingsAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
+               <children>
+                  <Label layoutX="196.0" layoutY="35.0" text="Nastavenia" textFill="WHITE">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="38.0" layoutY="142.0" text="email:" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="emailTextField" layoutX="106.0" layoutY="137.0" prefHeight="30.0" prefWidth="358.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField fx:id="oldPasswordField" layoutX="106.0" layoutY="196.0" prefHeight="30.0" prefWidth="358.0" promptText="staré heslo">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <PasswordField fx:id="newPasswordField" layoutX="106.0" layoutY="239.0" prefHeight="30.0" prefWidth="358.0" promptText="nové heslo">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <PasswordField fx:id="repeatPasswordField" layoutX="106.0" layoutY="280.0" prefHeight="30.0" prefWidth="358.0" promptText="potvrďte heslo">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <Label layoutX="38.0" layoutY="201.0" text="heslo:" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="34.0" layoutY="356.0" text="adresa:" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="adressTextField" layoutX="106.0" layoutY="350.0" prefHeight="30.0" prefWidth="358.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Button layoutX="440.0" layoutY="454.0" mnemonicParsing="false" onAction="#saveClick" style="-fx-background-color: cyan;" text="Uložiť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </AnchorPane>
          </children>
