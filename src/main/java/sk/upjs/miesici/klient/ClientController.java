@@ -340,7 +340,6 @@ public class ClientController {
 	private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		char[] passwordChars = password.toCharArray();
 		byte[] saltBytes = salt.getBytes();
-
 		PBEKeySpec spec = new PBEKeySpec(passwordChars, saltBytes, 2000, 512);
 		SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		byte[] hashedPassword = key.generateSecret(spec).getEncoded();
