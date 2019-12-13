@@ -131,7 +131,7 @@
             </AnchorPane>
             <AnchorPane fx:id="homeAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                <children>
-                  <Button layoutX="402.0" layoutY="468.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
+                  <Button layoutX="402.0" layoutY="465.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
@@ -156,7 +156,7 @@
                               <Font size="19.0" />
                            </font>
                         </Label>
-                        <Label layoutX="54.0" layoutY="48.0" text="1 mesiac:" textFill="WHITE">
+                        <Label layoutX="54.0" layoutY="50.0" text="1 mesiac:" textFill="WHITE">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -176,7 +176,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <RadioButton fx:id="oneMonthRadioButton" layoutX="216.0" layoutY="51.0" mnemonicParsing="false" text="RadioButton">
+                        <RadioButton fx:id="oneMonthRadioButton" layoutX="216.0" layoutY="50.0" mnemonicParsing="false" text="RadioButton">
                            <toggleGroup>
                               <ToggleGroup fx:id="tgMembershipExtend" />
                            </toggleGroup>
@@ -184,7 +184,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </RadioButton>
-                        <RadioButton fx:id="threeMonthRadioButton" layoutX="217.0" layoutY="103.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgMembershipExtend">
+                        <RadioButton fx:id="threeMonthRadioButton" layoutX="216.0" layoutY="102.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgMembershipExtend">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></RadioButton>

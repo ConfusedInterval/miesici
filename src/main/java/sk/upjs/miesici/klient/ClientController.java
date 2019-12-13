@@ -327,7 +327,6 @@ public class ClientController {
 				return;
 			}
 		}
-
 	}
 
 	@FXML
