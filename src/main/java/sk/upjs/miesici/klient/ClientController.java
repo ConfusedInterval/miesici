@@ -352,7 +352,7 @@ public class ClientController {
 		alert.setContentText("Nesprávne heslo. Skúste to znova.");
 		oldPasswordField.setText("");
 		newPasswordField.setText("");
-		repeatPasswordField.setText("");
+		repeatPasswordField.setText(""); 
 		alert.show();
 	}
 
