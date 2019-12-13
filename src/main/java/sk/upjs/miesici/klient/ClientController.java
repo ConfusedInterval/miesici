@@ -2,14 +2,20 @@ package sk.upjs.miesici.klient;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.security.auth.login.LoginContext;
 
 import javafx.animation.PauseTransition;
@@ -174,6 +180,7 @@ public class ClientController {
 		hideAll();
 		Stage stage = (Stage) homeAnchorPane.getScene().getWindow();
 		stage.setTitle("Domov");
+		refreshHomeTable();
 		homeAnchorPane.setVisible(true);
 
 	}
@@ -328,6 +335,85 @@ public class ClientController {
 		Stage stage = (Stage) homeAnchorPane.getScene().getWindow();
 		stage.setTitle("Predĺženie členstva");
 		memberShipExtendAnchorPane.setVisible(true);
+	}
+
+	private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		char[] passwordChars = password.toCharArray();
+		byte[] saltBytes = salt.getBytes();
+
+		PBEKeySpec spec = new PBEKeySpec(passwordChars, saltBytes, 2000, 512);
+		SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+		byte[] hashedPassword = key.generateSecret(spec).getEncoded();
+		return String.format("%x", new BigInteger(hashedPassword));
+	}
+
+	void incorrectOldPasswordAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Nesprávne heslo!");
+		alert.setHeaderText("Nesprávne heslo!");
+		alert.setContentText("Nesprávne heslo. Skúste to znova.");
+		oldPasswordField.setText("");
+		newPasswordField.setText("");
+		repeatPasswordField.setText("");
+		alert.show();
+	}
+
+	void incorrectPasswordsAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Heslá sa nezhodujú!");
+		alert.setHeaderText("Heslá sa nezhodujú!");
+		alert.setContentText("Vaše heslá sa nezhodujú. Skúste to znova.");
+		oldPasswordField.setText("");
+		newPasswordField.setText("");
+		repeatPasswordField.setText("");
+		alert.show();
+	}
+
+	void passwordNotLongEnoughAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Heslo nie je dostatočne dlhé!");
+		alert.setHeaderText("Heslo nie je dostatočne dlhé!");
+		alert.setContentText("Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
+		oldPasswordField.setText("");
+		newPasswordField.setText("");
+		repeatPasswordField.setText("");
+		alert.show();
+	}
+
+	void changePassword() throws NoSuchAlgorithmException, InvalidKeySpecException {
+		String oldPassword = hashPassword(oldPasswordField.getText(), customer.getSalt());
+		if (oldPassword.equals(customer.getPassword())) {
+			String newPassword = newPasswordField.getText();
+			if (newPassword.length() < 6) {
+				passwordNotLongEnoughAlert();
+				return;
+			}
+			if (newPassword.equals(repeatPasswordField.getText())) {
+				String salt = UUID.randomUUID().toString();
+				customer.setSalt(salt);
+				customer.setPassword(hashPassword(newPassword, salt));
+				customerDao.edit(customer);
+				oldPasswordField.setText("");
+				newPasswordField.setText("");
+				repeatPasswordField.setText("");
+				return;
+			} else {
+				incorrectPasswordsAlert();
+				return;
+
+			}
+		}
+		incorrectOldPasswordAlert();
+	}
+
+	@FXML
+	void saveClick(ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		customer.setAddress(adressTextField.getText());
+		customer.setEmail(emailTextField.getText());
+		if (newPasswordField.getText() != null) {
+			changePassword();
+		}
+		customerDao.edit(customer);
 	}
 
 	@FXML
