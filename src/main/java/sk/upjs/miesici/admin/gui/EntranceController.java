@@ -51,6 +51,10 @@ public class EntranceController {
         exitCol.setCellValueFactory(new PropertyValueFactory<>("exit"));
         entryTableView.getColumns().add(exitCol);
 
+        TableColumn<Entrance, LocalDateTime> timeCol = new TableColumn<>("Čas");
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        entryTableView.getColumns().add(timeCol);
+
         TableColumn<Entrance, LocalDateTime> lockerCol = new TableColumn<>("Číslo skrinky");
         lockerCol.setCellValueFactory(new PropertyValueFactory<>("locker"));
         entryTableView.getColumns().add(lockerCol);

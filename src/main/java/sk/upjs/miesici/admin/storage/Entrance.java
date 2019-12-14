@@ -6,6 +6,7 @@ public class Entrance {
 	private String name;
 	private String surname;
 	private String arrival;
+	private String time;
 	private String exit;
 
 	private int locker;
@@ -66,4 +67,7 @@ public class Entrance {
 		this.locker = locker;
 	}
 
+	public String getTime() { return time; }
+
+	public void setTime(String time) { this.time = time; }
 }

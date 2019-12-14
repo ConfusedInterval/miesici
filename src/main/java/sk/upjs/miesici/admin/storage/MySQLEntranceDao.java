@@ -8,14 +8,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MySQLEntranceDao implements EntranceDao {
     private JdbcTemplate jdbcTemplate;
-    public static long idOfEntrance = 0;
     public static long typeOfError = 0;
 
 
@@ -38,7 +36,7 @@ public class MySQLEntranceDao implements EntranceDao {
 
     @Override
     public List<Entrance> getAll() {
-        String sql = "SELECT id, klient_id, kt.meno, kt.priezvisko, prichod, odchod, skrinka " +
+        String sql = "SELECT id, klient_id, kt.meno, kt.priezvisko, prichod, odchod, skrinka, cas " +
                 "FROM vstup " +
                 "JOIN klient AS kt " +
                 "USING(klient_id)";
@@ -91,23 +89,15 @@ public class MySQLEntranceDao implements EntranceDao {
 
     @Override
     public void saveExit(Entrance entrance) {
-        idOfEntrance = 0;
-        typeOfError = 1;
-        List<Entrance> list = getAll();
-        for (Entrance entrance1 : list) {
-            if (entrance1.getKlient_id().equals(entrance.getKlient_id()) && entrance1.getExit() == null && entrance1.getArrival() != null) {
-                idOfEntrance = entrance1.getId();
-                typeOfError = 0;
-            }
-        }
-
         if (entrance.getKlient_id() != null) {
-            String sql = "UPDATE vstup SET odchod = ?  "
+            String sql = "UPDATE vstup SET odchod = ? , "
+                    + "cas = ? "
                     + "WHERE id = ?;";
             try (Connection conn = this.connect()) {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, entrance.getExit());
-                pstmt.setLong(2, idOfEntrance);
+                pstmt.setString(2, entrance.getTime());
+                pstmt.setLong(3, entrance.getId());
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());

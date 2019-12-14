@@ -22,9 +22,12 @@ import sk.upjs.miesici.admin.storage.*;
 import sk.upjs.miesici.login.gui.LoginController;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 
 import static sk.upjs.miesici.admin.storage.MySQLEntranceDao.typeOfError;
 
@@ -125,30 +128,33 @@ public class MainController {
     }
 
     @FXML
-    void exitButtonClick(ActionEvent event) {
+    void exitButtonClick(ActionEvent event) throws ParseException {
         Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
-        Entrance entrance = new Entrance();
-        entrance.setKlient_id(selectedCustomer.getId());
-        entrance.setName(selectedCustomer.getName());
-        entrance.setSurname(selectedCustomer.getSurname());
-
-        LocalDateTime ldt = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        entrance.setExit(format.format(ldt));
-        entranceDao.saveExit(entrance);
-
-        if (typeOfError == 0) {
-            textEntrance.setText("Odchod bol zaznamenaný!");
-            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
-            pauseTransition.setOnFinished(e -> textEntrance.setText(""));
-            pauseTransition.play();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Neplatný odchod");
-            alert.setHeaderText("Zákazík nemá zaznamenaný vstup.");
-            alert.setContentText("Prosím zaznačte vstup!");
-            alert.show();
+        Entrance entrance = findEntrance(selectedCustomer);
+        if (entrance != null) {
+            entrance.setKlient_id(selectedCustomer.getId());
+            entrance.setName(selectedCustomer.getName());
+            entrance.setSurname(selectedCustomer.getSurname());
+            LocalDateTime ldt = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            entrance.setExit(format.format(ldt));
+            entrance.setTime(getDifference(entrance));
+            entranceDao.saveExit(entrance);
+            if (typeOfError == 0) {
+                textEntrance.setText("Odchod bol zaznamenaný!");
+                PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
+                pauseTransition.setOnFinished(e -> textEntrance.setText(""));
+                pauseTransition.play();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Neplatný odchod");
+                alert.setHeaderText("Zákazík nemá zaznamenaný vstup.");
+                alert.setContentText("Prosím zaznačte vstup!");
+                alert.show();
+            }
         }
+
+
     }
 
     @FXML
@@ -230,6 +236,24 @@ public class MainController {
             filterTableView();
         }
 
+    }
+
+    private String getDifference(Entrance entrance) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(entrance.getArrival());
+        String newString = new SimpleDateFormat("HH:mm:ss").format(date);
+        Date arrival = new SimpleDateFormat("HH:mm:ss").parse(newString);
+
+        Date date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(entrance.getExit());
+        String newString2 = new SimpleDateFormat("HH:mm:ss").format(date2);
+        Date exit = new SimpleDateFormat("HH:mm:ss").parse(newString2);
+
+        long difference = exit.getTime() - arrival.getTime();
+        long diffSeconds = difference / 1000 % 60;
+        long diffMinutes = difference / (60 * 1000) % 60;
+        long diffHours = difference / (60 * 60 * 1000) % 24;
+
+        String rozdiel = diffHours + ":" + diffMinutes + ":" + diffSeconds;
+        return rozdiel;
     }
 
     private void showAddCustomerAddWindow(CustomerAddController controller, String nameOfFxml) {
@@ -317,5 +341,17 @@ public class MainController {
 
         // 5. Add sorted (and filtered) data to the table.
         customerTableView.setItems(sortedData);
+    }
+
+
+    private Entrance findEntrance(Customer selectedCustomer){
+        List<Entrance> list = entranceDao.getAll();
+        for (Entrance entrance1 : list) {
+            if (entrance1.getKlient_id().equals(selectedCustomer.getId()) && entrance1.getExit() == null && entrance1.getArrival() != null) {
+                typeOfError = 0;
+                return entrance1;
+            }
+        }
+        return null;
     }
 }
