@@ -252,6 +252,10 @@ public class ClientController {
 		exitCol.setCellValueFactory(new PropertyValueFactory<>("exit"));
 		entriesTablieView.getColumns().add(exitCol);
 
+		TableColumn<Entrance, LocalDateTime> timeCol = new TableColumn<>("Čas");
+		timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+		entriesTablieView.getColumns().add(timeCol);
+
 		trainingsModel = FXCollections.observableArrayList(trainingDao.getAllbyClientId(customer.getId()));
 		trainingTableView.setItems(FXCollections.observableArrayList(trainingsModel));
 
