@@ -359,11 +359,9 @@ public class ClientController {
 			membershipExtendedInfo(3);
 			customerDao.edit(customer);
 			refreshHomeTable();
-			return;
 		} else {
 			if (credit <= 70) {
 				notEnoughCreditAlert();
-				return;
 			}
 		}
 	}
@@ -433,11 +431,10 @@ public class ClientController {
 				oldPasswordField.setText("");
 				newPasswordField.setText("");
 				repeatPasswordField.setText("");
-				return;
 			} else {
 				incorrectPasswordsAlert();
-				return;
 			}
+			return;
 		}
 		incorrectOldPasswordAlert();
 	}

@@ -18,6 +18,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 
@@ -163,9 +164,7 @@ public class CustomerEditController {
     }
 
     private String generateRandomText() {
-        char[] possibleCharacters = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?").toCharArray();
-        String randomStr = RandomStringUtils.random(32, 0, possibleCharacters.length - 1, true, true, possibleCharacters, new SecureRandom());
-        return randomStr;
+        return UUID.randomUUID().toString();
     }
 
     private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
