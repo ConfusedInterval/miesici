@@ -2,66 +2,66 @@ package sk.upjs.miesici.klient.storage;
 
 public class Training {
 
-	private long id;
-	private long clientId;
-	private String date;
-	private String dayOfTheWeek;
-	private String name;
-	private String note;
+    private long id;
+    private long clientId;
+    private String date;
+    private String dayOfTheWeek;
+    private String name;
+    private String note;
 
-	final String[] daysOftheWeekInSlovak = { null,"Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota" };
+    final String[] daysOftheWeekInSlovak = {null, "Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"};
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public long getClientId() {
-		return clientId;
-	}
+    public long getClientId() {
+        return clientId;
+    }
 
-	public void setClientId(long clientId) {
-		this.clientId = clientId;
-	}
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public String getDayOfTheWeek() {
-		return dayOfTheWeek;
-	}
+    public String getDayOfTheWeek() {
+        return dayOfTheWeek;
+    }
 
-	public void setDayofTheWeek(int dayofTheWeek) {
-		for(int i =0;i<daysOftheWeekInSlovak.length;i++) {
-			if(dayofTheWeek == i) {
-				this.dayOfTheWeek = daysOftheWeekInSlovak[i];
-			}
-		}
-	}
-	
-	public String getName() {
-		return name;
-	}
+    public void setDayofTheWeek(int dayofTheWeek) {
+        for (int i = 0; i < daysOftheWeekInSlovak.length; i++) {
+            if (dayofTheWeek == i) {
+                this.dayOfTheWeek = daysOftheWeekInSlovak[i];
+            }
+        }
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getNote() {
-		return note;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
+    public String getNote() {
+        return note;
+    }
 
-	
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+
 }

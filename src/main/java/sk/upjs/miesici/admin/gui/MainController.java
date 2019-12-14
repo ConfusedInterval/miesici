@@ -252,8 +252,7 @@ public class MainController {
         long diffMinutes = difference / (60 * 1000) % 60;
         long diffHours = difference / (60 * 60 * 1000) % 24;
 
-        String rozdiel = diffHours + ":" + diffMinutes + ":" + diffSeconds;
-        return rozdiel;
+        return diffHours + ":" + diffMinutes + ":" + diffSeconds;
     }
 
     private void showAddCustomerAddWindow(CustomerAddController controller, String nameOfFxml) {

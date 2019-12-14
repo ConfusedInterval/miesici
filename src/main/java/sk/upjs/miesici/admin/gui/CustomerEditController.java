@@ -25,7 +25,6 @@ import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 public class CustomerEditController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
-    private ObservableList<Customer> customersModel = FXCollections.observableArrayList(customerDao.getAll());
     private Customer customer;
 
     public void setCustomer(Customer customer) {
@@ -116,7 +115,7 @@ public class CustomerEditController {
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        passwordCheck();
+        distributePassword();
         customer.setName(nameTextField.getText());
         customer.setSurname(surnameTextField.getText());
         customer.setAddress(addressTextField.getText());
@@ -140,7 +139,6 @@ public class CustomerEditController {
             }
         }
     }
-
 
     @FXML
     void editToggleClick(ActionEvent event) {
@@ -207,21 +205,10 @@ public class CustomerEditController {
         }
     }
 
-    private void passwordCheck(){
+    private void distributePassword(){
         if (passwordEditButton.isSelected()){
             passwordTextField.setText(toggleTextField.getText());
         }
     }
-
-    private Customer getById(Long id) {
-        for (Customer customer : customersModel) {
-            if (customer.getId().equals(id)) {
-                return customer;
-            }
-        }
-        return null;
-    }
-
-
 }
 
