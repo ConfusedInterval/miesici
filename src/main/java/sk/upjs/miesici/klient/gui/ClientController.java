@@ -1,4 +1,4 @@
-package sk.upjs.miesici.klient;
+package sk.upjs.miesici.klient.gui;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,30 +7,24 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.security.auth.login.LoginContext;
 
 import javafx.animation.PauseTransition;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.FocusModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
@@ -43,19 +37,17 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import sk.upjs.miesici.admin.gui.MainController;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 import sk.upjs.miesici.admin.storage.Entrance;
 import sk.upjs.miesici.admin.storage.EntranceDao;
-import sk.upjs.miesici.admin.storage.Training;
-import sk.upjs.miesici.admin.storage.TrainingDao;
-import sk.upjs.miesici.login.LoginController;
+import sk.upjs.miesici.klient.storage.Training;
+import sk.upjs.miesici.klient.storage.TrainingDao;
+import sk.upjs.miesici.login.gui.LoginController;
 
 public class ClientController {
 
@@ -468,7 +460,7 @@ public class ClientController {
 	void logOutClick(ActionEvent event) {
 		LoginController controller = new LoginController();
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/login/Login.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/login/gui/Login.fxml"));
 			fxmlLoader.setController(controller);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);

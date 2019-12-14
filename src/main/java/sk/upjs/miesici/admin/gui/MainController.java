@@ -19,14 +19,13 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 import sk.upjs.miesici.admin.storage.*;
-import sk.upjs.miesici.login.LoginController;
+import sk.upjs.miesici.login.gui.LoginController;
 
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static sk.upjs.miesici.admin.storage.MySQLEntranceDao.idOfEntrance;
 import static sk.upjs.miesici.admin.storage.MySQLEntranceDao.typeOfError;
 
 public class MainController {
@@ -156,7 +155,7 @@ public class MainController {
     void logOutClick(ActionEvent event) {
         LoginController controller = new LoginController();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/login/Login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/login/gui/Login.fxml"));
             fxmlLoader.setController(controller);
             Parent parent = fxmlLoader.load();
             Scene scene = new Scene(parent);

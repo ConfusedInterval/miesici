@@ -1,4 +1,4 @@
-package sk.upjs.miesici.login;
+package sk.upjs.miesici.login.gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

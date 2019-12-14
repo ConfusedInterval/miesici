@@ -2,6 +2,8 @@ package sk.upjs.miesici.admin.storage;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import sk.upjs.miesici.klient.storage.MySQLTrainingDao;
+import sk.upjs.miesici.klient.storage.TrainingDao;
 
 public enum DaoFactory {
     INSTANCE;
@@ -26,7 +28,7 @@ public enum DaoFactory {
     
     public TrainingDao getTrainingDao(){
         if (trainingDao == null){
-            trainingDao = new MysqlTrainingDao(getJdbcTemplate());
+            trainingDao = new MySQLTrainingDao(getJdbcTemplate());
         }
         return trainingDao;
     }

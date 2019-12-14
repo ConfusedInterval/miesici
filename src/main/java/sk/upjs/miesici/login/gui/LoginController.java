@@ -1,8 +1,6 @@
-package sk.upjs.miesici.login;
+package sk.upjs.miesici.login.gui;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +14,7 @@ import sk.upjs.miesici.admin.gui.MainController;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
-import sk.upjs.miesici.klient.ClientController;
+import sk.upjs.miesici.klient.gui.ClientController;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
