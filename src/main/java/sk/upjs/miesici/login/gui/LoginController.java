@@ -136,7 +136,7 @@ public class LoginController {
 	private void callClientController() {
 		ClientController controller = new ClientController();
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/klient/Client.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/klient/gui/Client.fxml"));
 			fxmlLoader.setController(controller);
 			controller.setCustomer(assign);
 			Parent parent = fxmlLoader.load();
