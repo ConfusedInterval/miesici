@@ -9,7 +9,6 @@ public interface CustomerDao {
 
     void edit(Customer customer);
     
-    // boolean isAdmin(String login);
     
     Customer getBylogin(String login);
 }

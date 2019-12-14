@@ -58,8 +58,12 @@ public class Entrance {
 		this.exit = exit;
 	}
 
-	public int getLocker() { return locker; }
+	public int getLocker() {
+		return locker;
+	}
 
-	public void setLocker(int locker) { this.locker = locker; }
+	public void setLocker(int locker) {
+		this.locker = locker;
+	}
 
 }

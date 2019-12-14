@@ -8,6 +8,7 @@ public enum DaoFactory {
 
     private CustomerDao customerDao;
     private EntranceDao entranceDao;
+    private TrainingDao trainingDao;
 
     public CustomerDao getCustomerDao() {
         if (customerDao == null) {
@@ -21,6 +22,13 @@ public enum DaoFactory {
             entranceDao = new MySQLEntranceDao(getJdbcTemplate());
         }
         return entranceDao;
+    }
+    
+    public TrainingDao getTrainingDao(){
+        if (trainingDao == null){
+            trainingDao = new MysqlTrainingDao(getJdbcTemplate());
+        }
+        return trainingDao;
     }
 
     private JdbcTemplate getJdbcTemplate() {

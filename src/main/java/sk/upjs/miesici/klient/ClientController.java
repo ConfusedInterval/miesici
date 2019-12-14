@@ -19,6 +19,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.security.auth.login.LoginContext;
 
 import javafx.animation.PauseTransition;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,9 +30,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.FocusModel;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -50,6 +53,8 @@ import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 import sk.upjs.miesici.admin.storage.Entrance;
 import sk.upjs.miesici.admin.storage.EntranceDao;
+import sk.upjs.miesici.admin.storage.Training;
+import sk.upjs.miesici.admin.storage.TrainingDao;
 import sk.upjs.miesici.login.LoginController;
 
 public class ClientController {
@@ -114,10 +119,17 @@ public class ClientController {
 	@FXML
 	private Label membershipExtendedLabel;
 
+	@FXML
+	private Label dataUpdateTextField;
+
+	@FXML
+	private TableView<Training> trainingTableView;
+
 	private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
 	private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
+	private TrainingDao trainingDao = DaoFactory.INSTANCE.getTrainingDao();
 	private ObservableList<Entrance> entrancesModel;
-
+	private ObservableList<Training> trainingsModel;
 	private ObservableList<Customer> customersModel;
 	private Customer customer;
 
@@ -248,6 +260,41 @@ public class ClientController {
 		exitCol.setCellValueFactory(new PropertyValueFactory<>("exit"));
 		entriesTablieView.getColumns().add(exitCol);
 
+		trainingsModel = FXCollections.observableArrayList(trainingDao.getAllbyClientId(customer.getId()));
+		trainingTableView.setItems(FXCollections.observableArrayList(trainingsModel));
+
+		// https://stackoverflow.com/questions/31212400/adding-index-of-records-in-a-javafx-tableview-column
+		TableColumn<Training, Void> indexCol = new TableColumn<>("Č.");
+		indexCol.setCellFactory(col -> {
+			TableCell<Training, Void> cell = new TableCell<>();
+			cell.textProperty().bind(Bindings.createStringBinding(() -> {
+				if (cell.isEmpty()) {
+					return null;
+				} else {
+					return Integer.toString(cell.getIndex() + 1);
+				}
+			}, cell.emptyProperty(), cell.indexProperty()));
+			return cell;
+		});
+		trainingTableView.getColumns().add(indexCol);
+
+		TableColumn<Training, LocalDate> trainingDate = new TableColumn<>("Tréning");
+		trainingDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		trainingTableView.getColumns().add(trainingDate);
+
+		TableColumn<Training, String> trainingDay = new TableColumn<Training, String>("Deň v týždni");
+		trainingDay.setCellValueFactory(new PropertyValueFactory<>("dayOfTheWeek"));
+		trainingTableView.getColumns().add(trainingDay);
+		
+		TableColumn<Training, String> trainingName = new TableColumn<Training, String>("Názov");
+		trainingName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		trainingTableView.getColumns().add(trainingName);
+		
+		TableColumn<Training, String> trainingNote = new TableColumn<Training, String>("Poznámka");
+		trainingNote.setMinWidth(250);
+		trainingNote.setCellValueFactory(new PropertyValueFactory<>("note"));
+		trainingTableView.getColumns().add(trainingNote);
+
 	}
 
 	void refreshHomeTable() {
@@ -352,7 +399,7 @@ public class ClientController {
 		alert.setContentText("Nesprávne heslo. Skúste to znova.");
 		oldPasswordField.setText("");
 		newPasswordField.setText("");
-		repeatPasswordField.setText(""); 
+		repeatPasswordField.setText("");
 		alert.show();
 	}
 
@@ -411,6 +458,10 @@ public class ClientController {
 			changePassword();
 		}
 		customerDao.edit(customer);
+		dataUpdateTextField.setVisible(true);
+		PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
+		visiblePause.setOnFinished(e -> dataUpdateTextField.setVisible(false));
+		visiblePause.play();
 	}
 
 	@FXML

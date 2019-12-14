@@ -71,20 +71,6 @@
       </AnchorPane>
       <AnchorPane layoutX="196.0" prefHeight="508.0" prefWidth="514.0">
          <children>
-            <AnchorPane fx:id="trainingAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
-               <children>
-                  <Label layoutX="210.0" layoutY="34.0" text="Tréningy" textFill="WHITE">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-                  <TableView layoutX="16.0" layoutY="82.0" prefHeight="332.0" prefWidth="486.0" />
-                  <Button layoutX="411.0" layoutY="453.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Pridať tréning">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-               </children>
-            </AnchorPane>
             <AnchorPane fx:id="contactAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                <children>
                   <Label layoutX="215.0" layoutY="39.0" text="Kontakt" textFill="WHITE">
@@ -245,6 +231,25 @@
                      </font>
                   </TextField>
                   <Button layoutX="440.0" layoutY="454.0" mnemonicParsing="false" onAction="#saveClick" style="-fx-background-color: cyan;" text="Uložiť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Label fx:id="dataUpdateTextField" layoutX="122.0" layoutY="404.0" text="Vaše údaje boli úspešne aktualizované." textFill="#13c300" visible="false">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="trainingAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
+               <children>
+                  <Label layoutX="210.0" layoutY="34.0" text="Tréningy" textFill="WHITE">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="trainingTableView" layoutX="16.0" layoutY="82.0" prefHeight="332.0" prefWidth="486.0" />
+                  <Button layoutX="411.0" layoutY="453.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Pridať tréning">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
