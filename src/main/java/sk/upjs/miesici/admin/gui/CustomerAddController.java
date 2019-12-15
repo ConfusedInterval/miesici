@@ -12,6 +12,8 @@ import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -167,7 +169,12 @@ public class CustomerAddController {
             errorCheck = true;
         }
         try {
-            customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+            Date date = java.sql.Date.valueOf(expireTextField.getText());
+            if (date.toLocalDate().isAfter(LocalDate.now())){
+                customer.setMembershipExp(date);
+            } else {
+                errorCheck = true;
+            }
         } catch (IllegalArgumentException ignored) {
             errorCheck = true;
         }
