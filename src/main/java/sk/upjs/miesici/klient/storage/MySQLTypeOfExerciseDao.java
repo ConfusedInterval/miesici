@@ -15,11 +15,11 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import sk.upjs.miesici.admin.storage.DaoFactory;
 
-public class MysqlTypeOfExerciseDao implements TypeOfExerciseDao {
+public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
 
 	private JdbcTemplate jdbcTemplate;
 
-	public MysqlTypeOfExerciseDao(JdbcTemplate jdbcTemplate) {
+	public MySQLTypeOfExerciseDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 

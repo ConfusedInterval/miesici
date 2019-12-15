@@ -15,22 +15,7 @@ public class MySQLTrainingDao implements TrainingDao {
 	public MySQLTrainingDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-	
-	 private Connection connect() {
-	        String url = "jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava";
-	        String name = "root";
-	        String password = "root";
-	        Connection conn = null;
-	        try {
-	            conn = DriverManager.getConnection(url, name, password);
-	        } catch (SQLException e) {
-	            System.out.println(e.getMessage());
-	        }
-	        return conn;
-	    }
 
-	
-	
 	@Override
 	public List<Training> getAll() {
 		String sql = "SELECT id, klient_id, nazov, datum, dayofweek(datum) as den, poznamka " +
@@ -51,6 +36,19 @@ public class MySQLTrainingDao implements TrainingDao {
 			}
 		}
 		return byId;
+	}
+
+	private Connection connect() {
+		String url = "jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava";
+		String name = "root";
+		String password = "root";
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, name, password);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return conn;
 	}
 
 }

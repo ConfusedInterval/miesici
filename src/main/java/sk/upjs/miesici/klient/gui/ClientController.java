@@ -48,8 +48,6 @@ import sk.upjs.miesici.admin.storage.Entrance;
 import sk.upjs.miesici.admin.storage.EntranceDao;
 import sk.upjs.miesici.klient.storage.Training;
 import sk.upjs.miesici.klient.storage.TrainingDao;
-import sk.upjs.miesici.klient.storage.TypeOfExercise;
-import sk.upjs.miesici.klient.storage.TypeOfExerciseDao;
 import sk.upjs.miesici.login.gui.LoginController;
 
 public class ClientController {
@@ -307,14 +305,6 @@ public class ClientController {
 		homeClick(event);
 	}
 
-	void notEnoughCreditAlert() {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Nedostatok kreditu!");
-		alert.setHeaderText("Nedostatok kreditu!");
-		alert.setContentText("Pre nabitie kreditu sa zastavte na našej pobočke.");
-		alert.show();
-	}
-
 	void membershipExtendedInfo(int n) {
 		String month;
 		if (n == 1) {
@@ -333,7 +323,7 @@ public class ClientController {
 	void membershipExtendClick(ActionEvent event) {
 		double credit = customer.getCredit();
 		if (oneMonthRadioButton.isSelected() && credit >= 25) {
-			customer.setCredit(credit - 20);
+			customer.setCredit(credit - 25);
 			LocalDate date = customer.getMembershipExp().toLocalDate();
 			if (date.isBefore(LocalDate.now())) {
 				LocalDate ldt = LocalDate.now().plusMonths(1);
@@ -389,33 +379,20 @@ public class ClientController {
 		return String.format("%x", new BigInteger(hashedPassword));
 	}
 
-	void incorrectOldPasswordAlert() {
+	void notEnoughCreditAlert() {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Nesprávne heslo!");
-		alert.setHeaderText("Nesprávne heslo!");
-		alert.setContentText("Nesprávne heslo. Skúste to znova.");
-		oldPasswordField.setText("");
-		newPasswordField.setText("");
-		repeatPasswordField.setText("");
+		alert.setTitle("Nedostatok kreditu!");
+		alert.setHeaderText("Nedostatok kreditu!");
+		alert.setContentText("Pre nabitie kreditu sa zastavte na našej pobočke.");
 		alert.show();
 	}
 
-	void incorrectPasswordsAlert() {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Heslá sa nezhodujú!");
-		alert.setHeaderText("Heslá sa nezhodujú!");
-		alert.setContentText("Vaše heslá sa nezhodujú. Skúste to znova.");
-		oldPasswordField.setText("");
-		newPasswordField.setText("");
-		repeatPasswordField.setText("");
-		alert.show();
-	}
 
-	void passwordNotLongEnoughAlert() {
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Heslo nie je dostatočne dlhé!");
-		alert.setHeaderText("Heslo nie je dostatočne dlhé!");
-		alert.setContentText("Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
+	private void showAlert(String title, String header, String content){
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
 		oldPasswordField.setText("");
 		newPasswordField.setText("");
 		repeatPasswordField.setText("");
@@ -427,7 +404,7 @@ public class ClientController {
 		if (oldPassword.equals(customer.getPassword())) {
 			String newPassword = newPasswordField.getText();
 			if (newPassword.length() < 6) {
-				passwordNotLongEnoughAlert();
+				showAlert("Heslo nie je dostatočne dlhé!", "Heslo nie je dostatočne dlhé!", "Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov." );
 				return;
 			}
 			if (newPassword.equals(repeatPasswordField.getText())) {
@@ -439,11 +416,11 @@ public class ClientController {
 				newPasswordField.setText("");
 				repeatPasswordField.setText("");
 			} else {
-				incorrectPasswordsAlert();
+				showAlert("Heslá sa nezhodujú!", "Heslá sa nezhodujú!", "Vaše heslá sa nezhodujú. Skúste to znova.");
 			}
 			return;
 		}
-		incorrectOldPasswordAlert();
+		showAlert("Nesprávne heslo!", "Nesprávne heslo!", "Nesprávne heslo. Skúste to znova.");
 	}
 
 	@FXML
@@ -472,8 +449,7 @@ public class ClientController {
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.setTitle("Pridanie tréningu");
 			modalStage.setResizable(false);
-			modalStage.getIcons().add(
-					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -497,8 +473,7 @@ public class ClientController {
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
 			modalStage.setResizable(false);
-			modalStage.getIcons().add(
-					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setTitle("Prihlásenie");
 			modalStage.show();
 			homeAnchorPane.getScene().getWindow().hide();

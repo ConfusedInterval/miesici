@@ -1,8 +1,5 @@
 package sk.upjs.miesici.admin.storage;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -18,7 +15,6 @@ import java.util.Map;
 
 public class MySQLCustomerDao implements CustomerDao {
     private JdbcTemplate jdbcTemplate;
-    public static int errorCheck = 0;
 
     public MySQLCustomerDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -37,7 +33,6 @@ public class MySQLCustomerDao implements CustomerDao {
         if (customer == null)
             return null;
         if (customer.getId() == null) {
-
             SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
             insert.withTableName("klient").usingGeneratedKeyColumns("klient_id");
 
@@ -52,34 +47,10 @@ public class MySQLCustomerDao implements CustomerDao {
             values.put("heslo", customer.getPassword());
             values.put("sol", customer.getSalt());
             values.put("admin", customer.isAdmin());
-
-            try {
-                Number key = insert.executeAndReturnKey(new MapSqlParameterSource(values));
-                customer.setId(key.longValue());
-
-            } catch (DuplicateKeyException e) {
-                errorCheck = 1;
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Neúspešné pridanie");
-                alert.setHeaderText("Login s rovnakým názvom už existuje.");
-                alert.setContentText("Zvoľte iné prihlasovacie meno!");
-                alert.show();
-            }
+            Number key = insert.executeAndReturnKey(new MapSqlParameterSource(values));
+            customer.setId(key.longValue());
         }
         return customer;
-    }
-
-    private Connection connect() {
-        String url = "jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava";
-        String name = "root";
-        String password = "root";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, name, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
     }
 
     @Override
@@ -148,4 +119,17 @@ public class MySQLCustomerDao implements CustomerDao {
         return null;
     }
 
+
+    private Connection connect() {
+        String url = "jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava";
+        String name = "root";
+        String password = "root";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url, name, password);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
 }

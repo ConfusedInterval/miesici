@@ -126,7 +126,7 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="clientTable" layoutX="9.0" layoutY="141.0" prefHeight="55.0" prefWidth="502.0" />
+                  <TableView fx:id="clientTable" layoutX="8.0" layoutY="141.0" prefHeight="68.0" prefWidth="503.0" />
                   <AnchorPane fx:id="memberShipExtendAnchorPane" layoutY="308.0" prefHeight="200.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                      <children>
                         <Button layoutX="14.0" layoutY="157.0" mnemonicParsing="false" onAction="#backToHomeAnchorPaneClick" style="-fx-background-color: cyan;" text="Späť">

@@ -8,30 +8,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MySQLEntranceDao implements EntranceDao {
     private JdbcTemplate jdbcTemplate;
-    public static long typeOfError = 0;
 
 
     public MySQLEntranceDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private Connection connect() {
-        String url = "jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava";
-        String name = "root";
-        String password = "root";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, name, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
     }
 
     @Override
@@ -45,33 +29,8 @@ public class MySQLEntranceDao implements EntranceDao {
     }
 
     @Override
-    public List<Entrance> getByCustomerId(long id) {
-        List<Entrance> entries = getAll();
-        List<Entrance> entriesById = new ArrayList<Entrance>();
-        for (Entrance entry : entries) {
-            if (entry.getKlient_id() == id) {
-                entriesById.add(entry);
-            }
-        }
-        return entriesById;
-    }
-
-    @Override
     public Entrance saveArrival(Entrance entrance) {
-        typeOfError = 1;
-        List<Entrance> list = getAll();
-        for (Entrance entrance1 : list) {
-            if (entrance1.getKlient_id().equals(entrance.getKlient_id()) && entrance1.getExit() == null && entrance1.getArrival() != null) {
-                typeOfError = 0;
-                break;
-            }
-            if (entrance1.getLocker() == entrance.getLocker() && entrance1.getExit() == null && entrance1.getArrival() != null) {
-                typeOfError = 2;
-                break;
-            }
-        }
-
-        if (entrance.getId() == null && typeOfError == 1) {
+        if (entrance.getId() == null) {
             SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
             insert.withTableName("vstup").usingGeneratedKeyColumns("id");
             Map<String, Object> values = new HashMap<String, Object>();
@@ -103,5 +62,30 @@ public class MySQLEntranceDao implements EntranceDao {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    @Override
+    public List<Entrance> getByCustomerId(long id) {
+        List<Entrance> entries = getAll();
+        List<Entrance> entriesById = new ArrayList<Entrance>();
+        for (Entrance entry : entries) {
+            if (entry.getKlient_id() == id) {
+                entriesById.add(entry);
+            }
+        }
+        return entriesById;
+    }
+
+    private Connection connect() {
+        String url = "jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava";
+        String name = "root";
+        String password = "root";
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url, name, password);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
     }
 }

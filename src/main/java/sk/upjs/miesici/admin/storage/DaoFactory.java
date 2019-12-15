@@ -3,9 +3,13 @@ package sk.upjs.miesici.admin.storage;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.miesici.klient.storage.MySQLTrainingDao;
-import sk.upjs.miesici.klient.storage.MysqlTypeOfExerciseDao;
+import sk.upjs.miesici.klient.storage.MySQLTypeOfExerciseDao;
 import sk.upjs.miesici.klient.storage.TrainingDao;
 import sk.upjs.miesici.klient.storage.TypeOfExerciseDao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public enum DaoFactory {
     INSTANCE;
@@ -38,7 +42,7 @@ public enum DaoFactory {
     
     public TypeOfExerciseDao getTypeOfExerciseDao(){
         if (typeOfExerciseDao == null){
-            typeOfExerciseDao = new MysqlTypeOfExerciseDao(getJdbcTemplate());
+            typeOfExerciseDao = new MySQLTypeOfExerciseDao(getJdbcTemplate());
         }
         return typeOfExerciseDao;
     }

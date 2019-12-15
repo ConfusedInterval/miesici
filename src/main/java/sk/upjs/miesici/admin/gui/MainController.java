@@ -29,13 +29,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
-import static sk.upjs.miesici.admin.storage.MySQLEntranceDao.typeOfError;
-
 public class MainController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
     private ObservableList<Customer> customersModel;
+    private int typeOfError = 0;
 
     @FXML
     private TextField filterTextField;
@@ -94,35 +93,23 @@ public class MainController {
         entrance.setKlient_id(selectedCustomer.getId());
         entrance.setName(selectedCustomer.getName());
         entrance.setSurname(selectedCustomer.getSurname());
+        entrance.setArrival(getActualTime());
         try {
             entrance.setLocker(Integer.parseInt(lockerTextField.getText()));
-            LocalDateTime ldt = LocalDateTime.now();
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            entrance.setArrival(format.format(ldt));
-            entranceDao.saveArrival(entrance);
-            if (typeOfError == 1) {
-                textEntrance.setText("Vstup bol zaznamenaný!");
-                PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
-                pauseTransition.setOnFinished(e -> textEntrance.setText(""));
-                pauseTransition.play();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Neplatný príchod");
-                if (typeOfError == 0){
-                    alert.setHeaderText("Zákazík už má zaznamenaný vstup.");
-                    alert.setContentText("Prosím zaznačte odchod!");
-                } else {
-                    alert.setHeaderText("Číslo skrinky je obsadené.");
-                    alert.setContentText("Vyberte, prosím, iné číslo!");
-                }
-                alert.show();
+            checkOccupiedLockersAndEntries(entrance);
+            if (typeOfError == 0) {
+                entranceDao.saveArrival(entrance);
+                successfulSave("Vstup bol zaznamenaný!");
             }
-        } catch (NumberFormatException e){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Neplatný príchod");
-            alert.setHeaderText("Zadali ste nesprávny typ dát.");
-            alert.setContentText("Prosím zadajte číselný údaj!");
-            alert.show();
+            if (typeOfError == 1) {
+                showAlert("Zákazík už má zaznamenaný vstup.", "Prosím zaznačte odchod!");
+            }
+            if (typeOfError == 2) {
+                showAlert("Číslo skrinky je obsadené.", "Vyberte, prosím, iné číslo!");
+            }
+        } catch (
+                NumberFormatException e) {
+            showAlert("Zadali ste nesprávny typ dát.", "Prosím zadajte číselný údaj!");
         }
         lockerTextField.setText("");
     }
@@ -130,31 +117,18 @@ public class MainController {
     @FXML
     void exitButtonClick(ActionEvent event) throws ParseException {
         Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
-        Entrance entrance = findEntrance(selectedCustomer);
+        Entrance entrance = findArrival(selectedCustomer);
         if (entrance != null) {
             entrance.setKlient_id(selectedCustomer.getId());
             entrance.setName(selectedCustomer.getName());
             entrance.setSurname(selectedCustomer.getSurname());
-            LocalDateTime ldt = LocalDateTime.now();
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            entrance.setExit(format.format(ldt));
+            entrance.setExit(getActualTime());
             entrance.setTime(getDifference(entrance));
             entranceDao.saveExit(entrance);
-            if (typeOfError == 0) {
-                textEntrance.setText("Odchod bol zaznamenaný!");
-                PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
-                pauseTransition.setOnFinished(e -> textEntrance.setText(""));
-                pauseTransition.play();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Neplatný odchod");
-                alert.setHeaderText("Zákazík nemá zaznamenaný vstup.");
-                alert.setContentText("Prosím zaznačte vstup!");
-                alert.show();
-            }
+            successfulSave("Odchod bol zaznamenaný!");
+        } else {
+            showAlert("Zákazík nemá zaznamenaný vstup.", "Prosím zaznačte vstup!");
         }
-
-
     }
 
     @FXML
@@ -310,6 +284,54 @@ public class MainController {
         }
     }
 
+
+    private Entrance findArrival(Customer selectedCustomer) {
+        List<Entrance> list = entranceDao.getAll();
+        for (Entrance entrance : list) {
+            if (entrance.getKlient_id().equals(selectedCustomer.getId()) && entrance.getExit() == null && entrance.getArrival() != null) {
+                return entrance;
+            }
+        }
+        return null;
+    }
+
+    private void checkOccupiedLockersAndEntries(Entrance entrance) {
+        typeOfError = 0;
+        List<Entrance> list = entranceDao.getAll();
+        for (Entrance entrance1 : list) {
+            if (entrance1.getKlient_id().equals(entrance.getKlient_id()) && entrance1.getExit() == null && entrance1.getArrival() != null) { // 2 vstupy
+                typeOfError = 1;
+                break;
+            }
+            if (entrance1.getLocker() == entrance.getLocker() && entrance1.getExit() == null && entrance1.getArrival() != null) { // cislo skrinky
+                typeOfError = 2;
+                break;
+            }
+        }
+    }
+
+    private String getActualTime() {
+        LocalDateTime ldt = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return format.format(ldt);
+    }
+
+    private void successfulSave(String string) {
+        textEntrance.setText(string);
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
+        pauseTransition.setOnFinished(e -> textEntrance.setText(""));
+        pauseTransition.play();
+    }
+
+    private void showAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Neúspešné vykonanie príkazu");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
+    }
+
+
     private void filterTableView() {
         // https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
@@ -340,17 +362,5 @@ public class MainController {
 
         // 5. Add sorted (and filtered) data to the table.
         customerTableView.setItems(sortedData);
-    }
-
-
-    private Entrance findEntrance(Customer selectedCustomer){
-        List<Entrance> list = entranceDao.getAll();
-        for (Entrance entrance1 : list) {
-            if (entrance1.getKlient_id().equals(selectedCustomer.getId()) && entrance1.getExit() == null && entrance1.getArrival() != null) {
-                typeOfError = 0;
-                return entrance1;
-            }
-        }
-        return null;
     }
 }

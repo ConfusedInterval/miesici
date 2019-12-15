@@ -1,11 +1,8 @@
 package sk.upjs.miesici.admin.gui;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.apache.commons.lang3.RandomStringUtils;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
@@ -14,18 +11,18 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.UUID;
 
-import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 
 public class CustomerEditController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private Customer customer;
+    private boolean errorCheck;
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
@@ -83,12 +80,17 @@ public class CustomerEditController {
     @FXML
     void addOneMonthButtonClick(ActionEvent event) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(expireTextField.getText(), format);
-        if (date.isBefore(LocalDate.now())) {
+        try {
+            LocalDate date = LocalDate.parse(expireTextField.getText(), format);
+            if (date.isBefore(LocalDate.now())) {
+                LocalDate ldt = LocalDate.now().plusMonths(1);
+                expireTextField.setText(format.format(ldt));
+            } else {
+                LocalDate ldt = date.plusMonths(1);
+                expireTextField.setText(format.format(ldt));
+            }
+        } catch (DateTimeParseException e) {
             LocalDate ldt = LocalDate.now().plusMonths(1);
-            expireTextField.setText(format.format(ldt));
-        } else {
-            LocalDate ldt = date.plusMonths(1);
             expireTextField.setText(format.format(ldt));
         }
     }
@@ -96,21 +98,30 @@ public class CustomerEditController {
     @FXML
     void addThreeMonthButtonClick(ActionEvent event) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(expireTextField.getText(), format);
-        if (date.isBefore(LocalDate.now())) {
+        try {
+            LocalDate date = LocalDate.parse(expireTextField.getText(), format);
+            if (date.isBefore(LocalDate.now())) {
+                LocalDate ldt = LocalDate.now().plusMonths(3);
+                expireTextField.setText(format.format(ldt));
+            } else {
+                LocalDate ldt = date.plusMonths(3);
+                expireTextField.setText(format.format(ldt));
+            }
+        } catch (DateTimeParseException e){
             LocalDate ldt = LocalDate.now().plusMonths(3);
-            expireTextField.setText(format.format(ldt));
-        } else {
-            LocalDate ldt = date.plusMonths(3);
             expireTextField.setText(format.format(ldt));
         }
     }
 
     @FXML
     void saveCreditButtonClick(ActionEvent event) {
-        double c = Double.parseDouble(addCreditTextField.getText());
-        creditTextField.setText(String.valueOf(Double.parseDouble(creditTextField.getText()) + c));
-        addCreditTextField.setText("");
+        try {
+            double addedValue = Double.parseDouble(addCreditTextField.getText());
+            creditTextField.setText(String.valueOf(Double.parseDouble(creditTextField.getText()) + addedValue));
+            addCreditTextField.setText("");
+        } catch (NumberFormatException e){
+            showAlert("Údaje nie sú vyplnené správne!", "Zadajte číselnú hodnotu.");
+        }
     }
 
     @FXML
@@ -122,20 +133,16 @@ public class CustomerEditController {
         customer.setEmail(emailTextField.getText());
         customer.setAdmin(isAdminCheckBox.isSelected());
         saveCreditMembershipAndPassword();
-        if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("") ||
-                creditTextField.getText().equals("") || expireTextField.getText().equals("") || errorCheck == 1) {
-            alertPopUp();
-            errorCheck = 0;
+        if (customer.getName().equals("") || customer.getSurname().equals("") || customer.getAddress().equals("") || customer.getEmail().equals("") ||
+                errorCheck) {
+            showAlert("Údaje nie sú vyplnené správne!", "Prosím vyplňte všetky údaje.");
+            errorCheck = false;
         } else {
-            if (passwordTextField.getText().length() < 6 ) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Neplatný formulár");
-                alert.setHeaderText("Heslo nie je dostatočne dlhé!");
-                alert.setContentText("Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
-                alert.show();
-            } else {
+            if (passwordTextField.getText().length() >= 6 || passwordTextField.getText().length() == 0) {
                 customerDao.edit(customer);
                 saveButton.getScene().getWindow().hide();
+            } else {
+                showAlert("Heslo nie je dostatočne dlhé!", "Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
             }
         }
     }
@@ -180,11 +187,11 @@ public class CustomerEditController {
         return String.format("%x", new BigInteger(hashedPassword));
     }
 
-    private void alertPopUp() {
+    private void showAlert(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Neplatný formulár");
-        alert.setHeaderText("Údaje nie sú vyplnené správne.");
-        alert.setContentText("Prosím vyplňte všetky údaje!");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
         alert.show();
     }
 
@@ -192,12 +199,12 @@ public class CustomerEditController {
         try {
             customer.setCredit(Double.parseDouble(creditTextField.getText()));
         } catch (NumberFormatException ignored) {
-            errorCheck = 1;
+            errorCheck = true;
         }
         try {
             customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
         } catch (IllegalArgumentException ignored) {
-            errorCheck = 1;
+            errorCheck = true;
         }
         if (!passwordTextField.getText().equals("")) {
             customer.setSalt(generateRandomText());
@@ -205,8 +212,8 @@ public class CustomerEditController {
         }
     }
 
-    private void distributePassword(){
-        if (passwordEditButton.isSelected()){
+    private void distributePassword() {
+        if (passwordEditButton.isSelected()) {
             passwordTextField.setText(toggleTextField.getText());
         }
     }

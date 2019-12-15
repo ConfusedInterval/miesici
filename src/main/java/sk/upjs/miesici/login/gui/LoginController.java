@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 public class LoginController {
 
 	private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
-	private List<Customer> customersModel = FXCollections.observableArrayList(customerDao.getAll());
+	private Customer assign;
 
 	@FXML
 	private ResourceBundle resources;
@@ -57,7 +57,6 @@ public class LoginController {
 	@FXML
 	private ImageView loginImageView;
 
-	private Customer assign;
 
 	@FXML
 	void loginButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
@@ -65,28 +64,17 @@ public class LoginController {
 			assign = customerDao.getBylogin(loginTextField.getText());
 			String passwordHidden = hashPassword(passwordTextField.getText(), assign.getSalt());
 			String passwordUnhidden = hashPassword(toggleTextField.getText(), assign.getSalt());
-			if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden))
-					&& assign.isAdmin()) {
+			if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden)) && assign.isAdmin()) {
 				callMainController();
 			}
-			if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden))
-					&& !assign.isAdmin()) {
+			if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden)) && !assign.isAdmin()) {
 				callClientController();
 			}
 			if (!assign.getPassword().equals(passwordHidden) && !assign.getPassword().equals(passwordUnhidden)) {
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Neplatné prihlasovacie údaje!");
-				alert.setHeaderText("Neplatné prihlasovacie údaje!");
-				alert.setContentText("Heslo je nesprávne.");
-				alert.show();
+				showAlert("Neplatné prihlasovacie údaje!", "Heslo je nesprávne.");
 			}
-
 		} catch (NullPointerException e) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Neplatné prihlasovacie údaje!");
-			alert.setHeaderText("Neplatné prihlasovacie údaje!");
-			alert.setContentText("Login je nesprávny.");
-			alert.show();
+			showAlert("Neplatné prihlasovacie údaje!", "Login je nesprávny.");
 		}
 	}
 
@@ -121,8 +109,7 @@ public class LoginController {
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
 			modalStage.setResizable(false);
-			modalStage.getIcons().add(
-					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setTitle("Admin");
 			modalStage.setMinHeight(196);
 			modalStage.setMinWidth(600);
@@ -144,11 +131,9 @@ public class LoginController {
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
 			modalStage.setResizable(false);
-			modalStage.getIcons().add(
-					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setTitle("Domov");
 			modalStage.setResizable(false);
-			;
 			controller.hideAll();
 			controller.getHomeAnchorPane().setVisible(true);
 			modalStage.show();
@@ -166,6 +151,14 @@ public class LoginController {
 		SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		byte[] hashedPassword = key.generateSecret(spec).getEncoded();
 		return String.format("%x", new BigInteger(hashedPassword));
+	}
+
+	private void showAlert(String header, String content) {
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle("Neúspešné vykonanie príkazu");
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.show();
 	}
 
 }

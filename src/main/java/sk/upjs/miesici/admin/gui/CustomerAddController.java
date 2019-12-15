@@ -3,7 +3,6 @@ package sk.upjs.miesici.admin.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.apache.commons.lang3.RandomStringUtils;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
@@ -12,17 +11,15 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 import java.util.UUID;
-
-import static sk.upjs.miesici.admin.storage.MySQLCustomerDao.errorCheck;
 
 public class CustomerAddController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private Customer savedCustomer;
-    private Customer customer = new Customer();
+    private boolean errorCheck;
 
     @FXML
     private Button saveButton;
@@ -62,24 +59,19 @@ public class CustomerAddController {
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
+        Customer addCustomer = new Customer();
         distributePassword();
-        customer.setName(nameTextField.getText());
-        customer.setSurname(surnameTextField.getText());
-        customer.setAddress(addressTextField.getText());
-        customer.setEmail(emailTextField.getText());
-        customer.setAdmin(isAdminCheckBox.isSelected());
-        saveCreditMembershipAndPassword();
-        if (customer.getName() == null || customer.getSurname() == null || customer.getAddress() == null || customer.getEmail() == null || customer.getMembershipExp() == null ||
-                customer.getLogin() == null || customer.getPassword() == null || errorCheck == 1) {
-            alertPopUp();
-            errorCheck = 0;
+        addCustomer.setName(nameTextField.getText());
+        addCustomer.setSurname(surnameTextField.getText());
+        addCustomer.setAddress(addressTextField.getText());
+        addCustomer.setEmail(emailTextField.getText());
+        addCustomer.setAdmin(isAdminCheckBox.isSelected());
+        saveCreditMembershipAndPassword(addCustomer);
+        if (!checkIfLoginIsTaken()) {
+            addCustomer.setLogin(loginTextField.getText());
+            checkIfCorrectAndSave(addCustomer);
         } else {
-            if (passwordTextField.getText().length() >= 6) {
-                this.savedCustomer = customerDao.save(customer);
-                saveButton.getScene().getWindow().hide();
-            } else {
-                alertPasswordPopUp();
-            }
+            showAlert("Login s rovnakým názvom už existuje!", "Zvoľte iné prihlasovacie meno!");
         }
     }
 
@@ -109,10 +101,6 @@ public class CustomerAddController {
         toggleTextField.setText(passwordTextField.getText());
     }
 
-    private String generateRandomSalt() {
-        return UUID.randomUUID().toString();
-    }
-
     private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         char[] passwordChars = password.toCharArray();
         byte[] saltBytes = salt.getBytes();
@@ -128,22 +116,35 @@ public class CustomerAddController {
         return String.format("%x", new BigInteger(hashedPassword));
     }
 
-    private void alertPopUp() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Neplatný formulár");
-        alert.setHeaderText("Údaje nie sú vyplnené správne.");
-        alert.setContentText("Prosím vyplňte všetky údaje!");
-        alert.show();
+    private String generateRandomSalt() {
+        return UUID.randomUUID().toString();
     }
 
-    private void alertPasswordPopUp() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Neplatný formulár");
-        alert.setHeaderText("Heslo nie je dostatočne dlhé!");
-        alert.setContentText("Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
-        alert.show();
+    private void checkIfCorrectAndSave(Customer customer) {
+        if (customer.getName().equals("") || customer.getSurname().equals("") || customer.getAddress().equals("")  || customer.getEmail().equals("") ||
+                customer.getLogin().equals("") || customer.getPassword().equals("") || errorCheck) {
+            showAlert("Údaje nie sú vyplnené správne!", "Prosím vyplňte všetky údaje.");
+            errorCheck = false;
+        } else {
+            if (passwordTextField.getText().length() >= 6) {
+                this.savedCustomer = customerDao.save(customer);
+                saveButton.getScene().getWindow().hide();
+            } else {
+                showAlert("Heslo nie je dostatočne dlhé!", "Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov.");
+            }
+        }
     }
 
+
+    private boolean checkIfLoginIsTaken() {
+        List<Customer> list = customerDao.getAll();
+        for (Customer customer : list) {
+            if (loginTextField.getText().equals(customer.getLogin())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void distributePassword() {
         if (togglePass.isSelected()) {
@@ -151,18 +152,25 @@ public class CustomerAddController {
         }
     }
 
-    private void saveCreditMembershipAndPassword() throws InvalidKeySpecException, NoSuchAlgorithmException {
+    private void showAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Neúspešné vykonanie príkazu");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
+    }
+
+    private void saveCreditMembershipAndPassword(Customer customer) throws InvalidKeySpecException, NoSuchAlgorithmException {
         try {
             customer.setCredit(Double.parseDouble(creditTextField.getText()));
         } catch (NumberFormatException ignored) {
-            errorCheck = 1;
+            errorCheck = true;
         }
         try {
             customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
         } catch (IllegalArgumentException ignored) {
-            errorCheck = 1;
+            errorCheck = true;
         }
-        customer.setLogin(loginTextField.getText());
         String salt = generateRandomSalt();
         customer.setPassword(hashPassword(passwordTextField.getText(), salt));
         customer.setSalt(salt);
