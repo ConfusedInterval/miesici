@@ -14,8 +14,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import sk.upjs.miesici.admin.storage.Customer;
-import sk.upjs.miesici.admin.storage.CustomerDao;
-import sk.upjs.miesici.admin.storage.DaoFactory;
+
 
 public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
 
