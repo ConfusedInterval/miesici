@@ -129,6 +129,7 @@ public class ClientController {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+	
 
 	public AnchorPane getMemberShipExtendAnchorPane() {
 		return memberShipExtendAnchorPane;
@@ -459,6 +460,7 @@ public class ClientController {
 	@FXML
 	void addTrainingClick(ActionEvent event) {
 		AddTrainingController controller = new AddTrainingController();
+		controller.setCustomer(customer);
 		showAddTraining(controller);
 	}
 

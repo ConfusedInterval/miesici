@@ -4,6 +4,7 @@ public class TypeOfExercise {
 	
 	private long id;
 	private String name;
+	private long clientId;
 	
 	public long getId() {
 		return id;
@@ -20,6 +21,12 @@ public class TypeOfExercise {
 	@Override
 	public String toString() {
 		return name;
+	}
+	public long getClientId() {
+		return clientId;
+	}
+	public void setClientId(long clientId) {
+		this.clientId = clientId;
 	}
 	
 	

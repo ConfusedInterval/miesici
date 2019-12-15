@@ -11,6 +11,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 import sk.upjs.miesici.klient.storage.TypeOfExercise;
 import sk.upjs.miesici.klient.storage.TypeOfExerciseDao;
@@ -34,6 +35,12 @@ public class AddTrainingController {
     
     @FXML
     private CheckBox ownExerciseCheckBox;
+    
+    private Customer customer;
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
 	private TypeOfExerciseDao typeOfExerciseDao = DaoFactory.INSTANCE.getTypeOfExerciseDao();
 	private ObservableList<TypeOfExercise> typeOfExerciseModel;
@@ -59,7 +66,8 @@ public class AddTrainingController {
     @FXML
     void initialize() {
     	addExerciseAnchorPane.setVisible(false);
-    	typeOfExerciseModel = FXCollections.observableArrayList(typeOfExerciseDao.getAll());
+    	typeOfExerciseDao.setCustomer(customer);
+    	typeOfExerciseModel = FXCollections.observableArrayList(typeOfExerciseDao.getAllByClientId(customer.getId()));
     	exerciseComboBox.getItems().addAll(typeOfExerciseModel);
     	exerciseComboBox.setValue(typeOfExerciseModel.get(0));
     	exerciseComboBox.setEditable(true);
