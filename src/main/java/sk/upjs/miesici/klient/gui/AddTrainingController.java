@@ -18,25 +18,25 @@ import sk.upjs.miesici.klient.storage.TypeOfExerciseDao;
 
 public class AddTrainingController {
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
-    
-    @FXML
-    private AnchorPane addExerciseAnchorPane;
+	@FXML
+	private URL location;
 
-    @FXML
-    private AnchorPane addTrainingAnchorPane; 
-    
-    @FXML
-    private ComboBox<TypeOfExercise> exerciseComboBox;
-    
-    @FXML
-    private CheckBox ownExerciseCheckBox;
-    
-    private Customer customer;
+	@FXML
+	private AnchorPane addExerciseAnchorPane;
+
+	@FXML
+	private AnchorPane addTrainingAnchorPane;
+
+	@FXML
+	private ComboBox<TypeOfExercise> exerciseComboBox;
+
+	@FXML
+	private CheckBox ownExerciseCheckBox;
+
+	private Customer customer;
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
@@ -44,33 +44,34 @@ public class AddTrainingController {
 
 	private TypeOfExerciseDao typeOfExerciseDao = DaoFactory.INSTANCE.getTypeOfExerciseDao();
 	private ObservableList<TypeOfExercise> typeOfExerciseModel;
-	
-    
-    @FXML
-    void AddExerciseClick(ActionEvent event) {
-    	addTrainingAnchorPane.setVisible(false);
-    	Stage stage = (Stage) addTrainingAnchorPane.getScene().getWindow();
-		stage.setTitle("Pridanie cviku");
-		
-		addExerciseAnchorPane.setVisible(true);
-    }
-    
-    @FXML
-    void saveClick(ActionEvent event) {
-    	TypeOfExercise t = new TypeOfExercise();
-    	t.setName(exerciseComboBox.getEditor().getText());
-    	typeOfExerciseDao.save(t);
-    	
-    }
 
-    @FXML
-    void initialize() {
-    	addExerciseAnchorPane.setVisible(false);
-    	typeOfExerciseDao.setCustomer(customer);
-    	typeOfExerciseModel = FXCollections.observableArrayList(typeOfExerciseDao.getAllByClientId(customer.getId()));
-    	exerciseComboBox.getItems().addAll(typeOfExerciseModel);
-    	exerciseComboBox.setValue(typeOfExerciseModel.get(0));
-    	exerciseComboBox.setEditable(true);
-    	
-    }
+	@FXML
+	void AddExerciseClick(ActionEvent event) {
+		addTrainingAnchorPane.setVisible(false);
+		Stage stage = (Stage) addTrainingAnchorPane.getScene().getWindow();
+		stage.setTitle("Pridanie cviku");
+
+		addExerciseAnchorPane.setVisible(true);
+	}
+
+	@FXML
+	void saveClick(ActionEvent event) {
+		TypeOfExercise t = new TypeOfExercise();
+		t.setName(exerciseComboBox.getEditor().getText());
+		typeOfExerciseDao.save(t);
+
+	}
+
+	@FXML
+	void initialize() {
+		addExerciseAnchorPane.setVisible(false);
+		typeOfExerciseDao.setCustomer(customer);
+		typeOfExerciseModel = FXCollections.observableArrayList(typeOfExerciseDao.getAllByClientId(customer.getId()));
+		exerciseComboBox.getItems().addAll(typeOfExerciseModel);
+		if (typeOfExerciseModel.size() != 0) {
+			exerciseComboBox.setValue(typeOfExerciseModel.get(0));
+		}
+		exerciseComboBox.setEditable(true);
+
+	}
 }
