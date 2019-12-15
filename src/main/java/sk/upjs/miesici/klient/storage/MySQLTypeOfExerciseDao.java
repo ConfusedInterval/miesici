@@ -19,7 +19,7 @@ import sk.upjs.miesici.admin.storage.Customer;
 public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
 
 	private JdbcTemplate jdbcTemplate;
-	private Customer customer;
+	private Customer customer; 
 
 	public MySQLTypeOfExerciseDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
