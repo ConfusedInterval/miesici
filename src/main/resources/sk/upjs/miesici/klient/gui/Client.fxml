@@ -10,15 +10,13 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="508.0" prefWidth="196.0" style="-fx-background-color: cyAn;">
          <children>
-            <ImageView fx:id="clientImageView" fitHeight="150.0" fitWidth="200.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
-               
-            </ImageView>
             <Button layoutY="150.0" mnemonicParsing="false" onAction="#homeClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Domov">
                <font>
                   <Font size="16.0" />
@@ -67,6 +65,13 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="clientImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               
+            </ImageView>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="196.0" prefHeight="508.0" prefWidth="514.0">
@@ -249,7 +254,7 @@
                      </font>
                   </Label>
                   <TableView fx:id="trainingTableView" layoutX="16.0" layoutY="82.0" prefHeight="332.0" prefWidth="486.0" />
-                  <Button layoutX="411.0" layoutY="453.0" mnemonicParsing="false" style="-fx-background-color: cyan;" text="Pridať tréning">
+                  <Button layoutX="411.0" layoutY="453.0" mnemonicParsing="false" onAction="#addTrainingClick" style="-fx-background-color: cyan;" text="Pridať tréning">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>

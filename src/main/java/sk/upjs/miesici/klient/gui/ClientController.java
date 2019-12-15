@@ -38,6 +38,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sk.upjs.miesici.admin.storage.Customer;
@@ -47,6 +48,8 @@ import sk.upjs.miesici.admin.storage.Entrance;
 import sk.upjs.miesici.admin.storage.EntranceDao;
 import sk.upjs.miesici.klient.storage.Training;
 import sk.upjs.miesici.klient.storage.TrainingDao;
+import sk.upjs.miesici.klient.storage.TypeOfExercise;
+import sk.upjs.miesici.klient.storage.TypeOfExerciseDao;
 import sk.upjs.miesici.login.gui.LoginController;
 
 public class ClientController {
@@ -274,6 +277,10 @@ public class ClientController {
 		});
 		trainingTableView.getColumns().add(indexCol);
 
+		TableColumn<Training, String> trainingName = new TableColumn<Training, String>("Názov");
+		trainingName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		trainingTableView.getColumns().add(trainingName);
+
 		TableColumn<Training, LocalDate> trainingDate = new TableColumn<>("Tréning");
 		trainingDate.setCellValueFactory(new PropertyValueFactory<>("date"));
 		trainingTableView.getColumns().add(trainingDate);
@@ -281,11 +288,7 @@ public class ClientController {
 		TableColumn<Training, String> trainingDay = new TableColumn<Training, String>("Deň v týždni");
 		trainingDay.setCellValueFactory(new PropertyValueFactory<>("dayOfTheWeek"));
 		trainingTableView.getColumns().add(trainingDay);
-		
-		TableColumn<Training, String> trainingName = new TableColumn<Training, String>("Názov");
-		trainingName.setCellValueFactory(new PropertyValueFactory<>("name"));
-		trainingTableView.getColumns().add(trainingName);
-		
+
 		TableColumn<Training, String> trainingNote = new TableColumn<Training, String>("Poznámka");
 		trainingNote.setMinWidth(250);
 		trainingNote.setCellValueFactory(new PropertyValueFactory<>("note"));
@@ -455,6 +458,32 @@ public class ClientController {
 		PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
 		visiblePause.setOnFinished(e -> dataUpdateTextField.setVisible(false));
 		visiblePause.play();
+	}
+
+	private void showAddTraining(AddTrainingController controller) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					getClass().getResource("/sk/upjs/miesici/klient/gui/AddTraining.fxml"));
+			fxmlLoader.setController(controller);
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage modalStage = new Stage();
+			modalStage.setScene(scene);
+			modalStage.initModality(Modality.APPLICATION_MODAL);
+			modalStage.setTitle("Pridanie tréningu");
+			modalStage.setResizable(false);
+			modalStage.getIcons().add(
+					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void addTrainingClick(ActionEvent event) {
+		AddTrainingController controller = new AddTrainingController();
+		showAddTraining(controller);
 	}
 
 	@FXML
