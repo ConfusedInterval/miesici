@@ -120,74 +120,6 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="homeAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
-               <children>
-                  <Button layoutX="402.0" layoutY="465.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-                  <Label layoutX="108.0" layoutY="37.0" text="Vitajte v posilňovni Miesiči" textFill="WHITE">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-                  <TableView fx:id="clientTable" layoutX="9.0" layoutY="141.0" prefHeight="55.0" prefWidth="502.0" />
-                  <AnchorPane fx:id="memberShipExtendAnchorPane" layoutY="308.0" prefHeight="200.0" prefWidth="520.0" style="-fx-background-color: #333333;">
-                     <children>
-                        <Button layoutX="14.0" layoutY="157.0" mnemonicParsing="false" onAction="#backToHomeAnchorPaneClick" style="-fx-background-color: cyan;" text="Späť">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
-                        <Button layoutX="402.0" layoutY="157.0" mnemonicParsing="false" onAction="#membershipExtendClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
-                        <Label layoutX="231.0" text="Cenník" textFill="WHITE">
-                           <font>
-                              <Font size="19.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="54.0" layoutY="50.0" text="1 mesiac:" textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="53.0" layoutY="102.0" text="3 mesiace:" textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="159.0" layoutY="50.0" text="25€" textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="159.0" layoutY="102.0" text="70€" textFill="WHITE">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                        <RadioButton fx:id="oneMonthRadioButton" layoutX="216.0" layoutY="50.0" mnemonicParsing="false" text="RadioButton">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="tgMembershipExtend" />
-                           </toggleGroup>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </RadioButton>
-                        <RadioButton fx:id="threeMonthRadioButton" layoutX="216.0" layoutY="102.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgMembershipExtend">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></RadioButton>
-                     </children>
-                  </AnchorPane>
-                  <Label fx:id="membershipExtendedLabel" layoutX="90.0" layoutY="240.0" textFill="#13c300">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
             <AnchorPane fx:id="settingsAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
                <children>
                   <Label layoutX="196.0" layoutY="35.0" text="Nastavenia" textFill="WHITE">
@@ -258,6 +190,74 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="homeAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;">
+               <children>
+                  <Button layoutX="402.0" layoutY="465.0" mnemonicParsing="false" onAction="#showMembershipExtendAnchodPaneClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Label layoutX="108.0" layoutY="37.0" text="Vitajte v posilňovni Miesiči" textFill="WHITE">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="clientTable" layoutX="9.0" layoutY="141.0" prefHeight="64.0" prefWidth="502.0" />
+                  <AnchorPane fx:id="memberShipExtendAnchorPane" layoutY="308.0" prefHeight="200.0" prefWidth="520.0" style="-fx-background-color: #333333;">
+                     <children>
+                        <Button layoutX="14.0" layoutY="157.0" mnemonicParsing="false" onAction="#backToHomeAnchorPaneClick" style="-fx-background-color: cyan;" text="Späť">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Button layoutX="402.0" layoutY="157.0" mnemonicParsing="false" onAction="#membershipExtendClick" style="-fx-background-color: cyan;" text="Predĺžiť členstvo">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Label layoutX="231.0" text="Cenník" textFill="WHITE">
+                           <font>
+                              <Font size="19.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="54.0" layoutY="50.0" text="1 mesiac:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="53.0" layoutY="102.0" text="3 mesiace:" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="159.0" layoutY="50.0" text="25€" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="159.0" layoutY="102.0" text="70€" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <RadioButton fx:id="oneMonthRadioButton" layoutX="216.0" layoutY="50.0" mnemonicParsing="false" text="RadioButton">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="tgMembershipExtend" />
+                           </toggleGroup>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </RadioButton>
+                        <RadioButton fx:id="threeMonthRadioButton" layoutX="216.0" layoutY="102.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$tgMembershipExtend">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></RadioButton>
+                     </children>
+                  </AnchorPane>
+                  <Label fx:id="membershipExtendedLabel" layoutX="90.0" layoutY="240.0" textFill="#13c300">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
