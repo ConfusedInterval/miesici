@@ -255,8 +255,8 @@ public class MainController {
             Scene scene = new Scene(parent);
             Stage modalStage = new Stage();
             modalStage.setScene(scene);
-            modalStage.setMinHeight(800);
-            modalStage.setMinWidth(500);
+            modalStage.setMinHeight(450);
+            modalStage.setMinWidth(450);
             modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
             modalStage.setTitle("Vstupy");
             modalStage.initModality(Modality.APPLICATION_MODAL);

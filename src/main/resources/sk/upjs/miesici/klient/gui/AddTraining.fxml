@@ -12,17 +12,16 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="345.6" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="345.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane fx:id="addTrainingAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="345.6" style="-fx-background-color: #333333;">
+      <AnchorPane fx:id="addTrainingAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="345.0" style="-fx-background-color: #333333;">
          <children>
-            <Label layoutX="97.0" layoutY="31.0" text="Pridanie tréningu" textFill="WHITE">
+            <Label layoutX="97.0" layoutY="22.0" text="Pridanie tréningu" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <GridPane layoutX="52.0" layoutY="103.0" prefHeight="174.0" prefWidth="241.0">
+            <GridPane layoutX="52.0" layoutY="95.0" prefHeight="174.0" prefWidth="241.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

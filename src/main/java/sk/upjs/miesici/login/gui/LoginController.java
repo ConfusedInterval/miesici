@@ -108,11 +108,10 @@ public class LoginController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
-			modalStage.setResizable(false);
 			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setTitle("Admin");
-			modalStage.setMinHeight(196);
-			modalStage.setMinWidth(600);
+			modalStage.setMinHeight(500);
+			modalStage.setMinWidth(650);
 			modalStage.show();
 			loginButton.getScene().getWindow().hide();
 		} catch (IOException e) {
@@ -130,10 +129,12 @@ public class LoginController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
-			modalStage.setResizable(false);
 			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.setMinWidth(800);
+			modalStage.setMinHeight(500);
+			modalStage.setHeight(600);
+			modalStage.setWidth(500);
 			modalStage.setTitle("Domov");
-			modalStage.setResizable(false);
 			controller.hideAll();
 			controller.getHomeAnchorPane().setVisible(true);
 			modalStage.show();
