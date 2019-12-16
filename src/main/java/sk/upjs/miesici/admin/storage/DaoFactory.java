@@ -2,6 +2,9 @@ package sk.upjs.miesici.admin.storage;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import sk.upjs.miesici.klient.storage.ExerciseDao;
+import sk.upjs.miesici.klient.storage.MySQLExerciseDao;
 import sk.upjs.miesici.klient.storage.MySQLTrainingDao;
 import sk.upjs.miesici.klient.storage.MySQLTypeOfExerciseDao;
 import sk.upjs.miesici.klient.storage.TrainingDao;
@@ -18,6 +21,7 @@ public enum DaoFactory {
     private EntranceDao entranceDao;
     private TrainingDao trainingDao;
     private TypeOfExerciseDao typeOfExerciseDao;
+    private ExerciseDao exerciseDao;
 
     public CustomerDao getCustomerDao() {
         if (customerDao == null) {
@@ -45,6 +49,13 @@ public enum DaoFactory {
             typeOfExerciseDao = new MySQLTypeOfExerciseDao(getJdbcTemplate());
         }
         return typeOfExerciseDao;
+    }
+    
+    public ExerciseDao getExerciseDao() {
+    	if(exerciseDao == null) {
+    		exerciseDao = new MySQLExerciseDao(getJdbcTemplate());
+    	}
+    	return exerciseDao;
     }
 
     private JdbcTemplate getJdbcTemplate() {

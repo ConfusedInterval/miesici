@@ -46,6 +46,8 @@ import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 import sk.upjs.miesici.admin.storage.Entrance;
 import sk.upjs.miesici.admin.storage.EntranceDao;
+import sk.upjs.miesici.klient.storage.Exercise;
+import sk.upjs.miesici.klient.storage.ExerciseDao;
 import sk.upjs.miesici.klient.storage.Training;
 import sk.upjs.miesici.klient.storage.TrainingDao;
 import sk.upjs.miesici.login.gui.LoginController;
@@ -129,7 +131,6 @@ public class ClientController {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
 
 	public AnchorPane getMemberShipExtendAnchorPane() {
 		return memberShipExtendAnchorPane;
@@ -298,6 +299,8 @@ public class ClientController {
 	void refreshHomeTable() {
 		clientTable.getColumns().get(0).setVisible(false);
 		clientTable.getColumns().get(0).setVisible(true);
+		trainingTableView.getColumns().get(0).setVisible(false);
+		trainingTableView.getColumns().get(0).setVisible(true);
 	}
 
 	@FXML
@@ -388,8 +391,7 @@ public class ClientController {
 		alert.show();
 	}
 
-
-	private void showAlert(String title, String header, String content){
+	private void showAlert(String title, String header, String content) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
@@ -405,7 +407,8 @@ public class ClientController {
 		if (oldPassword.equals(customer.getPassword())) {
 			String newPassword = newPasswordField.getText();
 			if (newPassword.length() < 6) {
-				showAlert("Heslo nie je dostatočne dlhé!", "Heslo nie je dostatočne dlhé!", "Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov." );
+				showAlert("Heslo nie je dostatočne dlhé!", "Heslo nie je dostatočne dlhé!",
+						"Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov.");
 				return;
 			}
 			if (newPassword.equals(repeatPasswordField.getText())) {
@@ -450,7 +453,8 @@ public class ClientController {
 			modalStage.initModality(Modality.APPLICATION_MODAL);
 			modalStage.setTitle("Pridanie tréningu");
 			modalStage.setResizable(false);
-			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.getIcons().add(
+					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -464,6 +468,34 @@ public class ClientController {
 		showAddTraining(controller);
 	}
 
+	private void showTraining(TrainingController controller) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/klient/gui/Training.fxml"));
+			fxmlLoader.setController(controller);
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent);
+			Stage modalStage = new Stage();
+			modalStage.setScene(scene);
+			modalStage.initModality(Modality.APPLICATION_MODAL);
+			modalStage.setTitle("Tréning");
+			modalStage.setResizable(false);
+			modalStage.getIcons().add(
+					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void openTrainingClick(ActionEvent event) {
+		Training training = trainingTableView.getSelectionModel().getSelectedItem();
+		TrainingController controller = new TrainingController();
+		controller.setTraining(training);
+		showTraining(controller);
+
+	}
+
 	@FXML
 	void logOutClick(ActionEvent event) {
 		LoginController controller = new LoginController();
@@ -475,7 +507,8 @@ public class ClientController {
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
 			modalStage.setResizable(false);
-			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.getIcons().add(
+					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setTitle("Prihlásenie");
 			modalStage.show();
 			homeAnchorPane.getScene().getWindow().hide();
