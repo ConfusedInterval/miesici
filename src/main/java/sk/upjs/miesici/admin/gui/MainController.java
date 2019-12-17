@@ -54,25 +54,10 @@ public class MainController {
     @FXML
     private TableView<Customer> customerTableView;
 
-
-    @FXML
-    void addMouseEntered(MouseEvent event) {
-        Tooltip tt = new Tooltip();
-        tt.setText("Pridaj používateľa");
-        addCustomer.setTooltip(tt);
-    }
-
-    @FXML
-    void entryMouseEntered(MouseEvent event) {
-        Tooltip tt = new Tooltip();
-        tt.setText("Vstupy");
-        entryCustomer.setTooltip(tt);
-    }
-
     @FXML
     void addCustomerButtonClick(ActionEvent event) {
         CustomerAddController controller = new CustomerAddController();
-        showAddCustomerAddWindow(controller, "CustomerAdd.fxml");
+        showAddCustomerAddWindow(controller);
         if (controller.getSavedCustomer() != null) {
             customersModel = FXCollections.observableArrayList(customerDao.getAll());
             customerTableView.setItems(FXCollections.observableArrayList(customersModel));
@@ -83,7 +68,7 @@ public class MainController {
     @FXML
     void entryCustomerButtonClick(ActionEvent event) {
         EntranceController controller = new EntranceController();
-        showEntryWindow(controller, "Entry.fxml");
+        showEntryWindow(controller);
     }
 
     @FXML
@@ -184,7 +169,8 @@ public class MainController {
         permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
         customerTableView.getColumns().add(permanentkaCol);
 
-        TableColumn<Customer, Date> adminCol = new TableColumn<>("Admin");
+
+        TableColumn<Customer, Boolean> adminCol = new TableColumn<>("Admin");
         adminCol.setCellValueFactory(new PropertyValueFactory<>("admin"));
         customerTableView.getColumns().add(adminCol);
 
@@ -202,7 +188,7 @@ public class MainController {
 
             CustomerEditController controller = new CustomerEditController();
             controller.setCustomer(selectedCustomer);
-            showEditCustomerWindow(controller, "CustomerEdit.fxml");
+            showEditCustomerWindow(controller);
 
             // refresh table
             customersModel = FXCollections.observableArrayList(customerDao.getAll());
@@ -221,7 +207,7 @@ public class MainController {
         String newString2 = new SimpleDateFormat("HH:mm:ss").format(date2);
         Date exit = new SimpleDateFormat("HH:mm:ss").parse(newString2);
 
-        long difference = exit.getTime() - arrival.getTime();
+        long difference = exit.getTime() - arrival.getTime(); // ms
         long diffSeconds = difference / 1000 % 60;
         long diffMinutes = difference / (60 * 1000) % 60;
         long diffHours = difference / (60 * 60 * 1000) % 24;
@@ -229,9 +215,9 @@ public class MainController {
         return diffHours + ":" + diffMinutes + ":" + diffSeconds;
     }
 
-    private void showAddCustomerAddWindow(CustomerAddController controller, String nameOfFxml) {
+    private void showAddCustomerAddWindow(CustomerAddController controller) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(nameOfFxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerAdd.fxml"));
             fxmlLoader.setController(controller);
             Parent parent = fxmlLoader.load();
             Scene scene = new Scene(parent);
@@ -247,9 +233,9 @@ public class MainController {
         }
     }
 
-    private void showEntryWindow(EntranceController controller, String nameOfFxml) {
+    private void showEntryWindow(EntranceController controller) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(nameOfFxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Entry.fxml"));
             fxmlLoader.setController(controller);
             Parent parent = fxmlLoader.load();
             Scene scene = new Scene(parent);
@@ -266,9 +252,9 @@ public class MainController {
         }
     }
 
-    private void showEditCustomerWindow(CustomerEditController controller, String nameOfFxml) {
+    private void showEditCustomerWindow(CustomerEditController controller) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(nameOfFxml));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerEdit.fxml"));
             fxmlLoader.setController(controller);
             Parent parent = fxmlLoader.load();
             Scene scene = new Scene(parent);
@@ -312,11 +298,12 @@ public class MainController {
 
     private String getActualTime() {
         LocalDateTime ldt = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return format.format(ldt);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return formatter.format(ldt);
     }
 
     private void successfulSave(String string) {
+        // https://stackoverflow.com/questions/30543619/how-to-use-pausetransition-method-in-javafx
         textEntrance.setText(string);
         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
         pauseTransition.setOnFinished(e -> textEntrance.setText(""));

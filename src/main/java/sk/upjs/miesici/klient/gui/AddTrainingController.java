@@ -100,8 +100,6 @@ public class AddTrainingController {
 		exerciseDao.saveExercise(exercise);
 		repsTextField.setText("");
 		weightTextField.setText("");
-		
-
 	}
 	
 	
@@ -114,8 +112,6 @@ public class AddTrainingController {
     	training.setName(nameOfTraining.getText());
     	training.setNote(noteOfTraining.getText());
     	trainingDao.saveTraining(training);
-    
-    	
     }
 
 	@FXML
@@ -123,7 +119,6 @@ public class AddTrainingController {
 		if (ownExerciseCheckBox.isSelected()) {
 			exerciseComboBox.setDisable(true);
 			ownExerciseTextField.setDisable(false);
-
 		}
 		if (!ownExerciseCheckBox.isSelected()) {
 			exerciseComboBox.setDisable(false);
@@ -141,6 +136,5 @@ public class AddTrainingController {
 			exerciseComboBox.setValue(typeOfExerciseModel.get(0));
 		}
 		ownExerciseTextField.setDisable(true);
-
 	}
 }

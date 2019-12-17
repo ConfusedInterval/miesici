@@ -1,6 +1,8 @@
 package sk.upjs.miesici.admin.storage;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
@@ -52,15 +54,15 @@ public class MySQLEntranceDao implements EntranceDao {
             String sql = "UPDATE vstup SET odchod = ? , "
                     + "cas = ? "
                     + "WHERE id = ?;";
-            try (Connection conn = this.connect()) {
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, entrance.getExit());
-                pstmt.setString(2, entrance.getTime());
-                pstmt.setLong(3, entrance.getId());
-                pstmt.executeUpdate();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+            jdbcTemplate.execute(sql, new PreparedStatementCallback<Object>() {
+                @Override
+                public Object doInPreparedStatement(PreparedStatement pstmt) throws SQLException, DataAccessException {
+                    pstmt.setString(1, entrance.getExit());
+                    pstmt.setString(2, entrance.getTime());
+                    pstmt.setLong(3, entrance.getId());
+                    return pstmt.executeUpdate();
+                }
+            });
         }
     }
 
@@ -74,18 +76,5 @@ public class MySQLEntranceDao implements EntranceDao {
             }
         }
         return entriesById;
-    }
-
-    private Connection connect() {
-        String url = "jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava";
-        String name = "root";
-        String password = "root";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, name, password);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
     }
 }

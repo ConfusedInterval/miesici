@@ -375,6 +375,7 @@ public class ClientController {
 	}
 
 	private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		// https://adambard.com/blog/3-wrong-ways-to-store-a-password/
 		char[] passwordChars = password.toCharArray();
 		byte[] saltBytes = salt.getBytes();
 		PBEKeySpec spec = new PBEKeySpec(passwordChars, saltBytes, 2000, 512);
@@ -436,6 +437,8 @@ public class ClientController {
 		}
 		customerDao.edit(customer);
 		dataUpdateTextField.setVisible(true);
+
+		// https://stackoverflow.com/questions/30543619/how-to-use-pausetransition-method-in-javafx
 		PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
 		visiblePause.setOnFinished(e -> dataUpdateTextField.setVisible(false));
 		visiblePause.play();

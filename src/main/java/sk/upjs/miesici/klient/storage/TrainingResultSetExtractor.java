@@ -28,7 +28,6 @@ public class TrainingResultSetExtractor implements ResultSetExtractor<List<Train
             result.add(training);
         }
         return result;
-
     }
 
 

@@ -145,6 +145,7 @@ public class LoginController {
 	}
 
 	private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		// https://adambard.com/blog/3-wrong-ways-to-store-a-password/
 		char[] passwordChars = password.toCharArray();
 		byte[] saltBytes = salt.getBytes();
 

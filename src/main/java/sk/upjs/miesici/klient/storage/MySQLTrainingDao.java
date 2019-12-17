@@ -39,31 +39,6 @@ public class MySQLTrainingDao implements TrainingDao {
 	}
 
 	@Override
-	public List<Training> getAllbyClientId(long clientId) {
-		List<Training> all = getAll();
-		List<Training> byId = new ArrayList<Training>();
-		for(Training training : all) {
-			if(training.getClientId() == clientId) {
-				byId.add(training);
-			}
-		}
-		return byId;
-	}
-
-	private Connection connect() {
-		String url = "jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava";
-		String name = "root";
-		String password = "root";
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(url, name, password);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return conn;
-	}
-
-	@Override
 	public void saveTraining(Training training) {
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 		insert.withTableName("trening").usingGeneratedKeyColumns("id");
@@ -75,8 +50,19 @@ public class MySQLTrainingDao implements TrainingDao {
 		Number key = insert.executeAndReturnKey(new MapSqlParameterSource(values));
 		training.setId(key.longValue());
 		//return training;
-		
 	}
-	
+
+	@Override
+	public List<Training> getAllbyClientId(long clientId) {
+		List<Training> all = getAll();
+		List<Training> byId = new ArrayList<Training>();
+		for(Training training : all) {
+			if(training.getClientId() == clientId) {
+				byId.add(training);
+			}
+		}
+		return byId;
+	}
+
 
 }

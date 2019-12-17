@@ -23,7 +23,7 @@ public class CustomerEditController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private Customer customer;
-    private boolean errorCheck;
+    private int errorCheck = 0;
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
@@ -66,6 +66,17 @@ public class CustomerEditController {
     private TextField toggleTextField;
 
     @FXML
+    void saveCreditButtonClick(ActionEvent event) {
+        try {
+            double addedValue = Double.parseDouble(addCreditTextField.getText());
+            creditTextField.setText(String.valueOf(Double.parseDouble(creditTextField.getText()) + addedValue));
+            addCreditTextField.setText("");
+        } catch (NumberFormatException e) {
+            showAlert("Údaje nie sú vyplnené správne!", "Zadajte číselnú hodnotu.");
+        }
+    }
+
+    @FXML
     void initialize() {
         nameTextField.setText(customer.getName());
         surnameTextField.setText(customer.getSurname());
@@ -80,66 +91,97 @@ public class CustomerEditController {
 
     @FXML
     void addOneMonthButtonClick(ActionEvent event) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
-            LocalDate date = LocalDate.parse(expireTextField.getText(), format);
+            LocalDate date = LocalDate.parse(expireTextField.getText(), formatter);
             if (date.isBefore(LocalDate.now())) {
                 LocalDate ldt = LocalDate.now().plusMonths(1);
-                expireTextField.setText(format.format(ldt));
+                expireTextField.setText(formatter.format(ldt));
             } else {
                 LocalDate ldt = date.plusMonths(1);
-                expireTextField.setText(format.format(ldt));
+                expireTextField.setText(formatter.format(ldt));
             }
         } catch (DateTimeParseException e) {
             LocalDate ldt = LocalDate.now().plusMonths(1);
-            expireTextField.setText(format.format(ldt));
+            expireTextField.setText(formatter.format(ldt));
         }
     }
 
     @FXML
     void addThreeMonthButtonClick(ActionEvent event) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
-            LocalDate date = LocalDate.parse(expireTextField.getText(), format);
+            LocalDate date = LocalDate.parse(expireTextField.getText(), formatter);
             if (date.isBefore(LocalDate.now())) {
                 LocalDate ldt = LocalDate.now().plusMonths(3);
-                expireTextField.setText(format.format(ldt));
+                expireTextField.setText(formatter.format(ldt));
             } else {
                 LocalDate ldt = date.plusMonths(3);
-                expireTextField.setText(format.format(ldt));
+                expireTextField.setText(formatter.format(ldt));
             }
-        } catch (DateTimeParseException e){
+        } catch (DateTimeParseException e) {
             LocalDate ldt = LocalDate.now().plusMonths(3);
-            expireTextField.setText(format.format(ldt));
-        }
-    }
-
-    @FXML
-    void saveCreditButtonClick(ActionEvent event) {
-        try {
-            double addedValue = Double.parseDouble(addCreditTextField.getText());
-            creditTextField.setText(String.valueOf(Double.parseDouble(creditTextField.getText()) + addedValue));
-            addCreditTextField.setText("");
-        } catch (NumberFormatException e){
-            showAlert("Údaje nie sú vyplnené správne!", "Zadajte číselnú hodnotu.");
+            expireTextField.setText(formatter.format(ldt));
         }
     }
 
     @FXML
     void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
         distributePassword();
-        customer.setName(nameTextField.getText());
-        customer.setSurname(surnameTextField.getText());
-        customer.setAddress(addressTextField.getText());
-        customer.setEmail(emailTextField.getText());
-        customer.setAdmin(isAdminCheckBox.isSelected());
-        saveCreditMembershipAndPassword();
-        if (customer.getName().equals("") || customer.getSurname().equals("") || customer.getAddress().equals("") || customer.getEmail().equals("") ||
-                errorCheck) {
+        if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("")) {
             showAlert("Údaje nie sú vyplnené správne!", "Prosím vyplňte všetky údaje.");
-            errorCheck = false;
+        } else {
+            if (!emailTextField.getText().contains("@")) {
+                showAlert("Údaje nie sú vyplnené správne!", "Neplatný formát emailovej adresy.");
+            } else {
+                checkForErrors();
+                checkAndSave();
+            }
+        }
+    }
+
+    private void checkForErrors(){
+        try {
+            Double.parseDouble(creditTextField.getText());
+        } catch (NumberFormatException ignored) {
+            errorCheck = 1;
+        }
+        try {
+            Date date = java.sql.Date.valueOf(expireTextField.getText());
+            if (!date.toLocalDate().isAfter(LocalDate.now())) {
+                errorCheck = 2;
+            }
+        } catch (IllegalArgumentException ignored) {
+            errorCheck = 3;
+        }
+    }
+
+    private void checkAndSave() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        if (errorCheck != 0) {
+            switch (errorCheck) {
+                case 1:
+                    showAlert("Údaje nie sú vyplnené správne!", "Kolonka kredit obsahuje nesprávny formát.");
+                    break;
+                case 2:
+                    showAlert("Údaje nie sú vyplnené správne!", "Expirácia je staršia ako " + LocalDate.now() + ". Zvoľte novší dátum expirácie.");
+                    break;
+                case 3:
+                    showAlert("Údaje nie sú vyplnené správne!", "Zadajte expiráciu vo formáte YYYY-MM-DD.");
+                    break;
+            }
+            errorCheck = 0;
         } else {
             if (passwordTextField.getText().length() >= 6 || passwordTextField.getText().length() == 0) {
+                customer.setName(nameTextField.getText());
+                customer.setSurname(surnameTextField.getText());
+                customer.setAddress(addressTextField.getText());
+                customer.setEmail(emailTextField.getText());
+                customer.setAdmin(isAdminCheckBox.isSelected());
+                if (passwordTextField.getText().length() >= 6) {
+                    String salt = generateRandomText();
+                    customer.setSalt(salt);
+                    customer.setPassword(hashPassword(passwordTextField.getText(), salt));
+                }
                 customerDao.edit(customer);
                 saveButton.getScene().getWindow().hide();
             } else {
@@ -169,20 +211,12 @@ public class CustomerEditController {
         toggleTextField.setText(passwordTextField.getText());
     }
 
-    private String generateRandomText() {
-        return UUID.randomUUID().toString();
-    }
-
     private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        // https://adambard.com/blog/3-wrong-ways-to-store-a-password/
         char[] passwordChars = password.toCharArray();
         byte[] saltBytes = salt.getBytes();
 
-        PBEKeySpec spec = new PBEKeySpec(
-                passwordChars,
-                saltBytes,
-                2000,
-                512
-        );
+        PBEKeySpec spec = new PBEKeySpec(passwordChars, saltBytes, 2000, 512);
         SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] hashedPassword = key.generateSecret(spec).getEncoded();
         return String.format("%x", new BigInteger(hashedPassword));
@@ -196,31 +230,14 @@ public class CustomerEditController {
         alert.show();
     }
 
-    private void saveCreditMembershipAndPassword() throws InvalidKeySpecException, NoSuchAlgorithmException {
-        try {
-            customer.setCredit(Double.parseDouble(creditTextField.getText()));
-        } catch (NumberFormatException ignored) {
-            errorCheck = true;
-        }
-        try {
-            Date date = java.sql.Date.valueOf(expireTextField.getText());
-            if (date.toLocalDate().isAfter(LocalDate.now())) {
-                customer.setMembershipExp(date);
-            } else {
-                errorCheck = true;
-            }
-        } catch (IllegalArgumentException ignored) {
-            errorCheck = true;
-        }
-        if (!passwordTextField.getText().equals("")) {
-            customer.setSalt(generateRandomText());
-            customer.setPassword(hashPassword(passwordTextField.getText(), customer.getSalt()));
-        }
-    }
     private void distributePassword() {
         if (passwordEditButton.isSelected()) {
             passwordTextField.setText(toggleTextField.getText());
         }
+    }
+
+    private String generateRandomText() {
+        return UUID.randomUUID().toString();
     }
 }
 

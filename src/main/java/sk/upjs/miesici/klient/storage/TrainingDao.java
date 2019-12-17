@@ -8,7 +8,7 @@ public interface TrainingDao {
 
 	public static final Customer customer = new Customer();
 
-	public void setCustomer(Customer customer);
+	void setCustomer(Customer customer);
 
 	List<Training> getAll();
 
