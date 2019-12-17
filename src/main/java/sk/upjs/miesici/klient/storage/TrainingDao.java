@@ -14,6 +14,8 @@ public interface TrainingDao {
 
 	List<Training> getAllbyClientId(long id);
 
-	void saveTraining(Training training);
+	Training saveTraining(Training training);
+	
+	void deleteTrainingById(long id);
 
 }

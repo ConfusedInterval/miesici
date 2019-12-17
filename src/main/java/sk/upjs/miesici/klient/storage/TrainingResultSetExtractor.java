@@ -21,7 +21,7 @@ public class TrainingResultSetExtractor implements ResultSetExtractor<List<Train
                 training.setId(id);
                 training.setClientId(rs.getLong("klient_id"));
                 training.setName(rs.getString("nazov"));
-                training.setDate(rs.getString("datum"));
+                training.setDate(rs.getDate("datum"));
                 training.setDayofTheWeek(rs.getInt("den"));
                 training.setNote(rs.getString("poznamka"));
             }

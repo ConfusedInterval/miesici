@@ -1,16 +1,20 @@
 package sk.upjs.miesici.klient.gui;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -32,34 +36,16 @@ public class AddTrainingController {
 	private URL location;
 
 	@FXML
-	private AnchorPane addExerciseAnchorPane;
-
-	@FXML
 	private AnchorPane addTrainingAnchorPane;
 
 	@FXML
-	private TextField ownExerciseTextField;
+	private TextField nameOfTraining;
 
 	@FXML
-	private ComboBox<TypeOfExercise> exerciseComboBox;
+	private TextArea noteOfTraining;
 
 	@FXML
-	private CheckBox ownExerciseCheckBox;
-	
-    @FXML
-    private TextField nameOfTraining;
-
-    @FXML
-    private TextArea noteOfTraining;
-
-    @FXML
-    private TextField dateOfTraining;
-   
-    @FXML
-    private TextField weightTextField;
-
-    @FXML
-    private TextField repsTextField;
+	private DatePicker datePicker;
 
 	private Customer customer;
 	private Training training;
@@ -68,73 +54,33 @@ public class AddTrainingController {
 		this.customer = customer;
 	}
 
-	private TypeOfExerciseDao typeOfExerciseDao = DaoFactory.INSTANCE.getTypeOfExerciseDao();
-	private ObservableList<TypeOfExercise> typeOfExerciseModel;
 	private TrainingDao trainingDao = DaoFactory.INSTANCE.getTrainingDao();
-	private ExerciseDao exerciseDao = DaoFactory.INSTANCE.getExerciseDao();
 
 	@FXML
-	void AddExerciseClick(ActionEvent event) {
-		addTrainingAnchorPane.setVisible(false);
-		Stage stage = (Stage) addTrainingAnchorPane.getScene().getWindow();
-		stage.setTitle("Pridanie cviku");
-		addExerciseAnchorPane.setVisible(true);
-	}
-
-	@FXML
-	void saveExerciseClick(ActionEvent event) {
-		TypeOfExercise typeOfExercise = new TypeOfExercise();
-		Exercise exercise = new Exercise();
-		if (ownExerciseCheckBox.isSelected()) {
-			typeOfExercise.setName(ownExerciseTextField.getText());
-			typeOfExerciseDao.save(typeOfExercise);
-			ownExerciseTextField.setText("");
-		} else {
-			typeOfExercise = exerciseComboBox.getValue();
-			System.out.println(typeOfExercise);
-		}
-		exercise.setTrainingId(training.getId());
-		exercise.setReps(Integer.parseInt(repsTextField.getText()));
-		exercise.setWeight(Double.parseDouble(weightTextField.getText()));
-		exercise.setTypeOfExerciseId(typeOfExercise.getId());
-		exerciseDao.saveExercise(exercise);
-		repsTextField.setText("");
-		weightTextField.setText("");
+	void saveTrainingClick(ActionEvent event) {
+	//	if (nameOfTraining.getText() != null) {
+			training = new Training();
+			training.setClientId(customer.getId());
+			training.setDate(java.sql.Date.valueOf(datePicker.getValue()));
+			training.setName(nameOfTraining.getText());
+			training.setNote(noteOfTraining.getText());
+			trainingDao.saveTraining(training);
+//		} else {
+//			nameAlert();
+//		}
 	}
 	
-	
-
-    @FXML
-    void saveTrainingClick(ActionEvent event) {
-    	training = new Training();
-    	training.setClientId(customer.getId());
-    	training.setDate(dateOfTraining.getText());
-    	training.setName(nameOfTraining.getText());
-    	training.setNote(noteOfTraining.getText());
-    	trainingDao.saveTraining(training);
-    }
-
-	@FXML
-	void ownExerciseClick(MouseEvent event) {
-		if (ownExerciseCheckBox.isSelected()) {
-			exerciseComboBox.setDisable(true);
-			ownExerciseTextField.setDisable(false);
-		}
-		if (!ownExerciseCheckBox.isSelected()) {
-			exerciseComboBox.setDisable(false);
-			ownExerciseTextField.setDisable(true);
-		}
+	void nameAlert() {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Nezadali ste meno!");
+		alert.setHeaderText("Nezadali ste meno!");
+		alert.setContentText("Nezadali ste meno! Pre uloženie tréningu musite zadať meno.");
+		alert.show();
 	}
 
 	@FXML
 	void initialize() {
-		addExerciseAnchorPane.setVisible(false);
-		typeOfExerciseDao.setCustomer(customer);
-		typeOfExerciseModel = FXCollections.observableArrayList(typeOfExerciseDao.getAllByClientId(customer.getId()));
-		exerciseComboBox.getItems().addAll(typeOfExerciseModel);
-		if (typeOfExerciseModel.size() != 0) {
-			exerciseComboBox.setValue(typeOfExerciseModel.get(0));
-		}
-		ownExerciseTextField.setDisable(true);
+		datePicker.setValue(LocalDate.now());
+		;
 	}
 }

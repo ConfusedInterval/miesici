@@ -7,6 +7,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -123,6 +124,7 @@ public class ClientController {
 	private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
 	private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
 	private TrainingDao trainingDao = DaoFactory.INSTANCE.getTrainingDao();
+	private ExerciseDao exerciseDao = DaoFactory.INSTANCE.getExerciseDao();
 	private ObservableList<Entrance> entrancesModel;
 	private ObservableList<Training> trainingsModel;
 	private ObservableList<Customer> customersModel;
@@ -242,6 +244,23 @@ public class ClientController {
 
 		TableColumn<Customer, Date> permanentkaCol = new TableColumn<>("Permanentka");
 		permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
+		// https://stackoverflow.com/questions/47484280/format-of-date-in-the-javafx-tableview
+		permanentkaCol.setCellFactory(column -> {
+			TableCell<Customer, Date> cell = new TableCell<Customer, Date>() {
+				private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+				@Override
+				protected void updateItem(Date item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty) {
+						setText(null);
+					} else {
+						this.setText(format.format(item));
+					}
+				}
+			};
+			return cell;
+		});
 		clientTable.getColumns().add(permanentkaCol);
 
 		entrancesModel = FXCollections.observableArrayList(entranceDao.getByCustomerId(customer.getId()));
@@ -281,8 +300,25 @@ public class ClientController {
 		trainingName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		trainingTableView.getColumns().add(trainingName);
 
-		TableColumn<Training, LocalDate> trainingDate = new TableColumn<>("Tréning");
+		TableColumn<Training, Date> trainingDate = new TableColumn<>("Tréning");
 		trainingDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+		// https://stackoverflow.com/questions/47484280/format-of-date-in-the-javafx-tableview
+		trainingDate.setCellFactory(column -> {
+			TableCell<Training, Date> cell = new TableCell<>() {
+				private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+				@Override
+				protected void updateItem(Date item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty) {
+						setText(null);
+					} else {
+						this.setText(format.format(item));
+					}
+				}
+			};
+			return cell;
+		});
 		trainingTableView.getColumns().add(trainingDate);
 
 		TableColumn<Training, String> trainingDay = new TableColumn<Training, String>("Deň v týždni");
@@ -299,9 +335,8 @@ public class ClientController {
 	void refreshHomeTable() {
 		clientTable.getColumns().get(0).setVisible(false);
 		clientTable.getColumns().get(0).setVisible(true);
-		trainingTableView.getColumns().get(0).setVisible(false);
-		trainingTableView.getColumns().get(0).setVisible(true);
 	}
+
 
 	@FXML
 	void backToHomeAnchorPaneClick(ActionEvent event) {
@@ -338,7 +373,8 @@ public class ClientController {
 			}
 			membershipExtendedInfo(1);
 			customerDao.edit(customer);
-			refreshHomeTable();
+			//refreshHomeTable();
+			clientTable.refresh();
 			return;
 		} else {
 			if (credit <= 25) {
@@ -493,10 +529,26 @@ public class ClientController {
 	@FXML
 	void openTrainingClick(ActionEvent event) {
 		Training training = trainingTableView.getSelectionModel().getSelectedItem();
+		if (training == null) {
+			return;
+		}
 		TrainingController controller = new TrainingController();
 		controller.setTraining(training);
+		controller.setCustomer(customer);
 		showTraining(controller);
 
+	}
+
+	@FXML
+	void deleteTrainingClick(ActionEvent event) {
+		Training training = trainingTableView.getSelectionModel().getSelectedItem();
+		if (training == null) {
+			return;
+		}
+		exerciseDao.deleteExerciseByTrainingId(training.getId());
+		trainingDao.deleteTrainingById(training.getId());
+		trainingsModel = FXCollections.observableArrayList(trainingDao.getAllbyClientId(customer.getId()));
+		trainingTableView.setItems(FXCollections.observableArrayList(trainingsModel));
 	}
 
 	@FXML

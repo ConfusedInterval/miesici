@@ -1,10 +1,12 @@
 package sk.upjs.miesici.klient.storage;
 
+import java.sql.Date;
+
 public class Training {
 
     private long id;
     private long clientId;
-    private String date;
+    private Date date;
     private String dayOfTheWeek;
     private String name;
     private String note;
@@ -27,11 +29,11 @@ public class Training {
         this.clientId = clientId;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

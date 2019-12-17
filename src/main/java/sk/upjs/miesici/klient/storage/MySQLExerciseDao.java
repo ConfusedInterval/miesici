@@ -1,8 +1,6 @@
 package sk.upjs.miesici.klient.storage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,12 +10,9 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-
-import sk.upjs.miesici.admin.storage.Customer;
 
 public class MySQLExerciseDao implements ExerciseDao {
 
@@ -29,7 +24,9 @@ public class MySQLExerciseDao implements ExerciseDao {
 
     @Override
     public List<Exercise> getAllByTrainingId(long trainingId) {
-        String sql = "Select * from cvik where trening_id = " + trainingId;
+        String sql = "SELECT trening_id, cvik_id, vaha, pocet, nazov from cvik " +
+        		"JOIN typ_cviku WHERE trening_id = "+trainingId + " AND cvik_id = id";
+        		
         return jdbcTemplate.query(sql, new ResultSetExtractor<>() {
 			@Override
 			public List<Exercise> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -43,6 +40,7 @@ public class MySQLExerciseDao implements ExerciseDao {
 						exercise.setTypeOfExerciseId(typeOfExerciseId);
 						exercise.setWeight(rs.getDouble("vaha"));
 						exercise.setReps(rs.getInt("pocet"));
+						exercise.setName(rs.getString("nazov"));
 					}
 					result.add(exercise);
 				}
@@ -52,22 +50,23 @@ public class MySQLExerciseDao implements ExerciseDao {
 		});
     }
 
-	// docasne riesenie - treba upravit cez klasicky jdbcTemplate.insert
     @Override
     public void saveExercise(Exercise exercise) {
-        String sql = "INSERT into cvik (trening_id,cvik_id,vaha,pocet)" +
-                " values((select id from trening where id = ?),"
-                + " (select id from typ_cviku where id = ?), ?, ?)";
+    	SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+    	insert.withTableName("cvik");
+		Map<String, Object> values = new HashMap<String, Object>();
+		values.put("trening_id", exercise.getTrainingId());
+		values.put("cvik_id", exercise.getTypeOfExerciseId());
+		values.put("vaha", exercise.getWeight());
+		values.put("pocet", exercise.getReps());
+		insert.execute(new MapSqlParameterSource(values));
 
-		jdbcTemplate.execute(sql, new PreparedStatementCallback<Object>() {
-			@Override
-			public Object doInPreparedStatement(PreparedStatement pstmt) throws SQLException, DataAccessException {
-				pstmt.setLong(1, exercise.getTrainingId());
-				pstmt.setLong(2, exercise.getTypeOfExerciseId());
-				pstmt.setDouble(3, exercise.getWeight());
-				pstmt.setInt(4, exercise.getReps());
-				return pstmt.executeUpdate();
-			}
-		});
+		
     }
+
+	@Override
+	public void deleteExerciseByTrainingId(long id) {
+		String deleteSQL = "DELETE FROM cvik WHERE trening_id = " +id;
+		jdbcTemplate.update(deleteSQL);
+	}
 }

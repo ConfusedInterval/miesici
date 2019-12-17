@@ -17,8 +17,7 @@ import sk.upjs.miesici.admin.storage.Customer;
 public class MySQLTrainingDao implements TrainingDao {
 
 	private JdbcTemplate jdbcTemplate;
-	private Customer customer; 
-
+	private Customer customer;
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
@@ -30,16 +29,14 @@ public class MySQLTrainingDao implements TrainingDao {
 
 	@Override
 	public List<Training> getAll() {
-		String sql = "SELECT id, klient_id, nazov, datum, dayofweek(datum) as den, poznamka " +
-				   "FROM trening " +
-				           "JOIN klient " +
-				   "USING (klient_id)";
+		String sql = "SELECT id, klient_id, nazov, datum, dayofweek(datum) as den, poznamka " + "FROM trening "
+				+ "JOIN klient " + "USING (klient_id)";
 		List<Training> result = jdbcTemplate.query(sql, new TrainingResultSetExtractor());
 		return result;
 	}
 
 	@Override
-	public void saveTraining(Training training) {
+	public Training saveTraining(Training training) {
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
 		insert.withTableName("trening").usingGeneratedKeyColumns("id");
 		Map<String, Object> values = new HashMap<String, Object>();
@@ -49,20 +46,26 @@ public class MySQLTrainingDao implements TrainingDao {
 		values.put("poznamka", training.getNote());
 		Number key = insert.executeAndReturnKey(new MapSqlParameterSource(values));
 		training.setId(key.longValue());
-		//return training;
+		return training;
 	}
 
 	@Override
 	public List<Training> getAllbyClientId(long clientId) {
 		List<Training> all = getAll();
 		List<Training> byId = new ArrayList<Training>();
-		for(Training training : all) {
-			if(training.getClientId() == clientId) {
+		for (Training training : all) {
+			if (training.getClientId() == clientId) {
 				byId.add(training);
 			}
 		}
 		return byId;
 	}
 
+	@Override
+	public void deleteTrainingById(long id) {
+		String deleteSQL = "DELETE FROM trening where id = " + id;
+		jdbcTemplate.update(deleteSQL);
+
+	}
 
 }

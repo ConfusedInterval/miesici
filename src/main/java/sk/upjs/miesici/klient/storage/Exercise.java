@@ -6,6 +6,7 @@ public class Exercise {
 	private long typeOfExerciseId;
 	private double weight;
 	private int reps;
+	private String name;
 	
 	public long getTrainingId() {
 		return trainingId;
@@ -30,6 +31,13 @@ public class Exercise {
 	}
 	public void setReps(int reps) {
 		this.reps = reps;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	@Override
 	public String toString() {
