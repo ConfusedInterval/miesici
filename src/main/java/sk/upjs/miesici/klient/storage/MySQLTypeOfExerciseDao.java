@@ -21,6 +21,11 @@ public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
     }
 
     @Override
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    @Override
     public List<TypeOfExercise> getAll() {
         String sql = "SELECT * from typ_cviku";
         return jdbcTemplate.query(sql, new TypeOfExerciseResultSetExtractor());
@@ -34,15 +39,18 @@ public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
 
     @Override
     public TypeOfExercise save(TypeOfExercise typeOfExercise) {
-        List<TypeOfExercise> types = getAllByClientId(customer.getId());
-        typeOfExercise.setClientId(customer.getId());
-        int count = 0;
-        for (TypeOfExercise type : types) {
-            if (type.getName().equals(typeOfExercise.getName())) {
-                count++;
+        boolean name = true;
+        if (customer != null) {
+            List<TypeOfExercise> types = getAllByClientId(customer.getId());
+            typeOfExercise.setClientId(customer.getId());
+            for (TypeOfExercise type : types) {
+                if (type.getName().equals(typeOfExercise.getName())) {
+                    name = false;
+                    break;
+                }
             }
         }
-        if (count == 0) {
+        if (name) {
             SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
             insert.withTableName("typ_cviku").usingGeneratedKeyColumns("id");
             Map<String, Object> values = new HashMap<String, Object>();
@@ -53,11 +61,6 @@ public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
             return typeOfExercise;
         }
         return null;
-    }
-
-    @Override
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     @Override

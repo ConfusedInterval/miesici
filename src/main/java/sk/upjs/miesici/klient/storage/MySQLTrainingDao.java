@@ -59,7 +59,7 @@ public class MySQLTrainingDao implements TrainingDao {
 		List<Training> all = getAll();
 		List<Training> byId = new ArrayList<Training>();
 		for (Training training : all) {
-			if (training.getClientId() == clientId) {
+			if (training.getClientId().equals(clientId)) {
 				byId.add(training);
 			}
 		}
@@ -70,7 +70,6 @@ public class MySQLTrainingDao implements TrainingDao {
 	public void deleteTrainingById(Long id) {
 		String deleteSQL = "DELETE FROM trening where id = " + id;
 		jdbcTemplate.update(deleteSQL);
-
 	}
 
 	@Override
