@@ -3,6 +3,7 @@ package sk.upjs.miesici.admin.storage;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
@@ -14,7 +15,6 @@ import java.util.*;
 
 public class MySQLEntranceDao implements EntranceDao {
     private JdbcTemplate jdbcTemplate;
-
 
     public MySQLEntranceDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -54,15 +54,7 @@ public class MySQLEntranceDao implements EntranceDao {
             String sql = "UPDATE vstup SET odchod = ? , "
                     + "cas = ? "
                     + "WHERE id = ?;";
-            jdbcTemplate.execute(sql, new PreparedStatementCallback<Object>() {
-                @Override
-                public Object doInPreparedStatement(PreparedStatement pstmt) throws SQLException, DataAccessException {
-                    pstmt.setString(1, entrance.getExit());
-                    pstmt.setString(2, entrance.getTime());
-                    pstmt.setLong(3, entrance.getId());
-                    return pstmt.executeUpdate();
-                }
-            });
+            jdbcTemplate.update(sql, entrance.getExit(), entrance.getTime(), entrance.getId());
         }
     }
 

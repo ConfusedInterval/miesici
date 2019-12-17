@@ -3,6 +3,7 @@ package sk.upjs.miesici.admin.storage;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
@@ -35,7 +36,6 @@ public class MySQLCustomerDao implements CustomerDao {
         if (customer.getId() == null) {
             SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
             insert.withTableName("klient").usingGeneratedKeyColumns("klient_id");
-
             Map<String, Object> values = new HashMap<String, Object>();
             values.put("meno", customer.getName());
             values.put("priezvisko", customer.getSurname());
@@ -66,22 +66,8 @@ public class MySQLCustomerDao implements CustomerDao {
                     + "sol = ?, "
                     + "admin = ? "
                     + "WHERE klient_id = ?;";
-            jdbcTemplate.execute(sql, new PreparedStatementCallback<Object>() {
-                @Override
-                public Object doInPreparedStatement(PreparedStatement pstmt) throws SQLException, DataAccessException {
-                    pstmt.setString(1, customer.getName());
-                    pstmt.setString(2, customer.getSurname());
-                    pstmt.setString(3, customer.getAddress());
-                    pstmt.setString(4, customer.getEmail());
-                    pstmt.setDouble(5, customer.getCredit());
-                    pstmt.setDate(6, customer.getMembershipExp());
-                    pstmt.setString(7, customer.getPassword());
-                    pstmt.setString(8, customer.getSalt());
-                    pstmt.setBoolean(9, customer.isAdmin());
-                    pstmt.setLong(10, customer.getId());
-                    return pstmt.executeUpdate();
-                }
-            });
+            jdbcTemplate.update(sql, customer.getName(), customer.getSurname(), customer.getAddress(), customer.getEmail(), customer.getCredit(),
+                    customer.getMembershipExp(), customer.getPassword(), customer.getSalt(), customer.isAdmin(), customer.getId());
         } else {
             String sql = "UPDATE klient SET meno = ? , "
                     + "priezvisko = ? , "
@@ -91,20 +77,8 @@ public class MySQLCustomerDao implements CustomerDao {
                     + "permanentka = ? , "
                     + "admin = ? "
                     + "WHERE klient_id = ?;";
-            jdbcTemplate.execute(sql, new PreparedStatementCallback<Object>() {
-                @Override
-                public Object doInPreparedStatement(PreparedStatement pstmt) throws SQLException, DataAccessException {
-                    pstmt.setString(1, customer.getName());
-                    pstmt.setString(2, customer.getSurname());
-                    pstmt.setString(3, customer.getAddress());
-                    pstmt.setString(4, customer.getEmail());
-                    pstmt.setDouble(5, customer.getCredit());
-                    pstmt.setDate(6, customer.getMembershipExp());
-                    pstmt.setBoolean(7, customer.isAdmin());
-                    pstmt.setLong(8, customer.getId());
-                    return pstmt.executeUpdate();
-                }
-            });
+            jdbcTemplate.update(sql, customer.getName(), customer.getSurname(), customer.getAddress(), customer.getEmail(), customer.getCredit(),
+                    customer.getMembershipExp(), customer.isAdmin(), customer.getId());
         }
     }
 

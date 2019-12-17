@@ -183,6 +183,7 @@ public class CustomerEditController {
             customer.setEmail(emailTextField.getText());
             customer.setAdmin(isAdminCheckBox.isSelected());
             customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+            customer.setCredit(Double.parseDouble(creditTextField.getText()));
             if (passwordTextField.getText().length() >= 6) {
                 String salt = generateRandomText();
                 customer.setSalt(salt);
