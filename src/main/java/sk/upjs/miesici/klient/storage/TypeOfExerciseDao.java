@@ -12,9 +12,9 @@ public interface TypeOfExerciseDao {
 
     List<TypeOfExercise> getAll();
 
-    List<TypeOfExercise> getAllByClientId(long clientId);
+    List<TypeOfExercise> getAllByClientId(Long clientId);
 
-    List<TypeOfExercise> getAllbyId(long id);
+    List<TypeOfExercise> getAllbyId(Long id);
 
     TypeOfExercise save(TypeOfExercise typeOfExercise);
 }

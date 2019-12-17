@@ -23,7 +23,7 @@ public class MySQLExerciseDao implements ExerciseDao {
     }
 
     @Override
-    public List<Exercise> getAllByTrainingId(long trainingId) {
+    public List<Exercise> getAllByTrainingId(Long trainingId) {
         String sql = "SELECT trening_id, cvik_id, vaha, pocet, nazov from cvik " +
                 "JOIN typ_cviku WHERE trening_id = " + trainingId + " AND cvik_id = id";
 
@@ -46,7 +46,6 @@ public class MySQLExerciseDao implements ExerciseDao {
                 }
                 return result;
             }
-
         });
     }
 

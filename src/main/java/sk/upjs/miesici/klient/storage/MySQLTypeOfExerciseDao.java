@@ -27,7 +27,7 @@ public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
     }
 
     @Override
-    public List<TypeOfExercise> getAllByClientId(long clientId) {
+    public List<TypeOfExercise> getAllByClientId(Long clientId) {
         String sql = "SELECT * from typ_cviku where klient_id = " + clientId;
         return jdbcTemplate.query(sql, new TypeOfExerciseResultSetExtractor());
     }
@@ -61,7 +61,7 @@ public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
     }
 
     @Override
-    public List<TypeOfExercise> getAllbyId(long id) {
+    public List<TypeOfExercise> getAllbyId(Long id) {
         String sql = "SELECT * from typ_cviku where id = " + id;
         return jdbcTemplate.query(sql, new TypeOfExerciseResultSetExtractor());
     }

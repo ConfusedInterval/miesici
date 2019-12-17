@@ -50,7 +50,7 @@ public class MySQLTrainingDao implements TrainingDao {
 	}
 
 	@Override
-	public List<Training> getAllbyClientId(long clientId) {
+	public List<Training> getAllbyClientId(Long clientId) {
 		List<Training> all = getAll();
 		List<Training> byId = new ArrayList<Training>();
 		for (Training training : all) {
@@ -62,7 +62,7 @@ public class MySQLTrainingDao implements TrainingDao {
 	}
 
 	@Override
-	public void deleteTrainingById(long id) {
+	public void deleteTrainingById(Long id) {
 		String deleteSQL = "DELETE FROM trening where id = " + id;
 		jdbcTemplate.update(deleteSQL);
 

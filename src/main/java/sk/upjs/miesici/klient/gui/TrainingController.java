@@ -83,7 +83,6 @@ public class TrainingController {
 
     @FXML
     void initialize() {
-
         exercisesModel = FXCollections.observableArrayList(exerciseDao.getAllByTrainingId(training.getId()));
         trainingTableView.setItems(FXCollections.observableArrayList(exercisesModel));
 
@@ -98,6 +97,5 @@ public class TrainingController {
         TableColumn<Exercise, Integer> reps = new TableColumn<Exercise, Integer>("Počet opakovaní");
         reps.setCellValueFactory(new PropertyValueFactory<>("reps"));
         trainingTableView.getColumns().add(reps);
-
     }
 }

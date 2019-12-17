@@ -12,10 +12,10 @@ public interface TrainingDao {
 
 	List<Training> getAll();
 
-	List<Training> getAllbyClientId(long id);
+	List<Training> getAllbyClientId(Long id);
 
 	Training saveTraining(Training training);
 	
-	void deleteTrainingById(long id);
+	void deleteTrainingById(Long id);
 
 }

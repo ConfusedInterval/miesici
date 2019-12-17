@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ExerciseDao {
 	
-	List<Exercise> getAllByTrainingId(long trainingId);
+	List<Exercise> getAllByTrainingId(Long trainingId);
 	Exercise saveExercise(Exercise exercise);
 	void deleteExerciseByTrainingId(long id);
 	

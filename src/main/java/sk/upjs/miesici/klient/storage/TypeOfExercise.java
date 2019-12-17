@@ -2,14 +2,14 @@ package sk.upjs.miesici.klient.storage;
 
 public class TypeOfExercise {
 	
-	private long id;
+	private Long id;
 	private String name;
-	private long clientId;
+	private Long clientId;
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -22,10 +22,10 @@ public class TypeOfExercise {
 	public String toString() {
 		return name;
 	}
-	public long getClientId() {
+	public Long getClientId() {
 		return clientId;
 	}
-	public void setClientId(long clientId) {
+	public void setClientId(Long clientId) {
 		this.clientId = clientId;
 	}
 	

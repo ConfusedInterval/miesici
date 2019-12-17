@@ -15,7 +15,7 @@ public class TypeOfExerciseResultSetExtractor implements ResultSetExtractor<List
 		TypeOfExercise typeOfExercise = null;
 		List<TypeOfExercise> result = new ArrayList<TypeOfExercise>();
 		while (rs.next()) {
-			long id = rs.getLong("id");
+			Long id = rs.getLong("id");
 			if (typeOfExercise == null || id != typeOfExercise.getId()) {
 				typeOfExercise = new TypeOfExercise();
 				typeOfExercise.setId(id);

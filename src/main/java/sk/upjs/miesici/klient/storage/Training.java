@@ -4,8 +4,8 @@ import java.sql.Date;
 
 public class Training {
 
-    private long id;
-    private long clientId;
+    private Long id;
+    private Long clientId;
     private Date date;
     private String dayOfTheWeek;
     private String name;
@@ -13,19 +13,17 @@ public class Training {
 
     final String[] daysOftheWeekInSlovak = {null, "Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"};
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getClientId() {
-        return clientId;
-    }
+    public Long getClientId() { return clientId; }
 
-    public void setClientId(long clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
