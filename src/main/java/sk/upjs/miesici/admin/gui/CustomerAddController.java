@@ -13,7 +13,9 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,9 +47,6 @@ public class CustomerAddController {
     private TextField creditTextField;
 
     @FXML
-    private TextField expireTextField;
-
-    @FXML
     private TextField loginTextField;
 
     @FXML
@@ -60,62 +59,61 @@ public class CustomerAddController {
     private CheckBox togglePass;
 
     @FXML
+    private DatePicker datePicker;
+
+    @FXML
     void initialize() {
     }
 
     @FXML
-    void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException, ParseException {
         distributePassword();
         if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("") ||
-                loginTextField.getText().equals("") || passwordTextField.getText().equals("") || expireTextField.getText().equals("") || creditTextField.getText().equals("")) {
+                loginTextField.getText().equals("") || passwordTextField.getText().equals("") || datePicker.getValue() == null || creditTextField.getText().equals("")) {
             showAlert("Údaje nie sú vyplnené správne!", "Prosím vyplňte všetky údaje.");
         } else {
-            if (!emailTextField.getText().contains("@")) {
-                showAlert("Údaje nie sú vyplnené správne!", "Neplatný formát emailovej adresy.");
+            if (!checkIfLoginIsTaken()) {
+                checkForErrors();
+                checkAndSave();
             } else {
-                if (!checkIfLoginIsTaken()) {
-                    checkForErrors();
-                    checkIfCorrectAndSave();
-                } else {
-                    showAlert("Login s rovnakým názvom už existuje!", "Zvoľte iné prihlasovacie meno!");
-                }
+                showAlert("Login s rovnakým názvom už existuje!", "Zvoľte iné prihlasovacie meno!");
             }
         }
     }
 
-    private void checkIfCorrectAndSave() throws InvalidKeySpecException, NoSuchAlgorithmException {
+    private void checkAndSave() throws InvalidKeySpecException, NoSuchAlgorithmException {
         if (errorCheck != 0) {
             switch (errorCheck) {
                 case 1:
                     showAlert("Údaje nie sú vyplnené správne!", "Kolonka kredit obsahuje nesprávny formát.");
                     break;
                 case 2:
-                    showAlert("Údaje nie sú vyplnené správne!", "Expirácia je staršia ako " + LocalDate.now() + ". Zvoľte novší dátum expirácie.");
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                    showAlert("Údaje nie sú vyplnené správne!", "Expirácia je staršia ako " + LocalDate.now().format(formatter) + ". Zvoľte novší dátum expirácie.");
                     break;
                 case 3:
-                    showAlert("Údaje nie sú vyplnené správne!", "Zadajte expiráciu vo formáte YYYY-MM-DD.");
+                    showAlert("Údaje nie sú vyplnené správne!", "Neplatný formát emailovej adresy.");
+                    break;
+                case 4:
+                    showAlert("Heslo nie je dostatočne dlhé!", "Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov.");
                     break;
             }
             errorCheck = 0;
         } else {
-            if (passwordTextField.getText().length() >= 6) {
-                Customer addCustomer = new Customer();
-                addCustomer.setName(nameTextField.getText());
-                addCustomer.setSurname(surnameTextField.getText());
-                addCustomer.setAddress(addressTextField.getText());
-                addCustomer.setEmail(emailTextField.getText());
-                addCustomer.setCredit(Double.parseDouble(creditTextField.getText()));
-                addCustomer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
-                addCustomer.setLogin(loginTextField.getText());
-                String salt = generateRandomSalt();
-                addCustomer.setSalt(salt);
-                addCustomer.setPassword(hashPassword(passwordTextField.getText(), salt));
-                addCustomer.setAdmin(isAdminCheckBox.isSelected());
-                this.savedCustomer = customerDao.save(addCustomer);
-                saveButton.getScene().getWindow().hide();
-            } else {
-                showAlert("Heslo nie je dostatočne dlhé!", "Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov.");
-            }
+            Customer addCustomer = new Customer();
+            addCustomer.setName(nameTextField.getText());
+            addCustomer.setSurname(surnameTextField.getText());
+            addCustomer.setAddress(addressTextField.getText());
+            addCustomer.setEmail(emailTextField.getText());
+            addCustomer.setCredit(Double.parseDouble(creditTextField.getText()));
+            addCustomer.setMembershipExp(java.sql.Date.valueOf(datePicker.getValue()));
+            addCustomer.setLogin(loginTextField.getText());
+            String salt = generateRandomSalt();
+            addCustomer.setSalt(salt);
+            addCustomer.setPassword(hashPassword(passwordTextField.getText(), salt));
+            addCustomer.setAdmin(isAdminCheckBox.isSelected());
+            this.savedCustomer = customerDao.save(addCustomer);
+            saveButton.getScene().getWindow().hide();
         }
     }
 
@@ -125,19 +123,20 @@ public class CustomerAddController {
         } catch (NumberFormatException ignored) {
             errorCheck = 1;
         }
-        try {
-            Date date = java.sql.Date.valueOf(expireTextField.getText());
-            if (!date.toLocalDate().isAfter(LocalDate.now())) {
-                errorCheck = 2;
-            }
-        } catch (IllegalArgumentException ignored) {
+        Date date = java.sql.Date.valueOf(datePicker.getValue());
+        if (!date.toLocalDate().isAfter(LocalDate.now())) {
+            errorCheck = 2;
+        }
+        if (!emailTextField.getText().contains("@")) {
             errorCheck = 3;
+        }
+        if (passwordTextField.getText().length() < 6) {
+            errorCheck = 4;
         }
     }
 
 
-    private String hashPassword(String password, String salt) throws
-            NoSuchAlgorithmException, InvalidKeySpecException {
+    private String hashPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         // https://adambard.com/blog/3-wrong-ways-to-store-a-password/
         char[] passwordChars = password.toCharArray();
         byte[] saltBytes = salt.getBytes();
@@ -200,6 +199,4 @@ public class CustomerAddController {
     public Customer getSavedCustomer() {
         return savedCustomer;
     }
-
-
 }

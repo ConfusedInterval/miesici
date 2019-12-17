@@ -66,7 +66,6 @@ public class MySQLCustomerDao implements CustomerDao {
                     + "sol = ?, "
                     + "admin = ? "
                     + "WHERE klient_id = ?;";
-
             jdbcTemplate.execute(sql, new PreparedStatementCallback<Object>() {
                 @Override
                 public Object doInPreparedStatement(PreparedStatement pstmt) throws SQLException, DataAccessException {

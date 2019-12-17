@@ -30,8 +30,8 @@ import java.util.Date;
 import java.util.List;
 
 public class MainController {
-
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
+
     private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
     private ObservableList<Customer> customersModel;
     private int typeOfError = 0;
@@ -74,45 +74,71 @@ public class MainController {
     @FXML
     void arrivalButtonClick(ActionEvent event) {
         Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
-        Entrance entrance = new Entrance();
-        entrance.setKlient_id(selectedCustomer.getId());
-        entrance.setName(selectedCustomer.getName());
-        entrance.setSurname(selectedCustomer.getSurname());
-        entrance.setArrival(getActualTime());
-        try {
-            entrance.setLocker(Integer.parseInt(lockerTextField.getText()));
-            checkOccupiedLockersAndEntries(entrance);
-            if (typeOfError == 0) {
-                entranceDao.saveArrival(entrance);
-                successfulSave("Vstup bol zaznamenaný!");
+        if (selectedCustomer != null) {
+            checkErrorsOccupiedLockersAndEntries(selectedCustomer);
+            switch (typeOfError) {
+                case 0:
+                    Entrance entrance = new Entrance();
+                    entrance.setKlient_id(selectedCustomer.getId());
+                    entrance.setName(selectedCustomer.getName());
+                    entrance.setSurname(selectedCustomer.getSurname());
+                    entrance.setArrival(getActualTime());
+                    entrance.setLocker(Integer.parseInt(lockerTextField.getText()));
+                    entranceDao.saveArrival(entrance);
+                    successfulSave("Vstup bol zaznamenaný!");
+                    break;
+                case 1:
+                    showAlert("Zákazík má zaznamenaný vstup!", "Prosím, zaznačte odchod.");
+                    break;
+                case 2:
+                    showAlert("Číslo skrinky je obsadené!", "Vyberte, prosím, iné číslo.");
+                    break;
+                case 3:
+                    showAlert("Neplatný vstup!", "Zadajte, prosím, číselný údaj.");
+                    break;
             }
-            if (typeOfError == 1) {
-                showAlert("Zákazík už má zaznamenaný vstup.", "Prosím zaznačte odchod!");
-            }
-            if (typeOfError == 2) {
-                showAlert("Číslo skrinky je obsadené.", "Vyberte, prosím, iné číslo!");
-            }
-        } catch (
-                NumberFormatException e) {
-            showAlert("Zadali ste nesprávny typ dát.", "Prosím zadajte číselný údaj!");
+            lockerTextField.setText("");
+        } else {
+            showAlert("Neoznačený zákazník!", "Zaznačte, prosím, zákaznika.");
         }
-        lockerTextField.setText("");
+    }
+
+    private void checkErrorsOccupiedLockersAndEntries(Customer selectedCustomer) {
+        typeOfError = 0;
+        List<Entrance> list = entranceDao.getAll();
+        try {
+            Integer.parseInt(lockerTextField.getText());
+            for (Entrance entrance1 : list) {
+                if (entrance1.getKlient_id().equals(selectedCustomer.getId()) && entrance1.getExit() == null && entrance1.getArrival() != null) { // 2 vstupy
+                    typeOfError = 1;
+                    break;
+                }
+                if (entrance1.getLocker() == Integer.parseInt(lockerTextField.getText()) && entrance1.getExit() == null && entrance1.getArrival() != null) { // cislo skrinky
+                    typeOfError = 2;
+                    break;
+                }
+            }
+        } catch (NumberFormatException e) {
+            typeOfError = 3;
+        }
     }
 
     @FXML
     void exitButtonClick(ActionEvent event) throws ParseException {
         Customer selectedCustomer = customerTableView.getSelectionModel().getSelectedItem();
-        Entrance entrance = findArrival(selectedCustomer);
-        if (entrance != null) {
-            entrance.setKlient_id(selectedCustomer.getId());
-            entrance.setName(selectedCustomer.getName());
-            entrance.setSurname(selectedCustomer.getSurname());
-            entrance.setExit(getActualTime());
-            entrance.setTime(getDifference(entrance));
-            entranceDao.saveExit(entrance);
-            successfulSave("Odchod bol zaznamenaný!");
+        if (selectedCustomer != null) {
+            Entrance entrance = findArrival(selectedCustomer);
+            if (entrance != null) {
+                entrance.setKlient_id(selectedCustomer.getId());
+                entrance.setExit(getActualTime());
+                entrance.setTime(getDifference(entrance));
+                entranceDao.saveExit(entrance);
+                successfulSave("Odchod bol zaznamenaný!");
+            } else {
+                showAlert("Zákazík nemá zaznamenaný vstup.", "Prosím zaznačte vstup!");
+            }
         } else {
-            showAlert("Zákazík nemá zaznamenaný vstup.", "Prosím zaznačte vstup!");
+            showAlert("Neoznačený zákazník!", "Zaznačte, prosím, zákaznika.");
         }
     }
 
@@ -167,8 +193,26 @@ public class MainController {
 
         TableColumn<Customer, Date> permanentkaCol = new TableColumn<>("Permanentka");
         permanentkaCol.setCellValueFactory(new PropertyValueFactory<>("membershipExp"));
-        customerTableView.getColumns().add(permanentkaCol);
 
+        // https://stackoverflow.com/questions/47484280/format-of-date-in-the-javafx-tableview
+        permanentkaCol.setCellFactory(column -> {
+            TableCell<Customer, Date> cell = new TableCell<Customer, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        this.setText(format.format(item));
+                    }
+                }
+            };
+            return cell;
+        });
+
+        customerTableView.getColumns().add(permanentkaCol);
 
         TableColumn<Customer, Boolean> adminCol = new TableColumn<>("Admin");
         adminCol.setCellValueFactory(new PropertyValueFactory<>("admin"));
@@ -195,7 +239,6 @@ public class MainController {
             customerTableView.setItems(FXCollections.observableArrayList(customersModel));
             filterTableView();
         }
-
     }
 
     private String getDifference(Entrance entrance) throws ParseException {
@@ -281,21 +324,6 @@ public class MainController {
         return null;
     }
 
-    private void checkOccupiedLockersAndEntries(Entrance entrance) {
-        typeOfError = 0;
-        List<Entrance> list = entranceDao.getAll();
-        for (Entrance entrance1 : list) {
-            if (entrance1.getKlient_id().equals(entrance.getKlient_id()) && entrance1.getExit() == null && entrance1.getArrival() != null) { // 2 vstupy
-                typeOfError = 1;
-                break;
-            }
-            if (entrance1.getLocker() == entrance.getLocker() && entrance1.getExit() == null && entrance1.getArrival() != null) { // cislo skrinky
-                typeOfError = 2;
-                break;
-            }
-        }
-    }
-
     private String getActualTime() {
         LocalDateTime ldt = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -350,4 +378,5 @@ public class MainController {
         // 5. Add sorted (and filtered) data to the table.
         customerTableView.setItems(sortedData);
     }
+
 }

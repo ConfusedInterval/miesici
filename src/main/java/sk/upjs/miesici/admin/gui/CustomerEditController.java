@@ -91,37 +91,35 @@ public class CustomerEditController {
 
     @FXML
     void addOneMonthButtonClick(ActionEvent event) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
-            LocalDate date = LocalDate.parse(expireTextField.getText(), formatter);
+            LocalDate date = LocalDate.parse(expireTextField.getText());
             if (date.isBefore(LocalDate.now())) {
                 LocalDate ldt = LocalDate.now().plusMonths(1);
-                expireTextField.setText(formatter.format(ldt));
+                expireTextField.setText(String.valueOf(ldt));
             } else {
                 LocalDate ldt = date.plusMonths(1);
-                expireTextField.setText(formatter.format(ldt));
+                expireTextField.setText(String.valueOf(ldt));
             }
         } catch (DateTimeParseException e) {
             LocalDate ldt = LocalDate.now().plusMonths(1);
-            expireTextField.setText(formatter.format(ldt));
+            expireTextField.setText(String.valueOf(ldt));
         }
     }
 
     @FXML
     void addThreeMonthButtonClick(ActionEvent event) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
-            LocalDate date = LocalDate.parse(expireTextField.getText(), formatter);
+            LocalDate date = LocalDate.parse(expireTextField.getText());
             if (date.isBefore(LocalDate.now())) {
                 LocalDate ldt = LocalDate.now().plusMonths(3);
-                expireTextField.setText(formatter.format(ldt));
+                expireTextField.setText(String.valueOf(ldt));
             } else {
                 LocalDate ldt = date.plusMonths(3);
-                expireTextField.setText(formatter.format(ldt));
+                expireTextField.setText(String.valueOf(ldt));
             }
         } catch (DateTimeParseException e) {
             LocalDate ldt = LocalDate.now().plusMonths(3);
-            expireTextField.setText(formatter.format(ldt));
+            expireTextField.setText(String.valueOf(ldt));
         }
     }
 
@@ -131,16 +129,12 @@ public class CustomerEditController {
         if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("")) {
             showAlert("Údaje nie sú vyplnené správne!", "Prosím vyplňte všetky údaje.");
         } else {
-            if (!emailTextField.getText().contains("@")) {
-                showAlert("Údaje nie sú vyplnené správne!", "Neplatný formát emailovej adresy.");
-            } else {
-                checkForErrors();
-                checkAndSave();
-            }
+            checkForErrors();
+            checkAndSave();
         }
     }
 
-    private void checkForErrors(){
+    private void checkForErrors() {
         try {
             Double.parseDouble(creditTextField.getText());
         } catch (NumberFormatException ignored) {
@@ -151,8 +145,14 @@ public class CustomerEditController {
             if (!date.toLocalDate().isAfter(LocalDate.now())) {
                 errorCheck = 2;
             }
-        } catch (IllegalArgumentException ignored) {
+        } catch (IllegalArgumentException e) {
             errorCheck = 3;
+        }
+        if (!emailTextField.getText().contains("@")) {
+            errorCheck = 4;
+        }
+        if (passwordTextField.getText().length() < 6 && passwordTextField.getText().length() != 0) {
+            errorCheck = 5;
         }
     }
 
@@ -168,25 +168,29 @@ public class CustomerEditController {
                 case 3:
                     showAlert("Údaje nie sú vyplnené správne!", "Zadajte expiráciu vo formáte YYYY-MM-DD.");
                     break;
+                case 4:
+                    showAlert("Údaje nie sú vyplnené správne!", "Neplatný formát emailovej adresy.");
+                    break;
+                case 5:
+                    showAlert("Heslo nie je dostatočne dlhé!", "Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
+                    break;
             }
             errorCheck = 0;
         } else {
-            if (passwordTextField.getText().length() >= 6 || passwordTextField.getText().length() == 0) {
-                customer.setName(nameTextField.getText());
-                customer.setSurname(surnameTextField.getText());
-                customer.setAddress(addressTextField.getText());
-                customer.setEmail(emailTextField.getText());
-                customer.setAdmin(isAdminCheckBox.isSelected());
-                if (passwordTextField.getText().length() >= 6) {
-                    String salt = generateRandomText();
-                    customer.setSalt(salt);
-                    customer.setPassword(hashPassword(passwordTextField.getText(), salt));
-                }
-                customerDao.edit(customer);
-                saveButton.getScene().getWindow().hide();
-            } else {
-                showAlert("Heslo nie je dostatočne dlhé!", "Vaše nové heslo nie je dostatočne dlhé. Zvolťe aspoň 6 znakov");
+            customer.setName(nameTextField.getText());
+            customer.setSurname(surnameTextField.getText());
+            customer.setAddress(addressTextField.getText());
+            customer.setEmail(emailTextField.getText());
+            customer.setAdmin(isAdminCheckBox.isSelected());
+            customer.setMembershipExp(java.sql.Date.valueOf(expireTextField.getText()));
+            if (passwordTextField.getText().length() >= 6) {
+                String salt = generateRandomText();
+                customer.setSalt(salt);
+                customer.setPassword(hashPassword(passwordTextField.getText(), salt));
             }
+            customerDao.edit(customer);
+            saveButton.getScene().getWindow().hide();
+
         }
     }
 
