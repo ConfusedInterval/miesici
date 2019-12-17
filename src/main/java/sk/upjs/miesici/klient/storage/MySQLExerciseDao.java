@@ -25,48 +25,51 @@ public class MySQLExerciseDao implements ExerciseDao {
     @Override
     public List<Exercise> getAllByTrainingId(long trainingId) {
         String sql = "SELECT trening_id, cvik_id, vaha, pocet, nazov from cvik " +
-        		"JOIN typ_cviku WHERE trening_id = "+trainingId + " AND cvik_id = id";
-        		
-        return jdbcTemplate.query(sql, new ResultSetExtractor<>() {
-			@Override
-			public List<Exercise> extractData(ResultSet rs) throws SQLException, DataAccessException {
-				Exercise exercise = null;
-				List<Exercise> result = new ArrayList<Exercise>();
-				while (rs.next()) {
-					long typeOfExerciseId = rs.getLong("cvik_id");
-					if (exercise == null || typeOfExerciseId != exercise.getTypeOfExerciseId()) {
-						exercise = new Exercise();
-						exercise.setTrainingId(rs.getLong("trening_id"));
-						exercise.setTypeOfExerciseId(typeOfExerciseId);
-						exercise.setWeight(rs.getDouble("vaha"));
-						exercise.setReps(rs.getInt("pocet"));
-						exercise.setName(rs.getString("nazov"));
-					}
-					result.add(exercise);
-				}
-				return result;
-			}
+                "JOIN typ_cviku WHERE trening_id = " + trainingId + " AND cvik_id = id";
 
-		});
+        return jdbcTemplate.query(sql, new ResultSetExtractor<>() {
+            @Override
+            public List<Exercise> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                Exercise exercise = null;
+                List<Exercise> result = new ArrayList<Exercise>();
+                while (rs.next()) {
+                    long typeOfExerciseId = rs.getLong("cvik_id");
+                    if (exercise == null || typeOfExerciseId != exercise.getTypeOfExerciseId()) {
+                        exercise = new Exercise();
+                        exercise.setTrainingId(rs.getLong("trening_id"));
+                        exercise.setTypeOfExerciseId(typeOfExerciseId);
+                        exercise.setWeight(rs.getDouble("vaha"));
+                        exercise.setReps(rs.getInt("pocet"));
+                        exercise.setName(rs.getString("nazov"));
+                    }
+                    result.add(exercise);
+                }
+                return result;
+            }
+
+        });
     }
 
     @Override
-    public void saveExercise(Exercise exercise) {
-    	SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
-    	insert.withTableName("cvik");
-		Map<String, Object> values = new HashMap<String, Object>();
-		values.put("trening_id", exercise.getTrainingId());
-		values.put("cvik_id", exercise.getTypeOfExerciseId());
-		values.put("vaha", exercise.getWeight());
-		values.put("pocet", exercise.getReps());
-		insert.execute(new MapSqlParameterSource(values));
-
-		
+    public Exercise saveExercise(Exercise exercise) {
+        if (exercise == null) {
+            return null;
+        } else {
+            SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+            insert.withTableName("cvik");
+            Map<String, Object> values = new HashMap<String, Object>();
+            values.put("trening_id", exercise.getTrainingId());
+            values.put("cvik_id", exercise.getTypeOfExerciseId());
+            values.put("vaha", exercise.getWeight());
+            values.put("pocet", exercise.getReps());
+            insert.execute(new MapSqlParameterSource(values));
+            return exercise;
+        }
     }
 
-	@Override
-	public void deleteExerciseByTrainingId(long id) {
-		String deleteSQL = "DELETE FROM cvik WHERE trening_id = " +id;
-		jdbcTemplate.update(deleteSQL);
-	}
+    @Override
+    public void deleteExerciseByTrainingId(long id) {
+        String deleteSQL = "DELETE FROM cvik WHERE trening_id = " + id;
+        jdbcTemplate.update(deleteSQL);
+    }
 }

@@ -15,7 +15,7 @@
    <children>
       <AnchorPane fx:id="addTrainingAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="345.0" style="-fx-background-color: #333333;">
          <children>
-            <Button layoutX="270.0" layoutY="373.0" mnemonicParsing="false" onAction="#saveTrainingClick" style="-fx-background-color: cyan;" text="Uložiť" />
+            <Button fx:id="saveButton" layoutX="270.0" layoutY="373.0" mnemonicParsing="false" onAction="#saveTrainingClick" style="-fx-background-color: cyan;" text="Uložiť" />
             <Label focusTraversable="false" layoutX="97.0" layoutY="22.0" text="Pridanie tréningu" textFill="WHITE">
                <font>
                   <Font size="20.0" />

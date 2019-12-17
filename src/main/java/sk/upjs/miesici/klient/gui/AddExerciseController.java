@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -39,6 +40,9 @@ public class AddExerciseController {
 	private TextField weightTextField;
 
 	@FXML
+	private Button saveButton;
+
+	@FXML
 	private TextField repsTextField;
 
 	@FXML
@@ -49,9 +53,14 @@ public class AddExerciseController {
 
 	private Training training;
 	private Customer customer;
+	private Exercise savedExcercise;
 
 	public void setTraining(Training training) {
 		this.training = training;
+	}
+
+	public Exercise getSavedExcercise(){
+		return savedExcercise;
 	}
 	
 	public void setCustomer(Customer customer) {
@@ -90,9 +99,10 @@ public class AddExerciseController {
 
 		}
 		exercise.setTypeOfExerciseId(typeOfExercise.getId());
-		exerciseDao.saveExercise(exercise);
 		repsTextField.setText("");
 		weightTextField.setText("");
+		this.savedExcercise = exerciseDao.saveExercise(exercise);
+		saveButton.getScene().getWindow().hide();
 	}
 
 	@FXML

@@ -74,8 +74,10 @@ public class TrainingController {
     	addExerciseController.setTraining(training);
     	addExerciseController.setCustomer(customer);
     	showAddExerciseController(addExerciseController);
-    	exercisesModel = FXCollections.observableArrayList(exerciseDao.getAllByTrainingId(training.getId()));
-		trainingTableView.setItems(FXCollections.observableArrayList(exercisesModel));
+    	if (addExerciseController.getSavedExcercise() != null){
+			exercisesModel = FXCollections.observableArrayList(exerciseDao.getAllByTrainingId(training.getId()));
+			trainingTableView.setItems(FXCollections.observableArrayList(exercisesModel));
+		}
     }
 
 

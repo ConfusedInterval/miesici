@@ -63,6 +63,6 @@
             <ComboBox fx:id="exerciseComboBox" prefWidth="150.0" GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <Button layoutX="274.0" layoutY="385.0" mnemonicParsing="false" onAction="#saveExerciseClick" style="-fx-background-color: cyan;" text="Uložiť" />
+      <Button fx:id="saveButton" layoutX="274.0" layoutY="385.0" mnemonicParsing="false" onAction="#saveExerciseClick" style="-fx-background-color: cyan;" text="Uložiť" />
    </children>
 </AnchorPane>

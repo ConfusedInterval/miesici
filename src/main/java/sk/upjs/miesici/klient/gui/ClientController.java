@@ -47,7 +47,6 @@ import sk.upjs.miesici.admin.storage.CustomerDao;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 import sk.upjs.miesici.admin.storage.Entrance;
 import sk.upjs.miesici.admin.storage.EntranceDao;
-import sk.upjs.miesici.klient.storage.Exercise;
 import sk.upjs.miesici.klient.storage.ExerciseDao;
 import sk.upjs.miesici.klient.storage.Training;
 import sk.upjs.miesici.klient.storage.TrainingDao;
@@ -505,6 +504,10 @@ public class ClientController {
 		AddTrainingController controller = new AddTrainingController();
 		controller.setCustomer(customer);
 		showAddTraining(controller);
+		if (controller.getSavedTraining() != null) {
+			trainingsModel = FXCollections.observableArrayList(trainingDao.getAll());
+			trainingTableView.setItems(FXCollections.observableArrayList(trainingsModel));
+		}
 	}
 
 	private void showTraining(TrainingController controller) {

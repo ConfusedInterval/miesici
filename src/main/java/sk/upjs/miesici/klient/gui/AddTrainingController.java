@@ -8,12 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -42,6 +37,9 @@ public class AddTrainingController {
 	private TextField nameOfTraining;
 
 	@FXML
+	private Button saveButton;
+
+	@FXML
 	private TextArea noteOfTraining;
 
 	@FXML
@@ -49,9 +47,14 @@ public class AddTrainingController {
 
 	private Customer customer;
 	private Training training;
+	private Training savedTraining;
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Training getSavedTraining() {
+		return savedTraining;
 	}
 
 	private TrainingDao trainingDao = DaoFactory.INSTANCE.getTrainingDao();
@@ -64,7 +67,9 @@ public class AddTrainingController {
 			training.setDate(java.sql.Date.valueOf(datePicker.getValue()));
 			training.setName(nameOfTraining.getText());
 			training.setNote(noteOfTraining.getText());
-			trainingDao.saveTraining(training);
+			this.savedTraining = trainingDao.saveTraining(training);
+			saveButton.getScene().getWindow().hide();
+
 //		} else {
 //			nameAlert();
 //		}
@@ -81,6 +86,5 @@ public class AddTrainingController {
 	@FXML
 	void initialize() {
 		datePicker.setValue(LocalDate.now());
-		;
 	}
 }
