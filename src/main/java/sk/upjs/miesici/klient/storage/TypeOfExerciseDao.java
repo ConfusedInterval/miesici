@@ -6,15 +6,15 @@ import sk.upjs.miesici.admin.storage.Customer;
 
 public interface TypeOfExerciseDao {
 
-    public static final Customer customer = new Customer();
+	public static final Customer customer = new Customer();
 
-    void setCustomer(Customer customer);
+	void setCustomer(Customer customer);
 
-    List<TypeOfExercise> getAll();
+	List<TypeOfExercise> getAll();
 
-    List<TypeOfExercise> getAllByClientId(Long clientId);
+	List<TypeOfExercise> getAllByClientId(Long clientId);
 
-    List<TypeOfExercise> getAllbyId(Long id);
+	List<TypeOfExercise> getAllbyId(Long id);
 
-    TypeOfExercise save(TypeOfExercise typeOfExercise);
+	TypeOfExercise save(TypeOfExercise typeOfExercise);
 }

@@ -1,8 +1,5 @@
 package sk.upjs.miesici.klient.storage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,16 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-import sk.upjs.miesici.admin.storage.Customer;
-
 public class MySQLTrainingDao implements TrainingDao {
 
 	private JdbcTemplate jdbcTemplate;
-	private Customer customer;
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
 
 	public MySQLTrainingDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;

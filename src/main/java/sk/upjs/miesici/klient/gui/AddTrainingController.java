@@ -57,15 +57,15 @@ public class AddTrainingController {
 
 	@FXML
 	void saveTrainingClick(ActionEvent event) {
-			if (!edit) {
-				training = new Training();
-			}
-			training.setClientId(customer.getId());
-			training.setDate(java.sql.Date.valueOf(datePicker.getValue()));
-			training.setName(nameOfTraining.getText());
-			training.setNote(noteOfTraining.getText());
-			this.savedTraining = trainingDao.saveTraining(training);
-			saveButton.getScene().getWindow().hide();
+		if (!edit) {
+			training = new Training();
+		}
+		training.setClientId(customer.getId());
+		training.setDate(java.sql.Date.valueOf(datePicker.getValue()));
+		training.setName(nameOfTraining.getText());
+		training.setNote(noteOfTraining.getText());
+		this.savedTraining = trainingDao.saveTraining(training);
+		saveButton.getScene().getWindow().hide();
 	}
 
 	@FXML
