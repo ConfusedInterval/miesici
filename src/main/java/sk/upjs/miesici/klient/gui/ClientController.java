@@ -505,7 +505,7 @@ public class ClientController {
         controller.setCustomer(customer);
         showAddTraining(controller);
         if (controller.getSavedTraining() != null) {
-            trainingsModel = FXCollections.observableArrayList(trainingDao.getAll());
+            trainingsModel = FXCollections.observableArrayList(trainingDao.getAllbyClientId(customer.getId()));
             trainingTableView.setItems(FXCollections.observableArrayList(trainingsModel));
         }
     }
