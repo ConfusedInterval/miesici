@@ -248,7 +248,7 @@
             </AnchorPane>
             <AnchorPane fx:id="trainingAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="233.0" layoutY="34.0" prefHeight="38.0" prefWidth="104.0" text="Tréningy" textFill="WHITE" AnchorPane.leftAnchor="233.0" AnchorPane.rightAnchor="233.0">
+                  <Label layoutX="237.0" layoutY="35.0" prefHeight="38.0" prefWidth="96.0" text="Tréning" textFill="WHITE" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="237.0">
                      <font>
                         <Font size="26.0" />
                      </font>
@@ -259,7 +259,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutX="30.0" layoutY="462.0" mnemonicParsing="false" onAction="#openTrainingClick" style="-fx-background-color: cyan;" text="Otvoriť tréning">
+                  <Button layoutX="30.0" layoutY="459.0" mnemonicParsing="false" onAction="#openTrainingClick" style="-fx-background-color: cyan;" text="Otvoriť tréning" AnchorPane.bottomAnchor="21.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
