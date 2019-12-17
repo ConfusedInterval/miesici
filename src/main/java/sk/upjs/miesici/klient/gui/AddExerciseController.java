@@ -24,108 +24,108 @@ import sk.upjs.miesici.klient.storage.TypeOfExerciseDao;
 
 public class AddExerciseController {
 
-	@FXML
-	private ResourceBundle resources;
+    @FXML
+    private ResourceBundle resources;
 
-	@FXML
-	private URL location;
+    @FXML
+    private URL location;
 
-	@FXML
-	private AnchorPane addExerciseAnchorPane;
+    @FXML
+    private AnchorPane addExerciseAnchorPane;
 
-	@FXML
-	private TextField ownExerciseTextField;
+    @FXML
+    private TextField ownExerciseTextField;
 
-	@FXML
-	private TextField weightTextField;
+    @FXML
+    private TextField weightTextField;
 
-	@FXML
-	private Button saveButton;
+    @FXML
+    private Button saveButton;
 
-	@FXML
-	private TextField repsTextField;
+    @FXML
+    private TextField repsTextField;
 
-	@FXML
-	private CheckBox ownExerciseCheckBox;
+    @FXML
+    private CheckBox ownExerciseCheckBox;
 
-	@FXML
-	private ComboBox<TypeOfExercise> exerciseComboBox;
+    @FXML
+    private ComboBox<TypeOfExercise> exerciseComboBox;
 
-	private Training training;
-	private Customer customer;
-	private Exercise savedExcercise;
+    private Training training;
+    private Customer customer;
+    private Exercise savedExcercise;
 
-	public void setTraining(Training training) {
-		this.training = training;
-	}
+    public void setTraining(Training training) {
+        this.training = training;
+    }
 
-	public Exercise getSavedExcercise(){
-		return savedExcercise;
-	}
-	
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
+    public Exercise getSavedExcercise() {
+        return savedExcercise;
+    }
 
-	private TypeOfExerciseDao typeOfExerciseDao = DaoFactory.INSTANCE.getTypeOfExerciseDao();
-	private ExerciseDao exerciseDao = DaoFactory.INSTANCE.getExerciseDao();
-	private ObservableList<TypeOfExercise> typeOfExerciseModel;
-	private CustomerDao customerDao= DaoFactory.INSTANCE.getCustomerDao();
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
-	@FXML
-	void saveExerciseClick(ActionEvent event) {
-		TypeOfExercise typeOfExercise = new TypeOfExercise();
-		Exercise exercise = new Exercise();
-		if (ownExerciseCheckBox.isSelected()) {
-			typeOfExercise.setName(ownExerciseTextField.getText());
-			typeOfExerciseDao.save(typeOfExercise);
-			ownExerciseTextField.setText("");
-		} else {
-			typeOfExercise = exerciseComboBox.getValue();
-		}
-		exercise.setTrainingId(training.getId());
-		String reps = repsTextField.getText();
-		if(reps.equals("")){
-			exercise.setReps(0);
-		}else {
-			exercise.setReps(Integer.parseInt(reps));
+    private TypeOfExerciseDao typeOfExerciseDao = DaoFactory.INSTANCE.getTypeOfExerciseDao();
+    private ExerciseDao exerciseDao = DaoFactory.INSTANCE.getExerciseDao();
+    private ObservableList<TypeOfExercise> typeOfExerciseModel;
+    private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
 
-		}
-		String weight = weightTextField.getText();
-		if(weight.equals("")) {
-			exercise.setWeight(0);
-		} else {
-			exercise.setWeight(Double.parseDouble(weight));
+    @FXML
+    void saveExerciseClick(ActionEvent event) {
+        TypeOfExercise typeOfExercise = new TypeOfExercise();
+        Exercise exercise = new Exercise();
+        if (ownExerciseCheckBox.isSelected()) {
+            typeOfExercise.setName(ownExerciseTextField.getText());
+            typeOfExerciseDao.save(typeOfExercise);
+            ownExerciseTextField.setText("");
+        } else {
+            typeOfExercise = exerciseComboBox.getValue();
+        }
+        exercise.setTrainingId(training.getId());
+        String reps = repsTextField.getText();
+        if (reps.equals("")) {
+            exercise.setReps(0);
+        } else {
+            exercise.setReps(Integer.parseInt(reps));
 
-		}
-		exercise.setTypeOfExerciseId(typeOfExercise.getId());
-		repsTextField.setText("");
-		weightTextField.setText("");
-		this.savedExcercise = exerciseDao.saveExercise(exercise);
-		saveButton.getScene().getWindow().hide();
-	}
+        }
+        String weight = weightTextField.getText();
+        if (weight.equals("")) {
+            exercise.setWeight(0);
+        } else {
+            exercise.setWeight(Double.parseDouble(weight));
 
-	@FXML
-	void ownExerciseClick(MouseEvent event) {
-		if (ownExerciseCheckBox.isSelected()) {
-			exerciseComboBox.setDisable(true);
-			ownExerciseTextField.setDisable(false);
-		}
-		if (!ownExerciseCheckBox.isSelected()) {
-			exerciseComboBox.setDisable(false);
-			ownExerciseTextField.setDisable(true);
-		}
-	}
+        }
+        exercise.setTypeOfExerciseId(typeOfExercise.getId());
+        repsTextField.setText("");
+        weightTextField.setText("");
+        this.savedExcercise = exerciseDao.saveExercise(exercise);
+        saveButton.getScene().getWindow().hide();
+    }
 
-	@FXML
-	void initialize() {
-		typeOfExerciseDao.setCustomer(customer);
-		typeOfExerciseModel = FXCollections.observableArrayList(typeOfExerciseDao.getAllByClientId(customer.getId()));
-		exerciseComboBox.getItems().addAll(typeOfExerciseModel);
-				if (typeOfExerciseModel.size() != 0) {
-					exerciseComboBox.setValue(typeOfExerciseModel.get(0));
-				}
-				ownExerciseTextField.setDisable(true);
+    @FXML
+    void ownExerciseClick(MouseEvent event) {
+        if (ownExerciseCheckBox.isSelected()) {
+            exerciseComboBox.setDisable(true);
+            ownExerciseTextField.setDisable(false);
+        }
+        if (!ownExerciseCheckBox.isSelected()) {
+            exerciseComboBox.setDisable(false);
+            ownExerciseTextField.setDisable(true);
+        }
+    }
 
-	}
+    @FXML
+    void initialize() {
+        typeOfExerciseDao.setCustomer(customer);
+        typeOfExerciseModel = FXCollections.observableArrayList(typeOfExerciseDao.getAllByClientId(customer.getId()));
+        exerciseComboBox.getItems().addAll(typeOfExerciseModel);
+        if (typeOfExerciseModel.size() != 0) {
+            exerciseComboBox.setValue(typeOfExerciseModel.get(0));
+        }
+        ownExerciseTextField.setDisable(true);
+
+    }
 }

@@ -24,67 +24,67 @@ import sk.upjs.miesici.klient.storage.TypeOfExerciseDao;
 
 public class AddTrainingController {
 
-	@FXML
-	private ResourceBundle resources;
+    @FXML
+    private ResourceBundle resources;
 
-	@FXML
-	private URL location;
+    @FXML
+    private URL location;
 
-	@FXML
-	private AnchorPane addTrainingAnchorPane;
+    @FXML
+    private AnchorPane addTrainingAnchorPane;
 
-	@FXML
-	private TextField nameOfTraining;
+    @FXML
+    private TextField nameOfTraining;
 
-	@FXML
-	private Button saveButton;
+    @FXML
+    private Button saveButton;
 
-	@FXML
-	private TextArea noteOfTraining;
+    @FXML
+    private TextArea noteOfTraining;
 
-	@FXML
-	private DatePicker datePicker;
+    @FXML
+    private DatePicker datePicker;
 
-	private Customer customer;
-	private Training training;
-	private Training savedTraining;
+    private Customer customer;
+    private Training training;
+    private Training savedTraining;
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
-	public Training getSavedTraining() {
-		return savedTraining;
-	}
+    public Training getSavedTraining() {
+        return savedTraining;
+    }
 
-	private TrainingDao trainingDao = DaoFactory.INSTANCE.getTrainingDao();
+    private TrainingDao trainingDao = DaoFactory.INSTANCE.getTrainingDao();
 
-	@FXML
-	void saveTrainingClick(ActionEvent event) {
-	//	if (nameOfTraining.getText() != null) {
-			training = new Training();
-			training.setClientId(customer.getId());
-			training.setDate(java.sql.Date.valueOf(datePicker.getValue()));
-			training.setName(nameOfTraining.getText());
-			training.setNote(noteOfTraining.getText());
-			this.savedTraining = trainingDao.saveTraining(training);
-			saveButton.getScene().getWindow().hide();
+    @FXML
+    void saveTrainingClick(ActionEvent event) {
+        //	if (nameOfTraining.getText() != null) {
+        training = new Training();
+        training.setClientId(customer.getId());
+        training.setDate(java.sql.Date.valueOf(datePicker.getValue()));
+        training.setName(nameOfTraining.getText());
+        training.setNote(noteOfTraining.getText());
+        this.savedTraining = trainingDao.saveTraining(training);
+        saveButton.getScene().getWindow().hide();
 
 //		} else {
 //			nameAlert();
 //		}
-	}
-	
-	void nameAlert() {
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Nezadali ste meno!");
-		alert.setHeaderText("Nezadali ste meno!");
-		alert.setContentText("Nezadali ste meno! Pre uloženie tréningu musite zadať meno.");
-		alert.show();
-	}
+    }
 
-	@FXML
-	void initialize() {
-		datePicker.setValue(LocalDate.now());
-	}
+    void nameAlert() {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Nezadali ste meno!");
+        alert.setHeaderText("Nezadali ste meno!");
+        alert.setContentText("Nezadali ste meno! Pre uloženie tréningu musite zadať meno.");
+        alert.show();
+    }
+
+    @FXML
+    void initialize() {
+        datePicker.setValue(LocalDate.now());
+    }
 }
