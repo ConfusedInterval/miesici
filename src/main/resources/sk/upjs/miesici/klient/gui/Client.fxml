@@ -264,6 +264,11 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
+                  <Button layoutX="236.0" layoutY="459.0" mnemonicParsing="false" onAction="#deleteTrainingClick" style="-fx-background-color: cyan;" text="Zmazať tréning" AnchorPane.bottomAnchor="21.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
                </children>
             </AnchorPane>
          </children>
