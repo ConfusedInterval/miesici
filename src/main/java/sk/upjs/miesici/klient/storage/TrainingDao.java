@@ -18,4 +18,6 @@ public interface TrainingDao {
 	
 	void deleteTrainingById(Long id);
 
+	void editTraining(Training training);
+
 }

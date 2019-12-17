@@ -37,15 +37,20 @@ public class MySQLTrainingDao implements TrainingDao {
 
 	@Override
 	public Training saveTraining(Training training) {
-		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
-		insert.withTableName("trening").usingGeneratedKeyColumns("id");
-		Map<String, Object> values = new HashMap<String, Object>();
-		values.put("klient_id", training.getClientId());
-		values.put("datum", training.getDate());
-		values.put("nazov", training.getName());
-		values.put("poznamka", training.getNote());
-		Number key = insert.executeAndReturnKey(new MapSqlParameterSource(values));
-		training.setId(key.longValue());
+		if (training.getId() == null) {
+			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+			insert.withTableName("trening").usingGeneratedKeyColumns("id");
+			Map<String, Object> values = new HashMap<String, Object>();
+			values.put("klient_id", training.getClientId());
+			values.put("datum", training.getDate());
+			values.put("nazov", training.getName());
+			values.put("poznamka", training.getNote());
+			Number key = insert.executeAndReturnKey(new MapSqlParameterSource(values));
+			training.setId(key.longValue());
+			return training;
+		} else {
+			editTraining(training);
+		}
 		return training;
 	}
 
@@ -65,6 +70,13 @@ public class MySQLTrainingDao implements TrainingDao {
 	public void deleteTrainingById(Long id) {
 		String deleteSQL = "DELETE FROM trening where id = " + id;
 		jdbcTemplate.update(deleteSQL);
+
+	}
+
+	@Override
+	public void editTraining(Training training) {
+		String updateSQL = "UPDATE trening SET datum = ? , nazov = ? , poznamka = ? WHERE id = " + training.getId();
+		jdbcTemplate.update(updateSQL, training.getDate(), training.getName(), training.getNote());
 
 	}
 

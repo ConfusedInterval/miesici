@@ -7,5 +7,6 @@ public interface ExerciseDao {
 	List<Exercise> getAllByTrainingId(Long trainingId);
 	Exercise saveExercise(Exercise exercise);
 	void deleteExerciseByTrainingId(long id);
+	void deleteExerciseByTypeOfExerciseIdAndTrainingId(long typeOfExerciseId, long trainingId);
 	
 }

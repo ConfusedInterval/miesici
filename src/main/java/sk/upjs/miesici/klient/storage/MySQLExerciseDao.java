@@ -71,4 +71,10 @@ public class MySQLExerciseDao implements ExerciseDao {
         String deleteSQL = "DELETE FROM cvik WHERE trening_id = " + id;
         jdbcTemplate.update(deleteSQL);
     }
+
+	@Override
+	public void deleteExerciseByTypeOfExerciseIdAndTrainingId(long typeOfExerciseId, long trainingId) {
+		String deleteSQL = "DELETE FROM cvik WHERE cvik_id = " + typeOfExerciseId +" AND trening_id = "+trainingId;
+        jdbcTemplate.update(deleteSQL);		
+	}
 }
