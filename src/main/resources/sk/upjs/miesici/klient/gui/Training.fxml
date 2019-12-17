@@ -14,6 +14,7 @@
          </font>
       </Label>
       <TableView fx:id="trainingTableView" layoutX="29.0" layoutY="91.0" prefHeight="361.0" prefWidth="511.0" />
-      <Button layoutX="29.0" layoutY="460.0" mnemonicParsing="false" onAction="#addExercisesClick" style="-fx-background-color: cyan;" text="Pridať cviky" />
+      <Button layoutX="29.0" layoutY="460.0" mnemonicParsing="false" onAction="#addExercisesClick" style="-fx-background-color: cyan;" text="Pridať cviky" AnchorPane.bottomAnchor="20.4" />
+      <Button layoutX="460.0" layoutY="460.0" mnemonicParsing="false" onAction="#deleteExercisesClick" style="-fx-background-color: cyan;" text="Zmazať cvik" AnchorPane.bottomAnchor="20.399999999999977" />
    </children>
 </AnchorPane>
