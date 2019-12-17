@@ -4,23 +4,14 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.DaoFactory;
-import sk.upjs.miesici.klient.storage.Exercise;
-import sk.upjs.miesici.klient.storage.ExerciseDao;
 import sk.upjs.miesici.klient.storage.Training;
 import sk.upjs.miesici.klient.storage.TrainingDao;
-import sk.upjs.miesici.klient.storage.TypeOfExercise;
-import sk.upjs.miesici.klient.storage.TypeOfExerciseDao;
 
 public class AddTrainingController {
 
