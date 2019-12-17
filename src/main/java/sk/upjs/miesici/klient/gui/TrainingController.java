@@ -84,7 +84,6 @@ public class TrainingController {
 		
 		exercisesModel = FXCollections.observableArrayList(exerciseDao.getAllByTrainingId(training.getId()));
 		trainingTableView.setItems(FXCollections.observableArrayList(exercisesModel));
-		System.out.println(exerciseDao.getAllByTrainingId(training.getId()));
 		
 		TableColumn<Exercise, String> typeOfExercise = new TableColumn<Exercise, String>("Cvik");
 		typeOfExercise.setCellValueFactory(new PropertyValueFactory<>("name"));
