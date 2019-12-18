@@ -113,6 +113,7 @@ public class MainController {
         }
     }
 
+
     private void checkErrorsOccupiedLockersAndEntries(Customer selectedCustomer) {
         typeOfError = 0;
         List<Entrance> list = entranceDao.getAll();
