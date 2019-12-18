@@ -66,7 +66,11 @@ public class Entrance {
 		this.locker = locker;
 	}
 
-	public String getTime() { return time; }
+	public String getTime() {
+		return time;
+	}
 
-	public void setTime(String time) { this.time = time; }
+	public void setTime(String time) {
+		this.time = time;
+	}
 }

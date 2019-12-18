@@ -177,7 +177,6 @@ public class ClientController {
         contactAnchorPane.setVisible(true);
     }
 
-    // bude este upravene
     @FXML
     void entriesClick(ActionEvent event) {
         hideAll();
@@ -389,7 +388,7 @@ public class ClientController {
 
     @FXML
     void backToHomeAnchorPaneClick(ActionEvent event) {
-        refreshHomeTable();
+		refreshHomeTable();
         homeClick(event);
     }
 
@@ -422,7 +421,6 @@ public class ClientController {
             }
             membershipExtendedInfo(1);
             customerDao.edit(customer);
-            // refreshHomeTable();
             clientTable.refresh();
             return;
         } else {

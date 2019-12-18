@@ -10,28 +10,28 @@ import java.util.List;
 
 public class CustomerResultSetExtractor implements ResultSetExtractor<List<Customer>> {
 
-    @Override
-    public List<Customer> extractData(ResultSet rs) throws SQLException, DataAccessException {
-        List<Customer> result = new ArrayList<Customer>();
-        Customer customer = null;
-        while(rs.next()) {
-            Long id = rs.getLong("klient_id");
-            if (customer == null || customer.getId() != id) {
-                customer = new Customer();
-                customer.setId(id);
-                customer.setName(rs.getString("meno"));
-                customer.setSurname(rs.getString("priezvisko"));
-                customer.setAddress(rs.getString("adresa"));
-                customer.setEmail(rs.getString("email"));
-                customer.setCredit(rs.getDouble("kredit"));
-                customer.setMembershipExp(rs.getDate("permanentka"));
-                customer.setLogin(rs.getString("login"));
-                customer.setPassword(rs.getString("heslo"));
-                customer.setSalt(rs.getString("sol"));
-                customer.setAdmin(rs.getBoolean("admin"));
-                result.add(customer);
-            }
-        }
-        return result;
-    }
+	@Override
+	public List<Customer> extractData(ResultSet rs) throws SQLException, DataAccessException {
+		List<Customer> result = new ArrayList<Customer>();
+		Customer customer = null;
+		while (rs.next()) {
+			Long id = rs.getLong("klient_id");
+			if (customer == null || customer.getId() != id) {
+				customer = new Customer();
+				customer.setId(id);
+				customer.setName(rs.getString("meno"));
+				customer.setSurname(rs.getString("priezvisko"));
+				customer.setAddress(rs.getString("adresa"));
+				customer.setEmail(rs.getString("email"));
+				customer.setCredit(rs.getDouble("kredit"));
+				customer.setMembershipExp(rs.getDate("permanentka"));
+				customer.setLogin(rs.getString("login"));
+				customer.setPassword(rs.getString("heslo"));
+				customer.setSalt(rs.getString("sol"));
+				customer.setAdmin(rs.getBoolean("admin"));
+				result.add(customer);
+			}
+		}
+		return result;
+	}
 }

@@ -1,6 +1,5 @@
 package sk.upjs.miesici.login.gui;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,8 +24,6 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class LoginController {
@@ -58,17 +55,18 @@ public class LoginController {
 	@FXML
 	private ImageView loginImageView;
 
-
 	@FXML
 	void loginButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
 		try {
 			assign = customerDao.getBylogin(loginTextField.getText());
 			String passwordHidden = hashPassword(passwordTextField.getText(), assign.getSalt());
 			String passwordUnhidden = hashPassword(toggleTextField.getText(), assign.getSalt());
-			if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden)) && assign.isAdmin()) {
+			if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden))
+					&& assign.isAdmin()) {
 				callMainController();
 			}
-			if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden)) && !assign.isAdmin()) {
+			if ((assign.getPassword().equals(passwordHidden) || assign.getPassword().equals(passwordUnhidden))
+					&& !assign.isAdmin()) {
 				callClientController();
 			}
 			if (!assign.getPassword().equals(passwordHidden) && !assign.getPassword().equals(passwordUnhidden)) {
@@ -110,7 +108,8 @@ public class LoginController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
-			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.getIcons().add(
+					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setTitle("Admin");
 			modalStage.setMinHeight(500);
 			modalStage.setMinWidth(650);
@@ -131,7 +130,8 @@ public class LoginController {
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();
 			modalStage.setScene(scene);
-			modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+			modalStage.getIcons().add(
+					new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
 			modalStage.setMinWidth(800);
 			modalStage.setMinHeight(500);
 			modalStage.setHeight(600);

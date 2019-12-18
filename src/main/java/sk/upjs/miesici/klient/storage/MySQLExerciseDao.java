@@ -23,8 +23,8 @@ public class MySQLExerciseDao implements ExerciseDao {
 
 	@Override
 	public List<Exercise> getAllByTrainingId(Long trainingId) {
-		String sql = "SELECT cvik.id,trening_id, cvik_id, vaha, pocet, nazov from cvik " + "JOIN typ_cviku WHERE trening_id = "
-				+ trainingId + " AND cvik_id = typ_cviku.id";
+		String sql = "SELECT cvik.id,trening_id, cvik_id, vaha, pocet, nazov from cvik "
+				+ "JOIN typ_cviku WHERE trening_id = " + trainingId + " AND cvik_id = typ_cviku.id";
 
 		return jdbcTemplate.query(sql, new ResultSetExtractor<>() {
 			@Override
@@ -32,9 +32,10 @@ public class MySQLExerciseDao implements ExerciseDao {
 				Exercise exercise = null;
 				List<Exercise> result = new ArrayList<Exercise>();
 				while (rs.next()) {
-		            long id = rs.getLong("id");
+					long id = rs.getLong("id");
 					long typeOfExerciseId = rs.getLong("cvik_id");
-					if (exercise == null || typeOfExerciseId != exercise.getTypeOfExerciseId() || id != exercise.getId()) {
+					if (exercise == null || typeOfExerciseId != exercise.getTypeOfExerciseId()
+							|| id != exercise.getId()) {
 						exercise = new Exercise();
 						exercise.setId(id);
 						exercise.setTrainingId(rs.getLong("trening_id"));
@@ -56,7 +57,7 @@ public class MySQLExerciseDao implements ExerciseDao {
 			return null;
 		} else {
 			SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
-			insert.withTableName("cvik").usingGeneratedKeyColumns("id");;
+			insert.withTableName("cvik").usingGeneratedKeyColumns("id");
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("trening_id", exercise.getTrainingId());
 			values.put("cvik_id", exercise.getTypeOfExerciseId());

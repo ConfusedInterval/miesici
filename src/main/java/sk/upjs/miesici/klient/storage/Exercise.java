@@ -8,8 +8,6 @@ public class Exercise {
 	private double weight;
 	private int reps;
 	private String name;
-	
-	
 
 	public Long getId() {
 		return id;

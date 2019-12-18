@@ -15,7 +15,7 @@ public class TrainingResultSetExtractor implements ResultSetExtractor<List<Train
         List<Training> result = new ArrayList<Training>();
         Training training = null;
         while (rs.next()) {
-            long id = rs.getLong("id");
+			long id = rs.getLong("id");
             if (training == null || id != training.getId()) {
                 training = new Training();
                 training.setId(id);
