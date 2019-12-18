@@ -214,7 +214,7 @@
             </AnchorPane>
             <AnchorPane fx:id="contactAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="241.0" layoutY="33.0" text="Kontakt" textFill="WHITE" AnchorPane.leftAnchor="241.0">
+                  <Label layoutX="239.0" layoutY="33.0" prefHeight="38.0" prefWidth="98.0" text="Kontakt" textFill="WHITE" AnchorPane.leftAnchor="241.0">
                      <font>
                         <Font size="26.0" />
                      </font>
@@ -248,7 +248,7 @@
             </AnchorPane>
             <AnchorPane fx:id="trainingAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="237.0" layoutY="35.0" prefHeight="38.0" prefWidth="96.0" text="Tréning" textFill="WHITE" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="237.0">
+                  <Label layoutX="235.0" layoutY="35.0" prefHeight="38.0" prefWidth="90.0" text="Tréning" textFill="WHITE" AnchorPane.leftAnchor="235.0">
                      <font>
                         <Font size="26.0" />
                      </font>
@@ -269,7 +269,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutX="310.0" layoutY="459.0" mnemonicParsing="false" onAction="#editTrainingClick" style="-fx-background-color: cyan;" text="Editovať tréning" AnchorPane.bottomAnchor="21.0">
+                  <Button layoutX="310.0" layoutY="459.0" mnemonicParsing="false" onAction="#editTrainingClick" style="-fx-background-color: cyan;" text="Editovať tréning" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="157.6">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
