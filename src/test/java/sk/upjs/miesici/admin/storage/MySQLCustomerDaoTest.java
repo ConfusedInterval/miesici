@@ -32,7 +32,7 @@ class MySQLCustomerDaoTest {
     void testSave() {
         List<Customer> all = dao.getAll();
         Customer customer = new Customer();
-        customer.setId(2L);
+        customer.setId(7L);
         customer.setName("xx");
         customer.setSurname("xx");
         customer.setAddress("xx");

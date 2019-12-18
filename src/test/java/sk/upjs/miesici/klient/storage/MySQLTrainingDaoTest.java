@@ -51,7 +51,7 @@ class MySQLTrainingDaoTest {
     @Test
     void deleteTrainingById() {
         List<Training> all = dao.getAll();
-        dao.deleteTrainingById(6L);
+        dao.deleteTrainingById(74L);
         assertEquals(all.size() - 1, dao.getAll().size());
     }
 
@@ -61,10 +61,10 @@ class MySQLTrainingDaoTest {
         training.setDate(Date.valueOf("2019-12-22"));
         training.setName("Pohodička");
         training.setNote("Jak nič");
-        training.setId(9L);
+        training.setId(74L);
         dao.editTraining(training);
-        assertEquals(Date.valueOf("2019-12-22"), dao.getAll().get(1).getDate());
-        assertEquals("Pohodička", dao.getAll().get(1).getName());
-        assertEquals("Jak nič", dao.getAll().get(1).getNote());
+        assertEquals(Date.valueOf("2019-12-22"), dao.getAll().get(0).getDate());
+        assertEquals("Pohodička", dao.getAll().get(0).getName());
+        assertEquals("Jak nič", dao.getAll().get(0).getNote());
     }
 }

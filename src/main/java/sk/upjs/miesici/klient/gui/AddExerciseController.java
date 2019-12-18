@@ -9,10 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import sk.upjs.miesici.admin.storage.Customer;
@@ -78,7 +75,16 @@ public class AddExerciseController {
 		Exercise exercise = new Exercise();
 		if (ownExerciseCheckBox.isSelected()) {
 			typeOfExercise.setName(ownExerciseTextField.getText());
-			typeOfExerciseDao.save(typeOfExercise);
+			if (exercise.getTypeOfExerciseId() == null){
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("Neúspešné vykonanie príkazu");
+				alert.setHeaderText("Cvik už je pridaný!");
+				alert.setContentText("Vyberte cvik z ponuky.");
+				alert.show();
+				return;
+			} else {
+				typeOfExerciseDao.save(typeOfExercise);
+			}
 		} else {
 			typeOfExercise = exerciseComboBox.getValue();
 		}

@@ -213,7 +213,7 @@ public class ClientController {
         stage.setTitle("Tréning");
         trainingAnchorPane.setVisible(true);
     }
-    
+
     // https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview
     public void centerImage() {
         Image img = clientImageView.getImage();
@@ -225,7 +225,7 @@ public class ClientController {
             double ratioY = clientImageView.getFitHeight() / img.getHeight();
 
             double reducCoeff = 0;
-            if(ratioX >= ratioY) {
+            if (ratioX >= ratioY) {
                 reducCoeff = ratioY;
             } else {
                 reducCoeff = ratioX;
@@ -401,6 +401,8 @@ public class ClientController {
         }
         membershipExtendedLabel.setText("Členstvo úspešne predĺžené" + " o " + n + " " + month);
         membershipExtendedLabel.setVisible(true);
+
+        //https://stackoverflow.com/questions/30543619/how-to-use-pausetransition-method-in-javafx
         PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
         visiblePause.setOnFinished(e -> membershipExtendedLabel.setVisible(false));
         visiblePause.play();
@@ -638,5 +640,4 @@ public class ClientController {
             e.printStackTrace();
         }
     }
-
 }

@@ -45,14 +45,14 @@ class MySQLExerciseDaoTest {
 
     @Test
     void deleteExerciseByTrainingId() {
-        dao.deleteExerciseByTrainingId(2L);
-        assertEquals(0, dao.getAllByTrainingId(2L).size());
+        dao.deleteExerciseByTrainingId(75L);
+        assertEquals(0, dao.getAllByTrainingId(75L).size());
     }
 
     @Test
     void deleteExerciseById() {
         List<Exercise> all = dao.getAllByTrainingId(74L);
-        dao.deleteExerciseById(12L);
+        dao.deleteExerciseById(69L);
         assertEquals(2, all.size());
     }
 }

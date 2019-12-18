@@ -32,9 +32,9 @@ class MySQLEntranceDaoTest {
     void saveArrival() {
         List<Entrance> all = dao.getAll();
         Entrance entrance = new Entrance();
-        entrance.setKlient_id(1L);
-        entrance.setName("xx");
-        entrance.setSurname("xx");
+        entrance.setKlient_id(60L);
+        entrance.setName("Karol");
+        entrance.setSurname("Báčik");
         entrance.setArrival("2019-12-17 16:12:44");
         entrance.setLocker(155);
         dao.saveArrival(entrance);
@@ -44,15 +44,15 @@ class MySQLEntranceDaoTest {
     @Test
     void saveExit() {
         Entrance entrance = new Entrance();
-        entrance.setKlient_id(1L);
+        entrance.setKlient_id(60L);
         entrance.setExit("2019-12-17 18:12:44");
         entrance.setTime("02:00:00");
-        entrance.setId(93L);
+        entrance.setId(100L);
         dao.saveExit(entrance);
-        assertEquals(1L, dao.getAll().get(12).getKlient_id());
+        assertEquals(60L, dao.getAll().get(12).getKlient_id());
         assertEquals("02:00:00", dao.getAll().get(12).getTime());
         assertEquals("2019-12-17 18:12:44", dao.getAll().get(12).getExit());
-        assertEquals(93L, dao.getAll().get(12).getId());
+        assertEquals(100L, dao.getAll().get(12).getId());
     }
 
     @Test
