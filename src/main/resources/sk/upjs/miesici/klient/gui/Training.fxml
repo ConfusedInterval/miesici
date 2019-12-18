@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="506.0" prefWidth="570.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="430.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="241.0" layoutY="43.0" text="Tréning" textFill="WHITE">
+      <Label layoutX="168.0" layoutY="38.0" prefHeight="38.0" prefWidth="93.0" text="Tréning" textFill="WHITE">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <TableView fx:id="trainingTableView" layoutX="29.0" layoutY="91.0" prefHeight="361.0" prefWidth="511.0" />
+      <TableView fx:id="trainingTableView" layoutX="29.0" layoutY="91.0" prefHeight="361.0" prefWidth="511.0" AnchorPane.bottomAnchor="53.39999999999998" AnchorPane.leftAnchor="29.000000000000057" AnchorPane.rightAnchor="29.80000000000001" AnchorPane.topAnchor="91.0" />
       <Button layoutX="29.0" layoutY="460.0" mnemonicParsing="false" onAction="#addExercisesClick" style="-fx-background-color: cyan;" text="Pridať cviky" AnchorPane.bottomAnchor="20.4" />
-      <Button layoutX="460.0" layoutY="460.0" mnemonicParsing="false" onAction="#deleteExercisesClick" style="-fx-background-color: cyan;" text="Zmazať cvik" AnchorPane.bottomAnchor="20.399999999999977" />
+      <Button layoutX="460.0" layoutY="460.0" mnemonicParsing="false" onAction="#deleteExercisesClick" style="-fx-background-color: cyan;" text="Zmazať cvik" AnchorPane.bottomAnchor="20.399999999999977" AnchorPane.rightAnchor="30.0" />
    </children>
 </AnchorPane>

@@ -544,6 +544,8 @@ public class ClientController {
             modalStage.initModality(Modality.APPLICATION_MODAL);
             modalStage.setTitle("Tréning");
             modalStage.setResizable(false);
+            modalStage.setWidth(430);
+            modalStage.setHeight(430);
             modalStage.getIcons().add(
                     new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
             modalStage.showAndWait();
