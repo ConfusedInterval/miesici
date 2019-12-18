@@ -214,12 +214,39 @@ public class ClientController {
         stage.setTitle("Tréning");
         trainingAnchorPane.setVisible(true);
     }
+    
+    // https://stackoverflow.com/questions/32781362/centering-an-image-in-an-imageview
+    public void centerImage() {
+        Image img = clientImageView.getImage();
+        if (img != null) {
+            double w = 0;
+            double h = 0;
+
+            double ratioX = clientImageView.getFitWidth() / img.getWidth();
+            double ratioY = clientImageView.getFitHeight() / img.getHeight();
+
+            double reducCoeff = 0;
+            if(ratioX >= ratioY) {
+                reducCoeff = ratioY;
+            } else {
+                reducCoeff = ratioX;
+            }
+
+            w = img.getWidth() * reducCoeff;
+            h = img.getHeight() * reducCoeff;
+
+            clientImageView.setX((clientImageView.getFitWidth() - w) / 2);
+            clientImageView.setY((clientImageView.getFitHeight() - h) / 2);
+
+        }
+    }
 
     @FXML
     void initialize() {
         File file = new File("src/main/resources/sk/upjs/miesici/logo/logo.png");
         Image image = new Image(file.toURI().toString());
         clientImageView.setImage(image);
+        centerImage();
 
         customersModel = FXCollections.observableArrayList(customer);
         clientTable.setItems(FXCollections.observableArrayList(customersModel));

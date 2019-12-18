@@ -10,52 +10,13 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="506.0" prefWidth="770.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="508.0" prefWidth="200.0" style="-fx-background-color: cyAn;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button layoutY="150.0" mnemonicParsing="false" onAction="#homeClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Domov" AnchorPane.topAnchor="150.0">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button layoutY="188.0" mnemonicParsing="false" onAction="#entriesClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Vstupy" AnchorPane.topAnchor="188.0">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button layoutY="226.0" mnemonicParsing="false" onAction="#trainingClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Tréningy" AnchorPane.topAnchor="226.0">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button layoutY="264.0" mnemonicParsing="false" onAction="#settingClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Nastavenia" AnchorPane.topAnchor="264.0">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button layoutY="304.0" mnemonicParsing="false" onAction="#contactClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Kontakt" AnchorPane.topAnchor="304.0">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
             <Button layoutX="2.0" layoutY="448.0" mnemonicParsing="false" onAction="#logOutClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Odhlásiť sa" AnchorPane.bottomAnchor="8.0">
                <font>
                   <Font size="16.0" />
@@ -67,69 +28,54 @@
             <ImageView fx:id="clientImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0">
                
             </ImageView>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="196.0" prefHeight="508.0" prefWidth="514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <AnchorPane fx:id="settingsAnchorPane" prefHeight="447.0" prefWidth="503.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox layoutY="171.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="135.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="171.0">
                <children>
-                  <Label layoutX="222.0" layoutY="34.0" prefHeight="38.0" prefWidth="127.0" text="Nastavenia" textFill="WHITE" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="221.0">
+                  <Button mnemonicParsing="false" onAction="#homeClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Domov">
                      <font>
-                        <Font size="26.0" />
+                        <Font size="16.0" />
                      </font>
-                  </Label>
-                  <Label layoutX="38.0" layoutY="142.0" text="email:" textFill="WHITE" AnchorPane.leftAnchor="38.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#entriesClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Vstupy">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
-                  </Label>
-                  <TextField fx:id="emailTextField" layoutX="106.0" layoutY="137.0" prefHeight="30.0" prefWidth="358.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#trainingClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Tréningy">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
-                  </TextField>
-                  <PasswordField fx:id="oldPasswordField" layoutX="106.0" layoutY="196.0" prefHeight="30.0" prefWidth="358.0" promptText="staré heslo" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#settingClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Nastavenia">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
-                  </PasswordField>
-                  <PasswordField fx:id="newPasswordField" layoutX="106.0" layoutY="239.0" prefHeight="30.0" prefWidth="358.0" promptText="nové heslo" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#contactClick" prefHeight="26.0" prefWidth="196.0" style="-fx-background-color: transparent;" text="Kontakt">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
-                  </PasswordField>
-                  <PasswordField fx:id="repeatPasswordField" layoutX="106.0" layoutY="280.0" prefHeight="30.0" prefWidth="358.0" promptText="potvrďte heslo" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </PasswordField>
-                  <Label layoutX="38.0" layoutY="201.0" text="heslo:" textFill="WHITE" AnchorPane.leftAnchor="38.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="34.0" layoutY="356.0" text="adresa:" textFill="WHITE" AnchorPane.leftAnchor="38.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="adressTextField" layoutX="106.0" layoutY="350.0" prefHeight="30.0" prefWidth="358.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextField>
-                  <Label fx:id="dataUpdateTextField" layoutX="122.0" layoutY="404.0" text="Vaše údaje boli úspešne aktualizované." textFill="#13c300" visible="false" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="72.0">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-                  <Button layoutX="435.0" layoutY="462.0" mnemonicParsing="false" onAction="#saveClick" style="-fx-background-color: cyan;" text="Uložiť" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="30.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
                </children>
-            </AnchorPane>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="196.0" prefHeight="508.0" prefWidth="514.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
             <AnchorPane fx:id="entriesAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="205.0" layoutY="34.0" prefHeight="30.0" prefWidth="160.0" text="Vaše návštevy" textFill="WHITE">
@@ -212,43 +158,9 @@
                   </RadioButton>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="contactAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label layoutX="239.0" layoutY="33.0" prefHeight="38.0" prefWidth="98.0" text="Kontakt" textFill="WHITE" AnchorPane.leftAnchor="241.0">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="241.0" layoutY="155.0" text="Mlynárska 7" textFill="WHITE" AnchorPane.leftAnchor="241.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="238.0" layoutY="182.0" text="04001 Košice" textFill="WHITE" AnchorPane.leftAnchor="238.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="222.0" layoutY="232.0" prefHeight="21.0" prefWidth="127.0" text="miesici@miesici.sk" textFill="WHITE" AnchorPane.leftAnchor="222.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="28.0" layoutY="455.0" text="+421 999 999 999" textFill="WHITE" AnchorPane.bottomAnchor="32.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="357.0" layoutY="455.0" text="+421 999 999 998" textFill="WHITE" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="29.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
             <AnchorPane fx:id="trainingAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="235.0" layoutY="35.0" prefHeight="38.0" prefWidth="90.0" text="Tréning" textFill="WHITE" AnchorPane.leftAnchor="235.0">
+                  <Label layoutX="239.0" layoutY="27.0" prefHeight="38.0" prefWidth="90.0" text="Tréning" textFill="WHITE" AnchorPane.leftAnchor="239.0">
                      <font>
                         <Font size="26.0" />
                      </font>
@@ -270,6 +182,99 @@
                      </cursor>
                   </Button>
                   <Button layoutX="310.0" layoutY="459.0" mnemonicParsing="false" onAction="#editTrainingClick" style="-fx-background-color: cyan;" text="Editovať tréning" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="157.6">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="contactAnchorPane" prefHeight="508.0" prefWidth="520.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="236.0" layoutY="34.0" prefHeight="38.0" prefWidth="98.0" text="Kontakt" textFill="WHITE" AnchorPane.leftAnchor="236.0">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="242.0" layoutY="152.0" text="Mlynárska 7" textFill="WHITE" AnchorPane.leftAnchor="242.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="238.0" layoutY="184.0" text="04001 Košice" textFill="WHITE" AnchorPane.leftAnchor="238.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="218.0" layoutY="231.0" prefHeight="21.0" prefWidth="127.0" text="miesici@miesici.sk" textFill="WHITE" AnchorPane.leftAnchor="218.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="28.0" layoutY="455.0" text="+421 999 999 999" textFill="WHITE" AnchorPane.bottomAnchor="32.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="357.0" layoutY="455.0" text="+421 999 999 998" textFill="WHITE" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="29.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="settingsAnchorPane" prefHeight="447.0" prefWidth="503.0" style="-fx-background-color: #333333;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="222.0" layoutY="34.0" prefHeight="38.0" prefWidth="127.0" text="Nastavenia" textFill="WHITE" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="221.0">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="38.0" layoutY="142.0" text="email:" textFill="WHITE" AnchorPane.leftAnchor="38.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="emailTextField" layoutX="106.0" layoutY="137.0" prefHeight="30.0" prefWidth="358.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField fx:id="oldPasswordField" layoutX="106.0" layoutY="196.0" prefHeight="30.0" prefWidth="358.0" promptText="staré heslo" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <PasswordField fx:id="newPasswordField" layoutX="106.0" layoutY="239.0" prefHeight="30.0" prefWidth="358.0" promptText="nové heslo" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <PasswordField fx:id="repeatPasswordField" layoutX="106.0" layoutY="280.0" prefHeight="30.0" prefWidth="358.0" promptText="potvrďte heslo" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+                  <Label layoutX="38.0" layoutY="201.0" text="heslo:" textFill="WHITE" AnchorPane.leftAnchor="38.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="34.0" layoutY="356.0" text="adresa:" textFill="WHITE" AnchorPane.leftAnchor="38.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="adressTextField" layoutX="106.0" layoutY="350.0" prefHeight="30.0" prefWidth="358.0" AnchorPane.leftAnchor="106.0" AnchorPane.rightAnchor="42.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label fx:id="dataUpdateTextField" layoutX="122.0" layoutY="404.0" text="Vaše údaje boli úspešne aktualizované." textFill="#13c300" visible="false" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="122.0" AnchorPane.rightAnchor="72.0">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="435.0" layoutY="462.0" mnemonicParsing="false" onAction="#saveClick" style="-fx-background-color: cyan;" text="Uložiť" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="30.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
