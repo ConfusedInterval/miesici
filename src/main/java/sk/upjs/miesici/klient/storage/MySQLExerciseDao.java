@@ -32,7 +32,7 @@ public class MySQLExerciseDao implements ExerciseDao {
 				Exercise exercise = null;
 				List<Exercise> result = new ArrayList<Exercise>();
 				while (rs.next()) {
-		            Long id = rs.getLong("id");
+		            long id = rs.getLong("id");
 					long typeOfExerciseId = rs.getLong("cvik_id");
 					if (exercise == null || typeOfExerciseId != exercise.getTypeOfExerciseId() || id != exercise.getId()) {
 						exercise = new Exercise();
@@ -78,6 +78,5 @@ public class MySQLExerciseDao implements ExerciseDao {
 	public void deleteExerciseById(Long id) {
 		String deleteSQL = "DELETE FROM cvik WHERE id = " + id;
 		jdbcTemplate.update(deleteSQL);
-		
 	}
 }

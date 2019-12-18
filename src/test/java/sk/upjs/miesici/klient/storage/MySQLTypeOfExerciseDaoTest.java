@@ -41,9 +41,4 @@ class MySQLTypeOfExerciseDaoTest {
         dao.save(type);
         assertEquals(all.size() + 1, dao.getAll().size());
     }
-
-    @Test
-    void getAllbyId() {
-        assertEquals(1, dao.getAllbyId(1L).size());
-    }
 }

@@ -62,10 +62,4 @@ public class MySQLTypeOfExerciseDao implements TypeOfExerciseDao {
 		return null;
 	}
 
-	@Override
-	public List<TypeOfExercise> getAllbyId(Long id) {
-		String sql = "SELECT * from typ_cviku where id = " + id;
-		return jdbcTemplate.query(sql, new TypeOfExerciseResultSetExtractor());
-	}
-
 }

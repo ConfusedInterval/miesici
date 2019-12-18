@@ -26,7 +26,7 @@ class MySQLExerciseDaoTest {
 
     @Test
     void getAllByTrainingId() {
-        List<Exercise> all = dao.getAllByTrainingId(2L);
+        List<Exercise> all = dao.getAllByTrainingId(74L);
         assertNotNull(all);
         assertTrue(all.size() > 0);
     }
@@ -53,6 +53,6 @@ class MySQLExerciseDaoTest {
     void deleteExerciseById() {
         List<Exercise> all = dao.getAllByTrainingId(74L);
         dao.deleteExerciseById(12L);
-        assertEquals(2,dao.getAllByTrainingId(74L).size());
+        assertEquals(2, all.size());
     }
 }

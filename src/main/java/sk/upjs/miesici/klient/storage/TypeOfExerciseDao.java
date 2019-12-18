@@ -14,7 +14,5 @@ public interface TypeOfExerciseDao {
 
 	List<TypeOfExercise> getAllByClientId(Long clientId);
 
-	List<TypeOfExercise> getAllbyId(Long id);
-
 	TypeOfExercise save(TypeOfExercise typeOfExercise);
 }
