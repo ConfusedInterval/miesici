@@ -54,4 +54,17 @@ class MySQLTrainingDaoTest {
         dao.deleteTrainingById(6L);
         assertEquals(all.size() - 1, dao.getAll().size());
     }
+
+    @Test
+    void editTraining() {
+        Training training = new Training();
+        training.setDate(Date.valueOf("2019-12-22"));
+        training.setName("Pohodička");
+        training.setNote("Jak nič");
+        training.setId(9L);
+        dao.editTraining(training);
+        assertEquals(Date.valueOf("2019-12-22"), dao.getAll().get(1).getDate());
+        assertEquals("Pohodička", dao.getAll().get(1).getName());
+        assertEquals("Jak nič", dao.getAll().get(1).getNote());
+    }
 }

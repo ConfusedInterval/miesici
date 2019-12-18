@@ -66,7 +66,6 @@ public class MySQLTrainingDao implements TrainingDao {
 	public void editTraining(Training training) {
 		String updateSQL = "UPDATE trening SET datum = ? , nazov = ? , poznamka = ? WHERE id = " + training.getId();
 		jdbcTemplate.update(updateSQL, training.getDate(), training.getName(), training.getNote());
-
 	}
 
 }
