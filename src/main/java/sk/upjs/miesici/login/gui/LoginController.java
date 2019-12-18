@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -104,6 +105,7 @@ public class LoginController {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/admin/gui/Main.fxml"));
 			fxmlLoader.setController(controller);
+			controller.setAdminAsCustomer(assign);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent);
 			Stage modalStage = new Stage();

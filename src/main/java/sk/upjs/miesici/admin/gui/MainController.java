@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.commons.lang3.StringUtils;
 import sk.upjs.miesici.admin.storage.*;
+import sk.upjs.miesici.klient.gui.ClientController;
 import sk.upjs.miesici.login.gui.LoginController;
 
 import java.io.IOException;
@@ -34,7 +35,16 @@ public class MainController {
 
     private EntranceDao entranceDao = DaoFactory.INSTANCE.getEntranceDao();
     private ObservableList<Customer> customersModel;
+    private Customer adminAsCustomer;
     private int typeOfError = 0;
+
+    public void setAdminAsCustomer(Customer assign){
+        this.adminAsCustomer = assign;
+    }
+
+    private Customer getAdminAsCustomer(){
+        return adminAsCustomer;
+    }
 
     @FXML
     private TextField filterTextField;
@@ -155,6 +165,32 @@ public class MainController {
             modalStage.setResizable(false);
             modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
             modalStage.setTitle("Prihlásenie");
+            modalStage.show();
+            addCustomer.getScene().getWindow().hide();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void loginAsUserClick(ActionEvent event) {
+        ClientController controller = new ClientController();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sk/upjs/miesici/klient/gui/Client.fxml"));
+            fxmlLoader.setController(controller);
+            controller.setCustomer(getAdminAsCustomer());
+            Parent parent = fxmlLoader.load();
+            Scene scene = new Scene(parent);
+            Stage modalStage = new Stage();
+            modalStage.setScene(scene);
+            modalStage.getIcons().add(new Image("https://www.tailorbrands.com/wp-content/uploads/2019/04/Artboard-5-copy-13xxhdpi.png"));
+            modalStage.setMinWidth(800);
+            modalStage.setMinHeight(500);
+            modalStage.setHeight(600);
+            modalStage.setWidth(500);
+            modalStage.setTitle("Domov");
+            controller.hideAll();
+            controller.getHomeAnchorPane().setVisible(true);
             modalStage.show();
             addCustomer.getScene().getWindow().hide();
         } catch (IOException e) {
