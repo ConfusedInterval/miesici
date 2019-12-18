@@ -2,11 +2,22 @@ package sk.upjs.miesici.klient.storage;
 
 public class Exercise {
 
+	private Long id;
 	private Long trainingId;
 	private Long typeOfExerciseId;
 	private double weight;
 	private int reps;
 	private String name;
+	
+	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Long getTrainingId() {
 		return trainingId;

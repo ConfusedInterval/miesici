@@ -9,7 +9,7 @@ public interface ExerciseDao {
 	Exercise saveExercise(Exercise exercise);
 
 	void deleteExerciseByTrainingId(long id);
-
-	void deleteExerciseByTypeOfExerciseIdAndTrainingId(long typeOfExerciseId, long trainingId);
+	
+	void deleteExerciseById(Long id);
 
 }

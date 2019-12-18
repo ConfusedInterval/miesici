@@ -83,8 +83,7 @@ public class TrainingController {
 	void deleteExercisesClick(ActionEvent event) {
 		Exercise exercise = trainingTableView.getSelectionModel().getSelectedItem();
 		if (exercise != null) {
-			exerciseDao.deleteExerciseByTypeOfExerciseIdAndTrainingId(exercise.getTypeOfExerciseId(),
-					exercise.getTrainingId());
+			exerciseDao.deleteExerciseById(exercise.getId());
 			exercisesModel = FXCollections.observableArrayList(exerciseDao.getAllByTrainingId(training.getId()));
 			trainingTableView.setItems(FXCollections.observableArrayList(exercisesModel));
 
