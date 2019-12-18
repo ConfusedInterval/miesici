@@ -6,7 +6,7 @@ import sk.upjs.miesici.admin.storage.Customer;
 
 public interface TypeOfExerciseDao {
 
-	public static final Customer customer = new Customer();
+	Customer customer = new Customer();
 
 	void setCustomer(Customer customer);
 

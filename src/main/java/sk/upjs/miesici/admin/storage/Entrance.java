@@ -8,7 +8,6 @@ public class Entrance {
 	private String arrival;
 	private String time;
 	private String exit;
-
 	private int locker;
 
 	public Long getId() {

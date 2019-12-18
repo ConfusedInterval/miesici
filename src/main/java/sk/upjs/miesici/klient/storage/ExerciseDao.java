@@ -8,8 +8,7 @@ public interface ExerciseDao {
 
 	Exercise saveExercise(Exercise exercise);
 
-	void deleteExerciseByTrainingId(long id);
-	
-	void deleteExerciseById(Long id);
+	void deleteExerciseByTrainingId(Long id);
 
+	void deleteExerciseById(Long id);
 }

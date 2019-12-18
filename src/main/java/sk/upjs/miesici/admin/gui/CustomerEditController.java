@@ -126,7 +126,8 @@ public class CustomerEditController {
     @FXML
     void saveCustomerButtonClick(ActionEvent event) throws InvalidKeySpecException, NoSuchAlgorithmException {
         distributePassword();
-        if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("") || emailTextField.getText().equals("")) {
+        if (nameTextField.getText().equals("") || surnameTextField.getText().equals("") || addressTextField.getText().equals("")
+                || emailTextField.getText().equals("")) {
             showAlert("Údaje nie sú vyplnené správne!", "Prosím vyplňte všetky údaje.");
         } else {
             checkForErrors();

@@ -50,8 +50,9 @@ class MySQLExerciseDaoTest {
     }
 
     @Test
-    void deleteExerciseByTypeOfExerciseIdAndTrainingId() {
-        dao.deleteExerciseByTypeOfExerciseIdAndTrainingId(3L,8L);
-        assertEquals(2,dao.getAllByTrainingId(8L).size());
+    void deleteExerciseById() {
+        List<Exercise> all = dao.getAllByTrainingId(74L);
+        dao.deleteExerciseById(12L);
+        assertEquals(2,dao.getAllByTrainingId(74L).size());
     }
 }

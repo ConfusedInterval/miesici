@@ -15,7 +15,7 @@ public class CustomerResultSetExtractor implements ResultSetExtractor<List<Custo
         List<Customer> result = new ArrayList<Customer>();
         Customer customer = null;
         while(rs.next()) {
-            long id = rs.getLong("klient_id");
+            Long id = rs.getLong("klient_id");
             if (customer == null || customer.getId() != id) {
                 customer = new Customer();
                 customer.setId(id);

@@ -14,7 +14,7 @@ public class EntranceResultSetExtractor implements ResultSetExtractor<List<Entra
         List<Entrance> result = new ArrayList<Entrance>();
         Entrance entrance = null;
         while(rs.next()) {
-            long id = rs.getLong("id");
+            Long id = rs.getLong("id");
             if (entrance == null || entrance.getId() != id) {
                 entrance = new Entrance();
                 entrance.setId(id);

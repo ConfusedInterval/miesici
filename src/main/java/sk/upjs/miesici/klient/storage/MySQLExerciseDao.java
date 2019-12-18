@@ -69,7 +69,7 @@ public class MySQLExerciseDao implements ExerciseDao {
 	}
 
 	@Override
-	public void deleteExerciseByTrainingId(long id) {
+	public void deleteExerciseByTrainingId(Long id) {
 		String deleteSQL = "DELETE FROM cvik WHERE trening_id = " + id;
 		jdbcTemplate.update(deleteSQL);
 	}
