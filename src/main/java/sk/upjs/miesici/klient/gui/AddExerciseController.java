@@ -75,16 +75,7 @@ public class AddExerciseController {
 		Exercise exercise = new Exercise();
 		if (ownExerciseCheckBox.isSelected()) {
 			typeOfExercise.setName(ownExerciseTextField.getText());
-			if (exercise.getTypeOfExerciseId() == null){
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Neúspešné vykonanie príkazu");
-				alert.setHeaderText("Cvik už je pridaný!");
-				alert.setContentText("Vyberte cvik z ponuky.");
-				alert.show();
-				return;
-			} else {
 				typeOfExerciseDao.save(typeOfExercise);
-			}
 		} else {
 			typeOfExercise = exerciseComboBox.getValue();
 		}
