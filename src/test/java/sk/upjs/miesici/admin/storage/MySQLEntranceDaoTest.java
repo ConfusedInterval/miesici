@@ -54,10 +54,10 @@ class MySQLEntranceDaoTest {
                 entrance1.setTime("02:00:00");
                 last = entrance1.getId();
                 dao.saveExit(entrance1);
-                assertEquals(60L, dao.getAll().get(dao.getAll().size() - 1).getKlient_id());
-                assertEquals("02:00:00", dao.getAll().get(dao.getAll().size() - 1).getTime());
-                assertEquals("2019-12-17 18:12:44", dao.getAll().get(dao.getAll().size() - 1).getExit());
-                assertEquals(last, dao.getAll().get(dao.getAll().size() - 1).getId());
+                assertEquals(60L, entrance1.getKlient_id());
+                assertEquals("02:00:00", entrance1.getTime());
+                assertEquals("2019-12-17 18:12:44", entrance1.getExit());
+                assertEquals(last, entrance1.getId());
                 arrivalCheck = true;
                 break;
             }
