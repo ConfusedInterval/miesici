@@ -29,7 +29,7 @@ class MySQLTypeOfExerciseDaoTest {
 
     @Test
     void getAllByClientId() {
-        assertEquals(3, dao.getAllByClientId(5L).size());
+        assertEquals(5, dao.getAllByClientId(5L).size());
     }
 
     @Test
@@ -37,7 +37,7 @@ class MySQLTypeOfExerciseDaoTest {
         List<TypeOfExercise> all = dao.getAll();
         TypeOfExercise type = new TypeOfExercise();
         type.setName("hrazda");
-        type.setClientId(5L);
+        type.setClientId(47L);
         dao.save(type);
         assertEquals(all.size() + 1, dao.getAll().size());
     }

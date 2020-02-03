@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,8 +39,8 @@ class MySQLCustomerDaoTest {
         customer.setAddress("xx");
         customer.setEmail("xx@xx");
         customer.setCredit(150);
-        customer.setMembershipExp(Date.valueOf("2020-01-01"));
-        customer.setLogin("xx");
+        customer.setMembershipExp(Date.valueOf("2020-01-02"));
+        customer.setLogin(UUID.randomUUID().toString());
         customer.setPassword("xx");
         customer.setSalt("xx");
         customer.setAdmin(true);

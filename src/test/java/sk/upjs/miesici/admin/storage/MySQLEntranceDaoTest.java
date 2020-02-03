@@ -43,16 +43,28 @@ class MySQLEntranceDaoTest {
 
     @Test
     void saveExit() {
-        Entrance entrance = new Entrance();
-        entrance.setKlient_id(60L);
-        entrance.setExit("2019-12-17 18:12:44");
-        entrance.setTime("02:00:00");
-        entrance.setId(100L);
-        dao.saveExit(entrance);
-        assertEquals(60L, dao.getAll().get(12).getKlient_id());
-        assertEquals("02:00:00", dao.getAll().get(12).getTime());
-        assertEquals("2019-12-17 18:12:44", dao.getAll().get(12).getExit());
-        assertEquals(100L, dao.getAll().get(12).getId());
+        List<Entrance> all = dao.getAll();
+        Long last;
+        boolean arrivalCheck = false ;
+
+        for (Entrance entrance1 : all) {
+            if (entrance1.getKlient_id().equals(60L) && entrance1.getArrival() != null && entrance1.getExit() == null) {
+                entrance1.setKlient_id(60L);
+                entrance1.setExit("2019-12-17 18:12:44");
+                entrance1.setTime("02:00:00");
+                last = entrance1.getId();
+                dao.saveExit(entrance1);
+                assertEquals(60L, dao.getAll().get(dao.getAll().size() - 1).getKlient_id());
+                assertEquals("02:00:00", dao.getAll().get(dao.getAll().size() - 1).getTime());
+                assertEquals("2019-12-17 18:12:44", dao.getAll().get(dao.getAll().size() - 1).getExit());
+                assertEquals(last, dao.getAll().get(dao.getAll().size() - 1).getId());
+                arrivalCheck = true;
+                break;
+            }
+        }
+        if (!arrivalCheck){
+            assertTrue(true);
+        }
     }
 
     @Test

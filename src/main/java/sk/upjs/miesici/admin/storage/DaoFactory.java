@@ -58,7 +58,7 @@ public enum DaoFactory {
 		MysqlDataSource dataSource = new MysqlDataSource();
 		dataSource.setUser("root");
 		dataSource.setPassword("root");
-		dataSource.setUrl("jdbc:mysql://localhost/mydb?serverTimezone=Europe/Bratislava");
+		dataSource.setUrl("jdbc:mysql://localhost/test?serverTimezone=Europe/Bratislava");
 		return new JdbcTemplate(dataSource);
 	}
 }

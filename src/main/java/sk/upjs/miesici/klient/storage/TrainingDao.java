@@ -14,4 +14,6 @@ public interface TrainingDao {
 
 	void editTraining(Training training);
 
+	List<Training> getAllByTrainingId(Long id);
+
 }

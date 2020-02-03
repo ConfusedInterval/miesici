@@ -57,6 +57,18 @@ public class MySQLTrainingDao implements TrainingDao {
 	}
 
 	@Override
+	public List<Training> getAllByTrainingId(Long id) {
+		List<Training> all = getAll();
+		List<Training> trainings = new ArrayList<>();
+		for (Training training : all) {
+			if (training.getId().equals(id)){
+				trainings.add(training);
+			}
+		}
+		return trainings;
+	}
+
+	@Override
 	public void deleteTrainingById(Long id) {
 		String deleteSQL = "DELETE FROM trening where id = " + id;
 		jdbcTemplate.update(deleteSQL);

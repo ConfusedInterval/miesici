@@ -33,26 +33,44 @@ class MySQLExerciseDaoTest {
 
     @Test
     void saveExercise() {
-        List<Exercise> all = dao.getAllByTrainingId(2L);
+        List<Exercise> all = dao.getAllByTrainingId(74L);
         Exercise exercise = new Exercise();
         exercise.setReps(15);
         exercise.setWeight(80);
-        exercise.setTrainingId(2L);
-        exercise.setTypeOfExerciseId(2L);
+        exercise.setTrainingId(74L);
+        exercise.setTypeOfExerciseId(69L);
         dao.saveExercise(exercise);
-        assertEquals(all.size() + 1, dao.getAllByTrainingId(2L).size());
+        assertEquals(all.size() + 1, dao.getAllByTrainingId(74L).size());
     }
 
     @Test
     void deleteExerciseByTrainingId() {
-        dao.deleteExerciseByTrainingId(75L);
-        assertEquals(0, dao.getAllByTrainingId(75L).size());
+        Long trainingId = 76L;
+        List<Exercise> all = dao.getAllByTrainingId(trainingId);
+        if (all.size() != 0 ){
+            dao.deleteExerciseByTrainingId(trainingId);
+            assertEquals(all.size() - 1, dao.getAllByTrainingId(trainingId).size());
+        } else {
+            assertEquals(0, dao.getAllByTrainingId(trainingId).size());
+        }
     }
 
     @Test
     void deleteExerciseById() {
-        List<Exercise> all = dao.getAllByTrainingId(74L);
-        dao.deleteExerciseById(69L);
-        assertEquals(2, all.size());
+        int check = 0;
+        Long trainingId = 74L;
+        List<Exercise> all = dao.getAllByTrainingId(trainingId);
+
+        for (Exercise exercise: all) {
+            if (exercise.getId() == 18L){
+                check = 1;
+                dao.deleteExerciseById(18L);
+                assertEquals(all.size() - 1 , dao.getAllByTrainingId(trainingId).size());
+                break;
+            }
+        }
+        if (check != 1){
+            assertEquals(all.size(), dao.getAllByTrainingId(trainingId).size());
+        }
     }
 }

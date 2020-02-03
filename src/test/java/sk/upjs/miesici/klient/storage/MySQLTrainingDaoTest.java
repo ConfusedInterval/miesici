@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MySQLTrainingDaoTest {
     TrainingDao dao = DaoFactory.INSTANCE.getTrainingDao();
+    ExerciseDao daoExcercise = DaoFactory.INSTANCE.getExerciseDao();
 
     @BeforeEach
     void setUp() {
@@ -50,9 +51,17 @@ class MySQLTrainingDaoTest {
 
     @Test
     void deleteTrainingById() {
+        Long trainingToDelete = 76L;
         List<Training> all = dao.getAll();
-        dao.deleteTrainingById(74L);
-        assertEquals(all.size() - 1, dao.getAll().size());
+        if (daoExcercise.getAllByTrainingId(trainingToDelete).size() != 0){
+            daoExcercise.deleteExerciseByTrainingId(trainingToDelete);
+        }
+        if (dao.getAllByTrainingId(trainingToDelete).size() == 0){
+            assertEquals(0, dao.getAllByTrainingId(trainingToDelete).size());
+        } else {
+            dao.deleteTrainingById(trainingToDelete);
+            assertEquals(all.size() - 1, dao.getAll().size());
+        }
     }
 
     @Test
@@ -66,5 +75,10 @@ class MySQLTrainingDaoTest {
         assertEquals(Date.valueOf("2019-12-22"), dao.getAll().get(0).getDate());
         assertEquals("Pohodička", dao.getAll().get(0).getName());
         assertEquals("Jak nič", dao.getAll().get(0).getNote());
+    }
+
+    @Test
+    void getAllByTrainingId() {
+        assertEquals(1, dao.getAllByTrainingId(81L).size());
     }
 }
