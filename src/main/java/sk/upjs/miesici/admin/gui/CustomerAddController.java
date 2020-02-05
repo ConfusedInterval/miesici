@@ -67,11 +67,6 @@ public class CustomerAddController {
         customerModel = new CustomerFxModel();
     }
 
-    public CustomerAddController(Customer customer) {
-        customerModel = new CustomerFxModel();
-        customerModel.load(customer);
-    }
-
     @FXML
     void initialize() {
     }

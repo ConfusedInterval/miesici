@@ -70,11 +70,6 @@ public class CustomerEditController {
         customerModel = new CustomerFxModel();
     }
 
-    public CustomerEditController(Customer customer) {
-        customerModel = new CustomerFxModel();
-        customerModel.load(customer);
-    }
-
     @FXML
     void saveCreditButtonClick(ActionEvent event) {
         try {
@@ -203,7 +198,6 @@ public class CustomerEditController {
             customerModel.load(customer);
             customerDao.edit(customerModel.getCustomer());
             saveButton.getScene().getWindow().hide();
-
         }
     }
 
