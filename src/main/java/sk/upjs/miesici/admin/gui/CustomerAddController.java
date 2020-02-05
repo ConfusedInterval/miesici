@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
+import sk.upjs.miesici.admin.storage.CustomerFxModel;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 
 import javax.crypto.SecretKeyFactory;
@@ -23,6 +24,7 @@ public class CustomerAddController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private Customer savedCustomer;
+    private CustomerFxModel customerModel;
     private int errorCheck = 0;
 
     @FXML
@@ -60,6 +62,15 @@ public class CustomerAddController {
 
     @FXML
     private DatePicker datePicker;
+
+    public CustomerAddController() {
+        customerModel = new CustomerFxModel();
+    }
+
+    public CustomerAddController(Customer customer) {
+        customerModel = new CustomerFxModel();
+        customerModel.load(customer);
+    }
 
     @FXML
     void initialize() {
@@ -112,7 +123,8 @@ public class CustomerAddController {
             addCustomer.setSalt(salt);
             addCustomer.setPassword(hashPassword(passwordTextField.getText(), salt));
             addCustomer.setAdmin(isAdminCheckBox.isSelected());
-            this.savedCustomer = customerDao.save(addCustomer);
+            customerModel.load(addCustomer);
+            this.savedCustomer = customerDao.save(customerModel.getCustomer());
             saveButton.getScene().getWindow().hide();
         }
     }

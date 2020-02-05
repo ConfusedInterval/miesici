@@ -1,6 +1,8 @@
 package sk.upjs.miesici.admin.storage;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Customer {
 	private Long id;
@@ -14,6 +16,8 @@ public class Customer {
 	private String password;
 	private String salt;
 	private boolean admin;
+
+	private List<Customer> customers = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -103,4 +107,12 @@ public class Customer {
 		this.admin = admin;
 	}
 
+
+	public List<Customer> getCustomers() {
+		return customers;
+	}
+
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
 }

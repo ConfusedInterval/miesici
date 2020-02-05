@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import sk.upjs.miesici.admin.storage.Customer;
 import sk.upjs.miesici.admin.storage.CustomerDao;
+import sk.upjs.miesici.admin.storage.CustomerFxModel;
 import sk.upjs.miesici.admin.storage.DaoFactory;
 
 import javax.crypto.SecretKeyFactory;
@@ -22,6 +23,7 @@ public class CustomerEditController {
 
     private CustomerDao customerDao = DaoFactory.INSTANCE.getCustomerDao();
     private Customer customer;
+    private CustomerFxModel customerModel;
     private int errorCheck = 0;
 
     public void setCustomer(Customer customer) {
@@ -63,6 +65,15 @@ public class CustomerEditController {
 
     @FXML
     private TextField toggleTextField;
+
+    public CustomerEditController() {
+        customerModel = new CustomerFxModel();
+    }
+
+    public CustomerEditController(Customer customer) {
+        customerModel = new CustomerFxModel();
+        customerModel.load(customer);
+    }
 
     @FXML
     void saveCreditButtonClick(ActionEvent event) {
@@ -189,7 +200,8 @@ public class CustomerEditController {
                 customer.setSalt(salt);
                 customer.setPassword(hashPassword(passwordTextField.getText(), salt));
             }
-            customerDao.edit(customer);
+            customerModel.load(customer);
+            customerDao.edit(customerModel.getCustomer());
             saveButton.getScene().getWindow().hide();
 
         }
