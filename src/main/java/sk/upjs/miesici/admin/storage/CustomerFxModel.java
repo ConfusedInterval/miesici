@@ -14,12 +14,11 @@ public class CustomerFxModel {
     private StringProperty address = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
     private DoubleProperty credit = new SimpleDoubleProperty();
-    private Date membershipExp;
+    private SimpleObjectProperty<Date> membershipExp = new SimpleObjectProperty<>();
     private StringProperty login = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
     private StringProperty salt = new SimpleStringProperty();
     private BooleanProperty admin = new SimpleBooleanProperty();
-
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
 
 
@@ -91,6 +90,18 @@ public class CustomerFxModel {
         this.address.set(address);
     }
 
+    public Date getMembershipExp() {
+        return membershipExp.get();
+    }
+
+    public SimpleObjectProperty<Date> membershipExpProperty() {
+        return membershipExp;
+    }
+
+    public void setMembershipExp(Date membershipExp) {
+        this.membershipExp.set(membershipExp);
+    }
+
     public String getEmail() {
         return email.get();
     }
@@ -115,13 +126,6 @@ public class CustomerFxModel {
         this.credit.set(credit);
     }
 
-    public Date getMembershipExp() {
-        return membershipExp;
-    }
-
-    public void setMembershipExp(Date membershipExp) {
-        this.membershipExp = membershipExp;
-    }
 
     public String getLogin() {
         return login.get();
